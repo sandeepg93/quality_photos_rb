@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Quality Photos — Wedding &amp; Portrait Photography</title>
+<meta name="description" content="Quality Photos is a wedding, pre-wedding and portrait photography studio. Cinematic frames, honest moments, carefully finished work.">
+<meta property="og:title" content="Quality Photos">
+<meta property="og:description" content="Wedding, pre-wedding and portrait photography.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400;75..125,500;75..125,600;75..125,700&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/site.css">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="loader" id="loader" aria-hidden="true"><div><b>QUALITY PHOTOS</b><i></i></div></div>
+<div class="cur" id="cur" aria-hidden="true"><span class="cur__t">VIEW</span></div>
+<div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+
+<!-- ============ PUBLIC SITE ============ -->
+<header class="hdr" id="hdr">
+  <div class="wrap hdr__in">
+    <a class="brand" href="#/" data-link>
+      <b id="brandName">QUALITY PHOTOS</b>
+      <span id="brandTag">Dahiwadi · MAHARASHTRA</span>
+    </a>
+    <nav class="nav nav--main" id="navMain" aria-label="Main"></nav>
+    <div class="row" style="gap:10px">
+      <button class="langbtn" id="langBtn" type="button" aria-label="Switch language">मराठी</button>
+      <a class="btn btn--sm hdr__cta" id="hdrCta" href="#/contact" data-link>Book a consultation</a>
+      <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="menu">
+        <span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Menu">
+  <div class="menu__top">
+    <span class="num">MENU</span>
+    <button class="iconbtn" id="menuClose" aria-label="Close menu">&#10005;</button>
+  </div>
+  <ul class="menu__list" id="menuList"></ul>
+  <div class="menu__foot">
+    <a class="btn" id="menuCta" href="#/contact" data-link>Book a consultation</a>
+    <a class="tlink" id="menuPhone" href="#">Call the studio</a>
+    <button class="langbtn" id="langBtn2" type="button">मराठी</button>
+  </div>
+</div>
+
+<main id="main" class="pub" tabindex="-1"></main>
+<footer class="foot pub" id="foot"></footer>
+<a class="wa" id="waBtn" href="#" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2Zm5.8 14.02c-.24.68-1.42 1.3-1.95 1.34-.5.05-.97.23-3.27-.68-2.75-1.08-4.5-3.87-4.64-4.05-.13-.18-1.11-1.48-1.11-2.82 0-1.34.7-2 .95-2.27.25-.27.54-.34.72-.34h.52c.17 0 .39-.06.61.46.24.55.8 1.9.87 2.04.07.14.12.3.02.48-.1.18-.14.29-.28.45-.14.16-.3.36-.42.48-.14.14-.29.29-.12.57.16.27.73 1.2 1.56 1.94 1.07.95 1.98 1.25 2.26 1.39.28.14.44.12.61-.07.17-.2.7-.82.89-1.1.18-.27.37-.23.61-.14.25.09 1.58.75 1.85.88.27.14.45.2.52.32.07.11.07.66-.17 1.34Z"/></svg>
+  <span>WhatsApp</span>
+</a>
+
+<!-- ============ LIGHTBOX ============ -->
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Image viewer">
+  <div class="lb__bar">
+    <span class="num" id="lbCount">1 / 1</span>
+    <div class="row">
+      <button class="iconbtn" id="lbZoom" aria-label="Toggle zoom">&#43;</button>
+      <button class="iconbtn" id="lbClose" aria-label="Close viewer">&#10005;</button>
+    </div>
+  </div>
+  <div class="lb__stage" id="lbStage">
+    <button class="lb__nav lb__nav--p" id="lbPrev" aria-label="Previous image">&#8249;</button>
+    <img id="lbImg" src="" alt="">
+    <button class="lb__nav lb__nav--n" id="lbNext" aria-label="Next image">&#8250;</button>
+  </div>
+  <div class="lb__cap"><span id="lbCap"></span><span class="num" id="lbHint">ESC TO CLOSE · &#8592; &#8594; TO MOVE</span></div>
+</div>
+
+<!-- ============ ADMIN CMS ============ -->
+<div class="adm" id="adm">
+  <div class="login" id="admLogin">
+    <form class="login__box" id="loginForm" novalidate>
+      <h2>Quality Photos CMS</h2>
+      <p>Sign in to manage the site.</p>
+      <div class="afield"><label for="lgUser">Email</label><input id="lgUser" type="email" autocomplete="username" required></div>
+      <div class="afield"><label for="lgPass">Password</label><input id="lgPass" type="password" autocomplete="current-password" required></div>
+      <div class="err" id="lgErr" role="alert"></div>
+      <button class="abtn" style="width:100%;justify-content:center" type="submit">Sign in</button>
+      <div class="hint">Development accounts — replace before launch.<br>
+        Super admin: <b>admin@qualityphotos.in</b> / <b>studio2026</b><br>
+        Editor: <b>editor@qualityphotos.in</b> / <b>editor2026</b></div>
+      <div style="margin-top:14px"><a class="tlink" href="#/" data-link style="font-size:.76rem">Back to the website</a></div>
+    </form>
+  </div>
+
+  <div class="adm__shell" id="admShell" hidden>
+    <aside class="adm__side" id="admSide">
+      <div class="adm__brand"><b>QUALITY PHOTOS</b><span>CONTENT MANAGER</span></div>
+      <nav class="adm__nav" id="admNav" aria-label="Admin"></nav>
+      <div class="adm__side-foot">
+        <div id="admWho"></div>
+        <div class="row" style="margin-top:9px">
+          <a class="abtn abtn--g abtn--xs" href="#/" data-link>View site</a>
+          <button class="abtn abtn--g abtn--xs" id="admLogout">Sign out</button>
+        </div>
+      </div>
+    </aside>
+    <div class="adm__main">
+      <div class="adm__bar">
+        <button class="abtn abtn--g abtn--xs" id="admBurger" aria-label="Toggle sidebar">&#9776;</button>
+        <input type="search" id="admSearch" placeholder="Search content…" aria-label="Search content">
+        <span style="margin-left:auto;color:var(--silver);font-size:.76rem" id="admClock"></span>
+      </div>
+      <div class="adm__body" id="admBody"></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal__box" id="modalBox">
+    <div class="modal__top"><h3 id="modalTitle">Edit</h3><button class="iconbtn" id="modalX" aria-label="Close">&#10005;</button></div>
+    <div id="modalBody"></div>
+    <div class="modal__foot" id="modalFoot"></div>
+  </div>
+</div>
+<script src="js/01-utils.js"></script>
+<script src="js/02-i18n.js"></script>
+<script src="js/03-store.js"></script>
+<script src="js/04-sections.js"></script>
+<script src="js/05-router.js"></script>
+<script src="js/06-behaviour.js"></script>
+<script src="js/07-admin-core.js"></script>
+<script src="js/08-admin-resources.js"></script>
+<script src="js/09-admin-pages.js"></script>
+<script src="js/10-admin-media.js"></script>
+<script src="js/11-admin-settings.js"></script>
+</body>
+</html>

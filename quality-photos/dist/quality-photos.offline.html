@@ -1,0 +1,2636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Quality Photos — Wedding &amp; Portrait Photography</title>
+<meta name="description" content="Quality Photos is a wedding, pre-wedding and portrait photography studio. Cinematic frames, honest moments, carefully finished work.">
+<meta property="og:title" content="Quality Photos">
+<meta property="og:description" content="Wedding, pre-wedding and portrait photography.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400;75..125,500;75..125,600;75..125,700&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   QUALITY PHOTOS — design tokens
+   Concept: a photographer's contact sheet. Film-base dark,
+   paper inserts, chinagraph red used only to mark "selects".
+   ============================================================ */
+:root{
+  --film:#16130F;        /* film base / primary ground */
+  --film-2:#211C17;      /* raised surface */
+  --film-3:#2E2822;      /* hairlines on dark */
+  --paper:#E9E3D7;       /* editorial paper inserts */
+  --paper-2:#DCD4C4;
+  --silver:#8C8175;      /* mid grey, secondary text */
+  --mark:#D2452A;        /* chinagraph red — selects only */
+
+  --on-film:#EFE9DE;
+  --on-film-dim:#A79C8E;
+  --on-paper:#211C17;
+  --on-paper-dim:#6E655A;
+
+  --display:'Archivo','Helvetica Neue',Arial,sans-serif;
+  --text:'Newsreader',Georgia,'Times New Roman',serif;
+
+  --gut:clamp(20px,4vw,56px);
+  --maxw:1560px;
+  --r:2px;                /* frames are square; radius is for chrome only */
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --slow:cubic-bezier(.16,.84,.44,1);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ color-scheme:dark; }
+}
+:root[data-theme="dark"]{ color-scheme:dark; }
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--film); color:var(--on-film);
+  font-family:var(--text); font-size:17px; line-height:1.65;
+  font-weight:300; overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+img,svg,video{max-width:100%;display:block}
+a{color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--mark);outline-offset:3px}
+.skip{position:absolute;left:-9999px;top:0;z-index:999;background:var(--mark);color:#fff;padding:12px 18px}
+.skip:focus{left:8px;top:8px}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- type ---------- */
+h1,h2,h3,h4{font-family:var(--display);font-weight:500;margin:0;line-height:1.02;letter-spacing:-.02em}
+.d1{font-size:clamp(3rem,10.5vw,9.5rem);font-stretch:112%;font-weight:600;line-height:.9;letter-spacing:-.035em}
+.d2{font-size:clamp(2.1rem,5.6vw,4.6rem);font-stretch:108%;letter-spacing:-.03em}
+.d3{font-size:clamp(1.5rem,2.6vw,2.3rem);font-stretch:104%;letter-spacing:-.02em}
+.d4{font-size:clamp(1.05rem,1.5vw,1.28rem);font-stretch:100%;font-weight:600;letter-spacing:-.01em}
+.lede{font-size:clamp(1.15rem,1.9vw,1.6rem);line-height:1.5;font-weight:300;max-width:34ch}
+.prose{max-width:66ch;line-height:1.75}
+.prose p{margin:0 0 1.1em}
+.dim{color:var(--on-film-dim)}
+.num{font-family:var(--display);font-variant-numeric:tabular-nums;font-size:.72rem;font-weight:600;letter-spacing:.06em;color:var(--silver)}
+
+/* ---------- layout ---------- */
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--gut)}
+.sec{padding:clamp(72px,11vh,150px) 0;position:relative}
+.sec--paper{background:var(--paper);color:var(--on-paper)}
+.sec--paper .dim{color:var(--on-paper-dim)}
+.sec--paper .num{color:var(--on-paper-dim)}
+.sec--tight{padding:clamp(48px,7vh,90px) 0}
+.rule{height:1px;background:var(--film-3);border:0;margin:0}
+.sec--paper .rule{background:rgba(33,28,23,.18)}
+
+/* section head: a strip that reads like a contact-sheet margin */
+.shead{display:flex;align-items:baseline;gap:clamp(16px,4vw,48px);border-top:1px solid var(--film-3);padding-top:14px;margin-bottom:clamp(28px,4vw,56px);flex-wrap:wrap}
+.sec--paper .shead{border-color:rgba(33,28,23,.22)}
+.shead .num{flex:0 0 auto;padding-top:.45em}
+.shead h2{flex:1 1 320px}
+.shead p{flex:1 1 260px;margin:0;max-width:40ch;font-size:.98rem;line-height:1.55}
+
+/* ---------- buttons / links ---------- */
+.btn{display:inline-flex;align-items:center;gap:.65em;font-family:var(--display);font-weight:600;font-size:.86rem;letter-spacing:.02em;
+  padding:.92em 1.5em;background:var(--mark);color:#fff;border:1px solid var(--mark);border-radius:var(--r);
+  text-decoration:none;cursor:pointer;transition:background .25s var(--ease),color .25s var(--ease)}
+.btn:hover{background:#b83a22;border-color:#b83a22}
+.btn--ghost{background:transparent;color:inherit;border-color:currentColor;opacity:.92}
+.btn--ghost:hover{background:currentColor;color:var(--film);opacity:1}
+.sec--paper .btn--ghost:hover{color:var(--paper)}
+.btn--sm{padding:.62em 1em;font-size:.78rem}
+.tlink{display:inline-block;font-family:var(--display);font-weight:600;font-size:.84rem;text-decoration:none;
+  border-bottom:1px solid currentColor;padding-bottom:3px;transition:opacity .2s}
+.tlink:hover{opacity:.6}
+
+/* ---------- header ---------- */
+.hdr{position:fixed;inset:0 0 auto;z-index:70;transition:background .4s var(--ease),border-color .4s,padding .4s var(--ease);
+  border-bottom:1px solid transparent;padding:18px 0}
+.hdr__in{display:flex;align-items:center;justify-content:space-between;gap:24px}
+.hdr.is-stuck{background:rgba(22,19,15,.92);backdrop-filter:saturate(140%) blur(14px);border-bottom-color:var(--film-3);padding:11px 0}
+.brand{display:flex;flex-direction:column;line-height:1;text-decoration:none;color:var(--on-film)}
+.brand b{font-family:var(--display);font-weight:700;font-stretch:118%;font-size:1.02rem;letter-spacing:.14em}
+.brand span{font-size:.62rem;letter-spacing:.32em;color:var(--silver);margin-top:5px;font-family:var(--display);font-weight:500}
+.nav{display:flex;align-items:center;gap:clamp(14px,2vw,30px)}
+.nav a{font-family:var(--display);font-size:.82rem;font-weight:500;letter-spacing:.02em;text-decoration:none;color:var(--on-film);opacity:.78;position:relative;padding:4px 0}
+.nav a:hover{opacity:1}
+.nav a.is-on{opacity:1}
+.nav a.is-on::after{content:"";position:absolute;left:-7px;top:50%;width:4px;height:4px;background:var(--mark);transform:translateY(-50%)}
+.hdr__cta{display:none}
+@media(min-width:1100px){.hdr__cta{display:inline-flex}}
+.burger{display:grid;place-items:center;width:44px;height:44px;background:none;border:1px solid var(--film-3);border-radius:var(--r);cursor:pointer}
+.burger span{display:block;width:18px;height:1.5px;background:currentColor;transition:transform .3s var(--ease),opacity .2s}
+.burger span+span{margin-top:5px}
+@media(min-width:1100px){.burger{display:none}}
+@media(max-width:1099px){.nav--main{display:none}}
+
+/* mobile menu */
+.menu{position:fixed;inset:0;z-index:80;background:var(--film);display:flex;flex-direction:column;padding:22px var(--gut) 40px;
+  transform:translateY(-100%);transition:transform .55s var(--slow);overflow-y:auto}
+.menu.is-open{transform:none}
+.menu__top{display:flex;justify-content:space-between;align-items:center;margin-bottom:auto}
+.menu__list{list-style:none;margin:8vh 0 0;padding:0}
+.menu__list li{overflow:hidden;border-bottom:1px solid var(--film-3)}
+.menu__list a{display:flex;align-items:baseline;gap:14px;padding:.42em 0;text-decoration:none;font-family:var(--display);
+  font-weight:600;font-stretch:110%;font-size:clamp(2rem,9vw,3.4rem);letter-spacing:-.03em;
+  transform:translateY(110%);transition:transform .6s var(--slow)}
+.menu.is-open .menu__list a{transform:none}
+.menu__foot{margin-top:7vh;display:flex;flex-wrap:wrap;gap:18px 28px;align-items:center}
+
+/* ---------- placeholder frames ---------- */
+.frame{position:relative;overflow:hidden;background:var(--film-2);display:block}
+.frame img{width:100%;height:100%;object-fit:cover;display:block}
+.frame--r34{aspect-ratio:3/4}
+.frame--r43{aspect-ratio:4/3}
+.frame--r11{aspect-ratio:1/1}
+.frame--r169{aspect-ratio:16/9}
+.frame--r23{aspect-ratio:2/3}
+.ph-tag{position:absolute;left:10px;bottom:10px;z-index:2;font-family:var(--display);font-size:.6rem;font-weight:600;
+  letter-spacing:.14em;color:rgba(255,255,255,.72);background:rgba(0,0,0,.42);padding:4px 7px;border-radius:var(--r);pointer-events:none}
+
+/* ---------- hero ---------- */
+.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden;background:var(--film)}
+.hero__media{position:absolute;inset:0}
+.hero__media img{width:100%;height:100%;object-fit:cover}
+.hero__media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(22,19,15,.62) 0%,rgba(22,19,15,.18) 38%,rgba(22,19,15,.88) 100%)}
+.hero__in{position:relative;z-index:2;width:100%;padding-bottom:clamp(38px,7vh,76px);padding-top:26vh}
+.hero h1{max-width:15ch;text-wrap:balance}
+.hero__sub{margin:clamp(18px,2.6vw,30px) 0 0;max-width:46ch;font-size:clamp(1rem,1.5vw,1.28rem);color:#DED6C8}
+.hero__row{display:flex;flex-wrap:wrap;gap:16px 26px;align-items:center;margin-top:clamp(22px,3vw,36px)}
+.scroller{position:absolute;right:var(--gut);bottom:clamp(38px,7vh,76px);z-index:2;display:none;align-items:center;gap:10px}
+@media(min-width:900px){.scroller{display:flex}}
+.scroller i{display:block;width:1px;height:58px;background:linear-gradient(var(--silver),transparent);position:relative;overflow:hidden}
+.scroller i::after{content:"";position:absolute;inset:0 0 auto;height:22px;background:var(--mark);animation:drip 2.4s var(--ease) infinite}
+@keyframes drip{0%{transform:translateY(-100%)}60%,100%{transform:translateY(300%)}}
+.scroller span{writing-mode:vertical-rl;font-family:var(--display);font-size:.62rem;letter-spacing:.3em;color:var(--silver)}
+
+/* hero load sequence */
+.hero__media img{transform:scale(1.14);transition:transform 1.9s var(--slow)}
+body.is-ready .hero__media img{transform:scale(1)}
+.rise{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease),transform .9s var(--slow)}
+body.is-ready .rise{opacity:1;transform:none}
+body.is-ready .rise[data-d="1"]{transition-delay:.18s}
+body.is-ready .rise[data-d="2"]{transition-delay:.32s}
+body.is-ready .rise[data-d="3"]{transition-delay:.46s}
+body.is-ready .rise[data-d="4"]{transition-delay:.6s}
+
+/* loader */
+.loader{position:fixed;inset:0;z-index:200;background:var(--film);display:grid;place-items:center;transition:opacity .6s .25s var(--ease),visibility .6s .25s}
+body.is-ready .loader{opacity:0;visibility:hidden}
+.loader b{font-family:var(--display);font-weight:700;font-stretch:120%;letter-spacing:.34em;font-size:.78rem;color:var(--on-film-dim)}
+.loader i{display:block;width:120px;height:1px;background:var(--film-3);margin:14px auto 0;overflow:hidden}
+.loader i::after{content:"";display:block;height:100%;width:40%;background:var(--mark);animation:load 1.1s var(--ease) infinite}
+@keyframes load{0%{transform:translateX(-100%)}100%{transform:translateX(350%)}}
+
+/* ---------- reveal ---------- */
+[data-anim]{will-change:opacity,transform}
+[data-anim="fade-up"]{opacity:0;transform:translateY(34px)}
+[data-anim="fade"]{opacity:0}
+[data-anim="slide-left"]{opacity:0;transform:translateX(-46px)}
+[data-anim="slide-right"]{opacity:0;transform:translateX(46px)}
+[data-anim="scale"]{opacity:0;transform:scale(.94)}
+[data-anim="clip"]{clip-path:inset(0 0 100% 0)}
+[data-anim].in{opacity:1;transform:none;clip-path:inset(0 0 0 0);
+  transition:opacity .95s var(--ease),transform 1.05s var(--slow),clip-path 1.1s var(--slow)}
+.stagger>*{opacity:0;transform:translateY(28px)}
+.stagger.in>*{opacity:1;transform:none;transition:opacity .8s var(--ease),transform .9s var(--slow)}
+.stagger.in>*:nth-child(2){transition-delay:.08s}
+.stagger.in>*:nth-child(3){transition-delay:.16s}
+.stagger.in>*:nth-child(4){transition-delay:.24s}
+.stagger.in>*:nth-child(5){transition-delay:.32s}
+.stagger.in>*:nth-child(6){transition-delay:.4s}
+.stagger.in>*:nth-child(n+7){transition-delay:.46s}
+
+/* ---------- contact-sheet grid ---------- */
+.sheet{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(10px,1.6vw,22px)}
+@media(min-width:780px){.sheet{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:1200px){.sheet{grid-template-columns:repeat(4,1fr)}}
+.sheet--feature{grid-template-columns:repeat(2,1fr)}
+@media(min-width:900px){.sheet--feature{grid-template-columns:repeat(6,1fr);grid-auto-rows:minmax(0,auto)}
+ .sheet--feature>*:nth-child(1){grid-column:span 4;grid-row:span 2}
+ .sheet--feature>*:nth-child(2){grid-column:span 2}
+ .sheet--feature>*:nth-child(3){grid-column:span 2}
+ .sheet--feature>*:nth-child(4){grid-column:span 2}
+ .sheet--feature>*:nth-child(5){grid-column:span 2}
+ .sheet--feature>*:nth-child(6){grid-column:span 2}}
+.cell{position:relative;text-decoration:none;color:inherit;display:block;background:var(--film-2)}
+.cell .frame{height:100%}
+.cell--fill .frame{aspect-ratio:auto;height:100%;min-height:240px}
+.cell img{transition:transform 1.1s var(--slow),filter .5s}
+.cell:hover img{transform:scale(1.045)}
+.cell__meta{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:11px 2px 0}
+.cell__meta h3{font-size:.95rem;font-weight:600;font-stretch:104%;letter-spacing:-.005em}
+.cell__cat{font-family:var(--display);font-size:.68rem;letter-spacing:.14em;color:var(--silver);font-weight:500}
+.cell__frame-no{position:absolute;top:0;left:0;z-index:2;font-family:var(--display);font-variant-numeric:tabular-nums;
+  font-size:.64rem;font-weight:700;letter-spacing:.1em;color:#fff;background:rgba(0,0,0,.45);padding:5px 8px}
+.cell.is-select .cell__frame-no{background:var(--mark)}
+.cell::after{content:"";position:absolute;inset:0;border:1px solid transparent;transition:border-color .35s;pointer-events:none}
+.cell:hover::after{border-color:rgba(210,69,42,.75)}
+
+/* filters */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:clamp(20px,3vw,34px)}
+.chip{font-family:var(--display);font-size:.78rem;font-weight:500;padding:.5em 1em;border:1px solid var(--film-3);
+  background:none;border-radius:99px;cursor:pointer;transition:.25s var(--ease)}
+.sec--paper .chip{border-color:rgba(33,28,23,.24)}
+.chip:hover{border-color:var(--silver)}
+.chip[aria-pressed="true"]{background:var(--mark);border-color:var(--mark);color:#fff}
+
+/* ---------- editorial two-col ---------- */
+.split{display:grid;gap:clamp(26px,4vw,64px);align-items:start}
+@media(min-width:900px){.split{grid-template-columns:1.05fr .95fr}
+ .split--r>*:first-child{order:2}}
+.split--narrow{align-items:center}
+
+/* services */
+.svc{display:grid;gap:clamp(14px,2vw,26px);grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.svc a{text-decoration:none;color:inherit;display:block;position:relative}
+.svc a .frame{margin-bottom:13px}
+.svc h3{font-size:1.18rem;font-stretch:104%;margin-bottom:6px}
+.svc p{margin:0;font-size:.95rem;line-height:1.55;max-width:38ch}
+.svc .tlink{margin-top:12px}
+
+/* stories */
+.stories{display:grid;gap:clamp(22px,3vw,40px);grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
+.story-card{text-decoration:none;color:inherit;display:block}
+.story-card .frame{margin-bottom:14px}
+.story-card h3{font-size:1.25rem;font-stretch:102%;line-height:1.14;margin-bottom:8px}
+.story-card p{margin:0;font-size:.95rem;line-height:1.6;color:var(--on-film-dim)}
+.sec--paper .story-card p{color:var(--on-paper-dim)}
+.story-meta{display:flex;gap:10px;align-items:center;font-family:var(--display);font-size:.68rem;letter-spacing:.12em;color:var(--silver);margin-bottom:9px}
+
+/* films */
+.films{display:grid;gap:clamp(16px,2.4vw,30px);grid-template-columns:repeat(auto-fill,minmax(310px,1fr))}
+.film{position:relative;background:var(--film-2)}
+.film__btn{position:absolute;inset:0;width:100%;border:0;background:none;cursor:pointer;display:grid;place-items:center}
+.film__play{width:62px;height:62px;border-radius:50%;background:rgba(22,19,15,.55);border:1px solid rgba(255,255,255,.5);
+  display:grid;place-items:center;transition:background .3s,transform .3s var(--ease);backdrop-filter:blur(4px)}
+.film__btn:hover .film__play{background:var(--mark);border-color:var(--mark);transform:scale(1.08)}
+.film__play::after{content:"";width:0;height:0;border-left:13px solid #fff;border-top:8px solid transparent;border-bottom:8px solid transparent;margin-left:4px}
+.film__body{padding:12px 2px 0}
+.film iframe,.film video{width:100%;aspect-ratio:16/9;border:0;display:block}
+.film__badge{position:absolute;top:10px;right:10px;z-index:3;font-family:var(--display);font-size:.6rem;font-weight:600;
+  letter-spacing:.14em;background:rgba(0,0,0,.55);color:#fff;padding:4px 8px}
+
+/* testimonials */
+.quotes{display:grid;gap:clamp(18px,2.4vw,30px);grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+.quote{border-top:1px solid rgba(33,28,23,.2);padding-top:18px}
+.quote blockquote{margin:0 0 16px;font-size:1.12rem;line-height:1.55;font-style:italic;font-weight:300}
+.quote figcaption{font-family:var(--display);font-size:.78rem;font-weight:600;letter-spacing:.02em}
+.quote small{display:block;font-family:var(--display);font-weight:400;font-size:.7rem;letter-spacing:.12em;color:var(--on-paper-dim);margin-top:4px}
+.stars{color:var(--mark);font-size:.8rem;letter-spacing:.2em;margin-bottom:10px}
+
+/* stats */
+.stats{display:grid;gap:clamp(18px,3vw,40px);grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.stat b{display:block;font-family:var(--display);font-weight:600;font-stretch:112%;font-size:clamp(2.2rem,4.4vw,3.6rem);line-height:1;letter-spacing:-.03em}
+.stat span{display:block;margin-top:8px;font-size:.9rem;color:var(--on-film-dim)}
+.sec--paper .stat span{color:var(--on-paper-dim)}
+
+/* cta band */
+.cta-band{text-align:center}
+.cta-band h2{max-width:18ch;margin:0 auto}
+.cta-band .row{display:flex;justify-content:center;flex-wrap:wrap;gap:14px;margin-top:30px}
+
+/* ---------- forms ---------- */
+.form{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.field{display:flex;flex-direction:column;gap:7px}
+.field--full{grid-column:1/-1}
+.field label{font-family:var(--display);font-size:.74rem;font-weight:600;letter-spacing:.1em}
+.field input,.field select,.field textarea{background:transparent;border:0;border-bottom:1px solid var(--film-3);
+  padding:11px 2px;border-radius:0;font-size:1rem;font-family:var(--text);transition:border-color .25s}
+.sec--paper .field input,.sec--paper .field select,.sec--paper .field textarea{border-color:rgba(33,28,23,.28)}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--mark);outline:none}
+.field textarea{resize:vertical;min-height:110px}
+.field select option{background:var(--film);color:var(--on-film)}
+.sec--paper .field select option{background:var(--paper);color:var(--on-paper)}
+.err{color:var(--mark);font-size:.82rem;font-family:var(--display);font-weight:500;min-height:1.1em}
+.formnote{grid-column:1/-1;font-size:.86rem;color:var(--on-paper-dim)}
+.notice{grid-column:1/-1;padding:14px 16px;border-left:3px solid var(--mark);background:rgba(210,69,42,.08);font-size:.95rem}
+.notice--ok{border-color:#2F7D4F;background:rgba(47,125,79,.1)}
+
+/* ---------- lightbox ---------- */
+.lb{position:fixed;inset:0;z-index:150;background:rgba(12,10,8,.97);display:none;flex-direction:column}
+.lb.is-open{display:flex}
+.lb__bar{display:flex;justify-content:space-between;align-items:center;padding:14px var(--gut);gap:16px;flex:0 0 auto}
+.lb__stage{flex:1 1 auto;position:relative;display:grid;place-items:center;padding:0 clamp(8px,3vw,70px);overflow:hidden}
+.lb__stage img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;transition:transform .35s var(--ease);cursor:zoom-in}
+.lb__stage img.is-zoom{transform:scale(2);cursor:zoom-out}
+.lb__cap{flex:0 0 auto;padding:12px var(--gut) 22px;display:flex;justify-content:space-between;gap:20px;align-items:baseline;font-size:.92rem;color:var(--on-film-dim)}
+.lb__nav{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border:1px solid var(--film-3);
+  background:rgba(22,19,15,.6);color:#fff;cursor:pointer;display:grid;place-items:center;border-radius:50%}
+.lb__nav:hover{background:var(--mark);border-color:var(--mark)}
+.lb__nav--p{left:clamp(6px,1.4vw,18px)}
+.lb__nav--n{right:clamp(6px,1.4vw,18px)}
+.iconbtn{width:42px;height:42px;display:grid;place-items:center;background:none;border:1px solid var(--film-3);cursor:pointer;border-radius:var(--r)}
+.iconbtn:hover{border-color:var(--mark);color:var(--mark)}
+
+/* ---------- cursor ---------- */
+.cur{position:fixed;top:0;left:0;z-index:190;pointer-events:none;width:14px;height:14px;border-radius:50%;
+  border:1px solid var(--on-film);mix-blend-mode:difference;transform:translate(-50%,-50%);
+  transition:width .3s var(--ease),height .3s var(--ease),background .3s,opacity .3s;display:none}
+.cur.on{display:block}
+.cur.is-big{width:82px;height:82px;background:var(--mark);border-color:var(--mark);mix-blend-mode:normal}
+.cur__t{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--display);font-size:.62rem;font-weight:700;
+  letter-spacing:.16em;color:#fff;opacity:0;transition:opacity .25s}
+.cur.is-big .cur__t{opacity:1}
+
+/* ---------- footer ---------- */
+.foot{background:var(--film);border-top:1px solid var(--film-3);padding:clamp(52px,7vw,86px) 0 30px}
+.foot__grid{display:grid;gap:clamp(26px,4vw,50px);grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.foot h4{font-family:var(--display);font-size:.72rem;font-weight:600;letter-spacing:.16em;color:var(--silver);margin-bottom:14px}
+.foot ul{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+.foot a{text-decoration:none;font-size:.95rem;opacity:.85}
+.foot a:hover{opacity:1;color:var(--mark)}
+.foot__bot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:14px;margin-top:clamp(36px,5vw,64px);
+  padding-top:20px;border-top:1px solid var(--film-3);font-size:.82rem;color:var(--on-film-dim)}
+.wa{position:fixed;right:18px;bottom:18px;z-index:60;display:flex;align-items:center;gap:9px;background:#1E9E4A;color:#fff;
+  text-decoration:none;padding:12px 16px;border-radius:99px;font-family:var(--display);font-size:.82rem;font-weight:600;
+  box-shadow:0 8px 26px rgba(0,0,0,.4);transition:transform .25s var(--ease)}
+.wa:hover{transform:translateY(-2px)}
+@media(max-width:600px){.wa span{display:none}.wa{padding:14px;border-radius:50%}}
+
+/* ---------- empty / error ---------- */
+.empty{border:1px dashed var(--film-3);padding:clamp(28px,5vw,56px);text-align:center}
+.sec--paper .empty{border-color:rgba(33,28,23,.25)}
+.empty h3{margin-bottom:10px;font-size:1.2rem}
+.empty p{margin:0 auto;max-width:44ch;color:var(--on-film-dim);font-size:.96rem}
+.sec--paper .empty p{color:var(--on-paper-dim)}
+.page404{min-height:78vh;display:grid;place-items:center;text-align:center}
+
+/* ---------- toast ---------- */
+.toasts{position:fixed;right:16px;bottom:16px;z-index:210;display:grid;gap:9px;max-width:min(360px,84vw)}
+.toast{background:var(--film-2);border:1px solid var(--film-3);border-left:3px solid var(--mark);padding:12px 15px;
+  font-size:.9rem;border-radius:var(--r);box-shadow:0 12px 34px rgba(0,0,0,.45);animation:tin .35s var(--ease)}
+.toast--ok{border-left-color:#3E9C63}
+@keyframes tin{from{opacity:0;transform:translateY(10px)}}
+
+/* ---------- reduced motion ---------- */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+  [data-anim],.stagger>*{opacity:1!important;transform:none!important;clip-path:none!important}
+  .hero__media img{transform:none!important}
+  .cur{display:none!important}
+  .rise{opacity:1!important;transform:none!important}
+}
+
+/* ---------- language switch ---------- */
+.langbtn{font-family:var(--display);font-size:.76rem;font-weight:600;letter-spacing:.04em;background:none;
+  border:1px solid var(--film-3);border-radius:99px;padding:.5em .9em;cursor:pointer;color:inherit;transition:.25s var(--ease)}
+.langbtn:hover{border-color:var(--mark);color:var(--mark)}
+html[data-lang="mr"] body{font-family:'Noto Sans Devanagari','Nirmala UI','Mangal',var(--text);font-weight:400;line-height:1.75}
+html[data-lang="mr"] h1,html[data-lang="mr"] h2,html[data-lang="mr"] h3,html[data-lang="mr"] h4,
+html[data-lang="mr"] .btn,html[data-lang="mr"] .nav a,html[data-lang="mr"] .langbtn,html[data-lang="mr"] .tlink{
+  font-family:'Noto Sans Devanagari','Nirmala UI','Mangal',var(--display);letter-spacing:0}
+html[data-lang="mr"] .d1{font-size:clamp(2.3rem,7.4vw,6.2rem);line-height:1.08;letter-spacing:0}
+html[data-lang="mr"] .d2{font-size:clamp(1.7rem,4.4vw,3.3rem);line-height:1.18}
+html[data-lang="mr"] .menu__list a{font-size:clamp(1.5rem,6.4vw,2.6rem);line-height:1.3}
+
+/* ---------- social embeds ---------- */
+.embeds{display:grid;gap:clamp(14px,2.2vw,26px);grid-template-columns:repeat(auto-fill,minmax(320px,1fr))}
+.emb{background:var(--film-2);border:1px solid var(--film-3);border-radius:8px;overflow:hidden;display:flex;flex-direction:column}
+.sec--paper .emb{background:#fff;border-color:rgba(33,28,23,.16)}
+.emb__bar{display:flex;align-items:center;gap:9px;padding:10px 13px;border-bottom:1px solid var(--film-3)}
+.sec--paper .emb__bar{border-color:rgba(33,28,23,.12)}
+.emb__dot{width:22px;height:22px;border-radius:6px;display:grid;place-items:center;color:#fff;font-size:.62rem;font-weight:700;font-family:var(--display);flex:0 0 auto}
+.emb__dot[data-p="youtube"]{background:#FF0033}.emb__dot[data-p="vimeo"]{background:#17B3E8}
+.emb__dot[data-p="instagram"]{background:linear-gradient(135deg,#F9CE34,#EE2A7B,#6228D7)}
+.emb__dot[data-p="facebook"]{background:#1877F2}.emb__dot[data-p="pinterest"]{background:#E60023}
+.emb__dot[data-p="x"]{background:#111}.emb__dot[data-p="link"]{background:var(--silver)}
+.emb__name{font-family:var(--display);font-size:.72rem;font-weight:600;letter-spacing:.12em;color:var(--silver)}
+.emb__open{margin-left:auto;font-family:var(--display);font-size:.7rem;font-weight:600;text-decoration:none;opacity:.75}
+.emb__open:hover{opacity:1;color:var(--mark)}
+.emb__stage{position:relative;background:#000;min-height:180px}
+.emb__stage iframe{width:100%;border:0;display:block;min-height:420px;background:#fff}
+.emb__stage--v iframe{min-height:0;aspect-ratio:16/9}
+.emb__body{padding:11px 13px}
+.emb__body h3{font-size:.98rem;font-weight:600}
+.emb__body p{margin:5px 0 0;font-size:.88rem;color:var(--on-film-dim)}
+.sec--paper .emb__body p{color:var(--on-paper-dim)}
+
+</style>
+<style>
+/* ============================================================
+   ADMIN CMS
+   ============================================================ */
+.adm{display:none;min-height:100vh;background:#100E0C;color:var(--on-film);font-family:var(--display);font-size:14px;font-weight:400;line-height:1.5}
+body.adm-on .adm{display:block}
+body.adm-on .pub,body.adm-on .hdr,body.adm-on .wa,body.adm-on .cur{display:none!important}
+.adm h1,.adm h2,.adm h3{font-family:var(--display);letter-spacing:-.01em}
+.adm__shell{display:grid;grid-template-columns:230px 1fr;min-height:100vh}
+@media(max-width:860px){.adm__shell{grid-template-columns:1fr}.adm__side{position:fixed;inset:0 auto 0 0;width:230px;z-index:90;transform:translateX(-100%);transition:transform .3s var(--ease)}
+ .adm__side.is-open{transform:none}}
+.adm__side{background:#0A0908;border-right:1px solid var(--film-3);display:flex;flex-direction:column;padding:18px 0}
+.adm__brand{padding:0 18px 18px;border-bottom:1px solid var(--film-3);margin-bottom:12px}
+.adm__brand b{display:block;font-weight:700;font-stretch:116%;letter-spacing:.14em;font-size:.9rem}
+.adm__brand span{font-size:.62rem;letter-spacing:.2em;color:var(--silver)}
+.adm__nav{display:grid;gap:1px;padding:0 10px;overflow-y:auto}
+.adm__nav button{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;text-align:left;background:none;border:0;
+  padding:9px 11px;border-radius:4px;cursor:pointer;color:var(--on-film-dim);font-size:.85rem;font-weight:500}
+.adm__nav button:hover{background:#1A1714;color:var(--on-film)}
+.adm__nav button.is-on{background:var(--mark);color:#fff}
+.adm__nav .tag{font-size:.65rem;background:rgba(255,255,255,.14);padding:2px 6px;border-radius:99px}
+.adm__side-foot{margin-top:auto;padding:14px 18px 0;border-top:1px solid var(--film-3);font-size:.72rem;color:var(--silver)}
+.adm__main{display:flex;flex-direction:column;min-width:0}
+.adm__bar{display:flex;align-items:center;gap:14px;padding:12px 20px;border-bottom:1px solid var(--film-3);background:#0E0C0A;position:sticky;top:0;z-index:20}
+.adm__bar input[type=search]{flex:1 1 auto;max-width:340px;background:#191512;border:1px solid var(--film-3);border-radius:4px;padding:8px 11px;font-size:.84rem}
+.adm__body{padding:22px 20px 60px;max-width:1280px;width:100%}
+.crumb{font-size:.72rem;letter-spacing:.1em;color:var(--silver);margin-bottom:6px}
+.adm__head{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;justify-content:space-between;margin-bottom:20px}
+.adm__head h2{font-size:1.5rem;font-weight:600}
+.adm__head p{margin:4px 0 0;color:var(--silver);font-size:.85rem}
+.cards{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));margin-bottom:26px}
+.card{background:#171310;border:1px solid var(--film-3);border-radius:6px;padding:15px}
+.card b{display:block;font-size:1.9rem;font-weight:600;line-height:1;font-variant-numeric:tabular-nums}
+.card span{display:block;margin-top:7px;font-size:.76rem;letter-spacing:.06em;color:var(--silver)}
+.panel{background:#141110;border:1px solid var(--film-3);border-radius:6px;padding:16px;margin-bottom:18px}
+.panel>h3{font-size:.95rem;font-weight:600;margin-bottom:12px}
+.tbl{width:100%;border-collapse:collapse;font-size:.85rem}
+.tbl th{text-align:left;font-weight:600;font-size:.7rem;letter-spacing:.1em;color:var(--silver);padding:8px 10px;border-bottom:1px solid var(--film-3);white-space:nowrap}
+.tbl td{padding:10px;border-bottom:1px solid rgba(46,40,34,.6);vertical-align:middle}
+.tbl tr:hover td{background:#191512}
+.tbl .thumb{width:46px;height:46px;object-fit:cover;border-radius:3px}
+.scrollx{overflow-x:auto}
+.abtn{display:inline-flex;align-items:center;gap:6px;background:var(--mark);color:#fff;border:1px solid var(--mark);border-radius:4px;
+  padding:8px 13px;font-size:.8rem;font-weight:600;cursor:pointer;text-decoration:none}
+.abtn:hover{background:#b83a22}
+.abtn--g{background:transparent;color:var(--on-film);border-color:var(--film-3)}
+.abtn--g:hover{background:#1D1815;border-color:var(--silver)}
+.abtn--d{background:transparent;border-color:#5a2a20;color:#e2705a}
+.abtn--d:hover{background:#2a1512}
+.abtn--xs{padding:5px 9px;font-size:.72rem}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.afield{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+.afield label{font-size:.72rem;font-weight:600;letter-spacing:.08em;color:var(--silver)}
+.afield input,.afield select,.afield textarea{background:#0D0B0A;border:1px solid var(--film-3);border-radius:4px;padding:9px 11px;font-size:.86rem;font-family:var(--display)}
+.afield textarea{min-height:92px;resize:vertical;line-height:1.55}
+.afield input:focus,.afield select:focus,.afield textarea:focus{outline:none;border-color:var(--mark)}
+.afield small{color:var(--silver);font-size:.7rem}
+.grid2{display:grid;gap:0 14px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.pill{display:inline-block;font-size:.66rem;font-weight:600;letter-spacing:.08em;padding:3px 8px;border-radius:99px;border:1px solid var(--film-3);color:var(--silver)}
+.pill--pub{border-color:#2f6b45;color:#63c48c;background:rgba(47,107,69,.14)}
+.pill--draft{border-color:#6b5a2f;color:#d4b463;background:rgba(107,90,47,.14)}
+.pill--arch{border-color:#4a4a4a;color:#9a9a9a}
+.pill--new{border-color:var(--mark);color:#f08a72;background:rgba(210,69,42,.14)}
+
+/* page builder */
+.builder{display:grid;gap:8px}
+.blk{display:flex;align-items:center;gap:12px;background:#171310;border:1px solid var(--film-3);border-radius:5px;padding:11px 13px;cursor:grab}
+.blk.dragging{opacity:.4}
+.blk.over{border-color:var(--mark);box-shadow:inset 0 2px 0 var(--mark)}
+.blk__h{color:var(--silver);letter-spacing:.2em;font-size:.9rem;cursor:grab}
+.blk__t{flex:1 1 auto;min-width:0}
+.blk__t b{display:block;font-size:.88rem;font-weight:600}
+.blk__t span{font-size:.72rem;color:var(--silver)}
+.sw{position:relative;width:38px;height:21px;flex:0 0 auto}
+.sw input{position:absolute;opacity:0;width:100%;height:100%;margin:0;cursor:pointer}
+.sw i{position:absolute;inset:0;background:#2E2822;border-radius:99px;transition:.2s}
+.sw i::after{content:"";position:absolute;top:3px;left:3px;width:15px;height:15px;background:#8C8175;border-radius:50%;transition:.2s}
+.sw input:checked+i{background:rgba(210,69,42,.35)}
+.sw input:checked+i::after{transform:translateX(17px);background:var(--mark)}
+.sw input:focus-visible+i{outline:2px solid var(--mark);outline-offset:2px}
+
+/* media grid */
+.mgrid{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(132px,1fr))}
+.mitem{position:relative;border:1px solid var(--film-3);border-radius:5px;overflow:hidden;background:#0D0B0A;cursor:pointer}
+.mitem img{aspect-ratio:1;object-fit:cover;width:100%}
+.mitem figcaption{padding:7px 8px;font-size:.7rem;color:var(--silver);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mitem.is-sel{border-color:var(--mark);box-shadow:0 0 0 1px var(--mark)}
+.drop{border:1px dashed var(--film-3);border-radius:6px;padding:26px;text-align:center;color:var(--silver);font-size:.84rem;margin-bottom:14px}
+.drop.over{border-color:var(--mark);background:rgba(210,69,42,.07);color:var(--on-film)}
+.bar{height:4px;background:#2E2822;border-radius:99px;overflow:hidden;margin-top:10px;display:none}
+.bar.on{display:block}
+.bar i{display:block;height:100%;background:var(--mark);width:0;transition:width .2s}
+
+/* modal / drawer */
+.modal{position:fixed;inset:0;z-index:120;background:rgba(8,7,6,.78);display:none;align-items:flex-start;justify-content:center;padding:4vh 14px;overflow-y:auto}
+.modal.is-open{display:flex}
+.modal__box{background:#141110;border:1px solid var(--film-3);border-radius:8px;width:min(760px,100%);padding:20px;box-shadow:0 30px 70px rgba(0,0,0,.6)}
+.modal__box--wide{width:min(1080px,100%)}
+.modal__top{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:16px}
+.modal__top h3{font-size:1.1rem;font-weight:600}
+.modal__foot{display:flex;justify-content:flex-end;gap:8px;margin-top:18px;padding-top:14px;border-top:1px solid var(--film-3);flex-wrap:wrap}
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--film-3);margin-bottom:16px;overflow-x:auto}
+.tabs button{background:none;border:0;border-bottom:2px solid transparent;padding:9px 13px;cursor:pointer;color:var(--silver);font-size:.82rem;font-weight:600;white-space:nowrap}
+.tabs button.is-on{color:var(--on-film);border-bottom-color:var(--mark)}
+.tabpane{display:none}.tabpane.is-on{display:block}
+
+/* login */
+.login{min-height:100vh;display:grid;place-items:center;padding:24px;background:
+  radial-gradient(900px 500px at 70% -10%,rgba(210,69,42,.16),transparent 60%),#0B0A09}
+.login__box{width:min(400px,100%);background:#141110;border:1px solid var(--film-3);border-radius:8px;padding:26px}
+.login__box h2{font-size:1.25rem;font-weight:600;margin-bottom:4px}
+.login__box p{margin:0 0 20px;color:var(--silver);font-size:.84rem}
+.hint{margin-top:16px;padding:11px 13px;border-left:2px solid var(--mark);background:rgba(210,69,42,.08);font-size:.76rem;color:var(--on-film-dim);line-height:1.6}
+
+/* preview frames */
+.prevbar{display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
+.prevstage{background:#0A0908;border:1px solid var(--film-3);border-radius:6px;padding:14px;display:grid;place-items:center;overflow:auto}
+.prevstage iframe{border:0;background:var(--film);height:70vh;transition:width .3s var(--ease)}
+.empty-a{border:1px dashed var(--film-3);border-radius:6px;padding:34px;text-align:center;color:var(--silver);font-size:.88rem}
+
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="loader" id="loader" aria-hidden="true"><div><b>QUALITY PHOTOS</b><i></i></div></div>
+<div class="cur" id="cur" aria-hidden="true"><span class="cur__t">VIEW</span></div>
+<div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+
+<!-- ============ PUBLIC SITE ============ -->
+<header class="hdr" id="hdr">
+  <div class="wrap hdr__in">
+    <a class="brand" href="#/" data-link>
+      <b id="brandName">QUALITY PHOTOS</b>
+      <span id="brandTag">Dahiwadi · MAHARASHTRA</span>
+    </a>
+    <nav class="nav nav--main" id="navMain" aria-label="Main"></nav>
+    <div class="row" style="gap:10px">
+      <button class="langbtn" id="langBtn" type="button" aria-label="Switch language">मराठी</button>
+      <a class="btn btn--sm hdr__cta" id="hdrCta" href="#/contact" data-link>Book a consultation</a>
+      <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="menu">
+        <span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Menu">
+  <div class="menu__top">
+    <span class="num">MENU</span>
+    <button class="iconbtn" id="menuClose" aria-label="Close menu">&#10005;</button>
+  </div>
+  <ul class="menu__list" id="menuList"></ul>
+  <div class="menu__foot">
+    <a class="btn" id="menuCta" href="#/contact" data-link>Book a consultation</a>
+    <a class="tlink" id="menuPhone" href="#">Call the studio</a>
+    <button class="langbtn" id="langBtn2" type="button">मराठी</button>
+  </div>
+</div>
+
+<main id="main" class="pub" tabindex="-1"></main>
+<footer class="foot pub" id="foot"></footer>
+<a class="wa" id="waBtn" href="#" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2Zm5.8 14.02c-.24.68-1.42 1.3-1.95 1.34-.5.05-.97.23-3.27-.68-2.75-1.08-4.5-3.87-4.64-4.05-.13-.18-1.11-1.48-1.11-2.82 0-1.34.7-2 .95-2.27.25-.27.54-.34.72-.34h.52c.17 0 .39-.06.61.46.24.55.8 1.9.87 2.04.07.14.12.3.02.48-.1.18-.14.29-.28.45-.14.16-.3.36-.42.48-.14.14-.29.29-.12.57.16.27.73 1.2 1.56 1.94 1.07.95 1.98 1.25 2.26 1.39.28.14.44.12.61-.07.17-.2.7-.82.89-1.1.18-.27.37-.23.61-.14.25.09 1.58.75 1.85.88.27.14.45.2.52.32.07.11.07.66-.17 1.34Z"/></svg>
+  <span>WhatsApp</span>
+</a>
+
+<!-- ============ LIGHTBOX ============ -->
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Image viewer">
+  <div class="lb__bar">
+    <span class="num" id="lbCount">1 / 1</span>
+    <div class="row">
+      <button class="iconbtn" id="lbZoom" aria-label="Toggle zoom">&#43;</button>
+      <button class="iconbtn" id="lbClose" aria-label="Close viewer">&#10005;</button>
+    </div>
+  </div>
+  <div class="lb__stage" id="lbStage">
+    <button class="lb__nav lb__nav--p" id="lbPrev" aria-label="Previous image">&#8249;</button>
+    <img id="lbImg" src="" alt="">
+    <button class="lb__nav lb__nav--n" id="lbNext" aria-label="Next image">&#8250;</button>
+  </div>
+  <div class="lb__cap"><span id="lbCap"></span><span class="num" id="lbHint">ESC TO CLOSE · &#8592; &#8594; TO MOVE</span></div>
+</div>
+
+<!-- ============ ADMIN CMS ============ -->
+<div class="adm" id="adm">
+  <div class="login" id="admLogin">
+    <form class="login__box" id="loginForm" novalidate>
+      <h2>Quality Photos CMS</h2>
+      <p>Sign in to manage the site.</p>
+      <div class="afield"><label for="lgUser">Email</label><input id="lgUser" type="email" autocomplete="username" required></div>
+      <div class="afield"><label for="lgPass">Password</label><input id="lgPass" type="password" autocomplete="current-password" required></div>
+      <div class="err" id="lgErr" role="alert"></div>
+      <button class="abtn" style="width:100%;justify-content:center" type="submit">Sign in</button>
+      <div class="hint">Development accounts — replace before launch.<br>
+        Super admin: <b>admin@qualityphotos.in</b> / <b>studio2026</b><br>
+        Editor: <b>editor@qualityphotos.in</b> / <b>editor2026</b></div>
+      <div style="margin-top:14px"><a class="tlink" href="#/" data-link style="font-size:.76rem">Back to the website</a></div>
+    </form>
+  </div>
+
+  <div class="adm__shell" id="admShell" hidden>
+    <aside class="adm__side" id="admSide">
+      <div class="adm__brand"><b>QUALITY PHOTOS</b><span>CONTENT MANAGER</span></div>
+      <nav class="adm__nav" id="admNav" aria-label="Admin"></nav>
+      <div class="adm__side-foot">
+        <div id="admWho"></div>
+        <div class="row" style="margin-top:9px">
+          <a class="abtn abtn--g abtn--xs" href="#/" data-link>View site</a>
+          <button class="abtn abtn--g abtn--xs" id="admLogout">Sign out</button>
+        </div>
+      </div>
+    </aside>
+    <div class="adm__main">
+      <div class="adm__bar">
+        <button class="abtn abtn--g abtn--xs" id="admBurger" aria-label="Toggle sidebar">&#9776;</button>
+        <input type="search" id="admSearch" placeholder="Search content…" aria-label="Search content">
+        <span style="margin-left:auto;color:var(--silver);font-size:.76rem" id="admClock"></span>
+      </div>
+      <div class="adm__body" id="admBody"></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal__box" id="modalBox">
+    <div class="modal__top"><h3 id="modalTitle">Edit</h3><button class="iconbtn" id="modalX" aria-label="Close">&#10005;</button></div>
+    <div id="modalBody"></div>
+    <div class="modal__foot" id="modalFoot"></div>
+  </div>
+</div>
+<script>
+"use strict";
+/* ============================================================
+   0. UTILITIES
+   ============================================================ */
+const $  = (s,r=document)=>r.querySelector(s);
+const $$ = (s,r=document)=>[...r.querySelectorAll(s)];
+const uid = p => p+"_"+Math.random().toString(36).slice(2,9);
+const esc = s => String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const slugify = s => String(s||"").toLowerCase().trim().replace(/[^a-z0-9\s-]/g,"").replace(/\s+/g,"-").replace(/-+/g,"-").slice(0,80);
+const fmtDate = d => { try{ return new Date(d).toLocaleDateString("en-IN",{day:"2-digit",month:"short",year:"numeric"}); }catch(e){ return d; } };
+const mq = q => (window.matchMedia ? window.matchMedia(q) : {matches:false});
+const reduced = () => mq("(prefers-reduced-motion: reduce)").matches;
+const clamp = (n,a,b)=>Math.min(b,Math.max(a,n));
+
+function toast(msg, ok){
+  const t=document.createElement("div");
+  t.className="toast"+(ok?" toast--ok":"");
+  t.textContent=msg;
+  $("#toasts").appendChild(t);
+  setTimeout(()=>{t.style.opacity="0";t.style.transition="opacity .3s";setTimeout(()=>t.remove(),320);},3200);
+}
+async function sha256(txt){
+  if(window.crypto && crypto.subtle){
+    const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(txt));
+    return [...new Uint8Array(buf)].map(b=>b.toString(16).padStart(2,"0")).join("");
+  }
+  let h=0; for(let i=0;i<txt.length;i++){h=(h<<5)-h+txt.charCodeAt(i);h|=0;} return "x"+h;
+}
+
+/* ---- placeholder photography (generated locally, clearly labelled) ---- */
+const PH_PALETTES=[["#3C3A38","#6E6258","#A99881"],["#2B3138","#4E5D69","#8FA3AF"],["#3A2F2B","#7A5A46","#C39C78"],
+  ["#2F332B","#55604C","#93A184"],["#3A2C33","#6B4E5B","#B08C9C"],["#33302A","#6A6152","#B3A489"]];
+function phSVG(seed, w, h, label){
+  let n=0; for(let i=0;i<seed.length;i++) n=(n*31+seed.charCodeAt(i))>>>0;
+  const p=PH_PALETTES[n%PH_PALETTES.length], ang=(n%60)+15, cx=25+(n%50), cy=20+((n>>3)%60);
+  const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}">
+<defs><linearGradient id="g" gradientTransform="rotate(${ang})"><stop offset="0" stop-color="${p[0]}"/><stop offset=".55" stop-color="${p[1]}"/><stop offset="1" stop-color="${p[2]}"/></linearGradient>
+<radialGradient id="v" cx="${cx}%" cy="${cy}%" r="72%"><stop offset="0" stop-color="#fff" stop-opacity=".30"/><stop offset="1" stop-color="#000" stop-opacity=".40"/></radialGradient>
+<filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2"/><feColorMatrix type="saturate" values="0"/></filter></defs>
+<rect width="100%" height="100%" fill="url(#g)"/><rect width="100%" height="100%" fill="url(#v)"/>
+<rect width="100%" height="100%" filter="url(#n)" opacity=".16"/>
+<rect x="${w*0.5}" y="${h*0.58}" width="${w*0.42}" height="${h*0.3}" fill="#000" opacity=".12"/>
+<circle cx="${w*0.32}" cy="${h*0.44}" r="${Math.min(w,h)*0.17}" fill="#000" opacity=".10"/></svg>`;
+  return "data:image/svg+xml;charset=utf-8,"+encodeURIComponent(svg);
+}
+/* media record -> <img> with responsive attributes */
+function img(m, cls, sizes, eager){
+  m = m || {};
+  const src = m.src || phSVG(m.id||m.alt||"x", 1200, 900);
+  const isPh = !m.src;
+  const alt = esc(m.alt || (isPh ? "Placeholder photograph" : ""));
+  return `<img src="${src}" alt="${alt}" class="${cls||""}"
+    ${sizes?`sizes="${sizes}"`:""} loading="${eager?"eager":"lazy"}" decoding="${eager?"sync":"async"}"
+    ${eager?'fetchpriority="high"':""}>`;
+}
+function frame(m, ratio, opts={}){
+  const isPh = !(m&&m.src);
+  return `<figure class="frame frame--${ratio||"r34"}">${img(m,"",opts.sizes,opts.eager)}${isPh?`<figcaption class="ph-tag">PLACEHOLDER</figcaption>`:""}</figure>`;
+}
+
+</script>
+<script>
+/* ============================================================
+   I18N — English / मराठी
+   UI strings live in STR. Content fields carry a "_mr" twin
+   (title / title_mr) that the CMS edits side by side.
+   ============================================================ */
+let LANG="en";
+try{ LANG=localStorage.getItem("qp.lang")||"en"; }catch(e){}
+
+const STR={
+  en:{
+    book:"Book a consultation", menu:"MENU", call:"Call the studio", scroll:"SCROLL",
+    allWork:"All work", allStories:"All stories", allFilms:"All films", viewService:"View service",
+    projects:"PROJECTS", project:"PROJECT", filterAll:"All work", share:"SHARE", copyLink:"Copy link",
+    keepReading:"Keep reading", moreWork:"More work", included:"What's included", faq:"Common questions",
+    enquireAbout:"Enquire about", send:"Send enquiry", sending:"Sending…", reachUs:"Or reach us directly",
+    whatsapp:"Chat on WhatsApp", viewIG:"View on Instagram", openTab:"Open in a new tab",
+    noFile:"No file uploaded yet.", playerBlocked:"Player blocked?",
+    name:"Name", phone:"Phone", email:"Email", eventType:"Event type", eventDate:"Event date",
+    location:"Location", guests:"Approx. guests", prefer:"Preferred contact", message:"Message",
+    e404:"Nothing on this frame.", e404sub:"The page you asked for doesn't exist, or it was unpublished.",
+    home:"Back to the homepage", pages:"PAGES", studio:"STUDIO", elsewhere:"ELSEWHERE",
+    sent:"Enquiry received.", sentSub:"We reply within one working day.",
+    fixFields:"Some fields need fixing. The highlighted ones are listed above.",
+    errName:"Enter your name.", errPhone:"Enter a reachable phone number.", errEmail:"Enter a valid email address.",
+    errDate:"That date isn't valid.", errGuests:"Use digits only.", errLong:"Keep it under 1500 characters.",
+    esc:"ESC TO CLOSE · ← → TO MOVE", next:"NEXT", frames:"FRAMES", selected:"Selected",
+    copied:"Link copied.", nothingHere:"Nothing here yet.", notScraped:"Instagram is not scraped. Tiles are placeholders until the studio uploads or links approved posts in the CMS.",
+    openOn:"Open on", loadPost:"Load post", langName:"मराठी"
+  },
+  mr:{
+    book:"सल्लामसलत बुक करा", menu:"मेनू", call:"स्टुडिओला कॉल करा", scroll:"स्क्रोल",
+    allWork:"सर्व काम", allStories:"सर्व कथा", allFilms:"सर्व फिल्म्स", viewService:"सेवा पहा",
+    projects:"प्रकल्प", project:"प्रकल्प", filterAll:"सर्व काम", share:"शेअर करा", copyLink:"लिंक कॉपी करा",
+    keepReading:"पुढे वाचा", moreWork:"आणखी काम", included:"यात काय समाविष्ट आहे", faq:"नेहमीचे प्रश्न",
+    enquireAbout:"चौकशी करा —", send:"चौकशी पाठवा", sending:"पाठवत आहे…", reachUs:"किंवा थेट संपर्क साधा",
+    whatsapp:"व्हॉट्सॲपवर बोला", viewIG:"इंस्टाग्रामवर पहा", openTab:"नवीन टॅबमध्ये उघडा",
+    noFile:"अद्याप फाइल अपलोड केलेली नाही.", playerBlocked:"प्लेअर ब्लॉक झाला?",
+    name:"नाव", phone:"फोन", email:"ईमेल", eventType:"कार्यक्रमाचा प्रकार", eventDate:"कार्यक्रमाची तारीख",
+    location:"ठिकाण", guests:"अंदाजे पाहुणे", prefer:"संपर्काचे माध्यम", message:"संदेश",
+    e404:"या फ्रेमवर काहीच नाही.", e404sub:"तुम्ही मागितलेले पान अस्तित्वात नाही, किंवा ते अप्रकाशित केले गेले आहे.",
+    home:"मुख्यपृष्ठावर परत जा", pages:"पाने", studio:"स्टुडिओ", elsewhere:"इतरत्र",
+    sent:"चौकशी मिळाली.", sentSub:"आम्ही एका कामकाजाच्या दिवसात उत्तर देतो.",
+    fixFields:"काही रकाने दुरुस्त करावे लागतील. वर दाखवलेले रकाने तपासा.",
+    errName:"तुमचे नाव लिहा.", errPhone:"संपर्क होईल असा फोन क्रमांक लिहा.", errEmail:"वैध ईमेल पत्ता लिहा.",
+    errDate:"ही तारीख वैध नाही.", errGuests:"फक्त अंक वापरा.", errLong:"१५०० अक्षरांच्या आत ठेवा.",
+    esc:"बंद करण्यासाठी ESC · ← → हलवण्यासाठी", next:"पुढे", frames:"फ्रेम्स", selected:"निवडक",
+    copied:"लिंक कॉपी झाली.", nothingHere:"इथे अजून काहीही नाही.", notScraped:"इंस्टाग्राम स्क्रॅप केले जात नाही. स्टुडिओ CMS मध्ये मंजूर पोस्ट अपलोड करेपर्यंत या जागा प्लेसहोल्डर आहेत.",
+    openOn:"वर उघडा", loadPost:"पोस्ट लोड करा", langName:"English"
+  }
+};
+const t = k => (STR[LANG]&&STR[LANG][k]) || STR.en[k] || k;
+
+/* returns a copy of an object with Marathi twins swapped in */
+function LZ(o){
+  if(!o) return {};
+  if(LANG!=="mr") return o;
+  const c=Object.assign({},o);
+  for(const k in o){ if(k.slice(-3)==="_mr" && o[k]){ c[k.slice(0,-3)]=o[k]; } }
+  return c;
+}
+function setLang(l){
+  LANG=(l==="mr")?"mr":"en";
+  try{ localStorage.setItem("qp.lang",LANG); }catch(e){}
+  document.documentElement.lang = LANG==="mr" ? "mr" : "en";
+  document.documentElement.setAttribute("data-lang",LANG);
+  renderChrome(); route();
+}
+
+</script>
+<script>
+/* ============================================================
+   1. CONTENT STORE  (the CMS database)
+   In this build the store lives in localStorage so the whole
+   site runs from HTML/CSS/JS alone. Swap `load`/`save` for
+   fetch() calls against a REST API to move it server-side.
+   ============================================================ */
+const KEY="qp.cms.v1";
+const SECTION_TYPES=[
+  ["hero","Hero"],["text_intro","Text intro"],["featured_portfolio","Featured portfolio"],["portfolio_grid","Portfolio grid"],
+  ["services","Services"],["featured_story","Featured story"],["image_text","Image + text"],["video","Video"],
+  ["films","Films"],["testimonials","Testimonials"],["social_wall","Social wall"],["gallery","Gallery"],
+  ["social_embeds","Social embeds"],["quote","Quote"],["statistics","Statistics"],["cta","Call to action"],["contact","Contact form"],["map","Map"],["spacer","Spacer"]
+];
+const ANIMS=["none","fade-up","fade","slide-left","slide-right","clip","scale","stagger"];
+const STATUSES=["draft","review","published","archived"];
+const ENQ_STATUS=["New","Contacted","Follow-up","Confirmed","Closed","Spam"];
+const TODO="[CONTENT TO BE CONFIGURED]";
+
+const mk=(alt)=>({id:uid("md"),alt:alt||"Placeholder photograph",src:"",caption:""});
+const mks=(n,alt)=>Array.from({length:n},(_,i)=>mk(alt+" — frame "+(i+1)));
+
+function seed(){
+  const cats=[
+    {id:"c1",name:"Wedding",name_mr:"विवाह",slug:"wedding"},{id:"c2",name:"Pre-Wedding",name_mr:"प्री-वेडिंग",slug:"pre-wedding"},
+    {id:"c3",name:"Portrait",name_mr:"पोर्ट्रेट",slug:"portrait"},{id:"c4",name:"Events",name_mr:"कार्यक्रम",slug:"events"},
+    {id:"c5",name:"Couple",name_mr:"कपल",slug:"couple"}
+  ];
+  const P=(t,cat,loc,n,feat)=>({
+    id:uid("pr"),title:t,slug:slugify(t),categoryId:cat,date:"2025-"+String(1+Math.floor(Math.random()*11)).padStart(2,"0")+"-14",
+    location:loc,excerpt:"Demo project — replace this text and the placeholder frames from the CMS.",
+    title_mr:"",excerpt_mr:"डेमो प्रकल्प — हा मजकूर आणि प्लेसहोल्डर फ्रेम्स CMS मधून बदला.",description_mr:"",
+    description:"This is demo copy so the layout can be reviewed with realistic density. "+TODO,
+    cover:mk(t+" cover"),media:mks(n,t),videoUrl:"",status:"published",featured:!!feat,order:0
+  });
+  const projects=[
+    P("Sanika & Omkar",'c1',"Dahiwadi",8,true), P("Aarohi & Rudra",'c1',"Panhala",7,true),
+    P("Mist & Marigold",'c2',"Amba Ghat",6,true), P("Riverside Morning",'c2',"Radhanagari",6,false),
+    P("Ira, in natural light",'c3',"Studio",5,true), P("Gharshana Sangeet",'c4',"Sangli",7,false),
+    P("Shubhangi & Tejas",'c1',"Kagal",6,false), P("The Ghat Walk",'c5',"Jyotiba",5,true),
+    P("Nandini — graduation",'c3',"Dahiwadi",4,false), P("Annual gala night",'c4',"Pune",6,false),
+    P("Meghana & Vikram",'c1',"Ratnagiri",6,false), P("Two Chairs, One Monsoon",'c5',"Amboli",5,true)
+  ];
+  const SVC_MR={"Wedding":["विवाह","हळदीपासून शेवटच्या नृत्यापर्यंत संपूर्ण दिवसाचे चित्रीकरण."],
+    "Pre-Wedding":["प्री-वेडिंग","प्रकाशाचा विचार करून ठरवलेले, घाई न करता केलेले शूट."],
+    "Couple":["कपल","वाढदिवस आणि साखरपुड्यासाठी छोटी, निवांत सेशन्स."],
+    "Portrait":["पोर्ट्रेट","व्यक्ती आणि कुटुंबांसाठी स्टुडिओ व नैसर्गिक प्रकाशातील पोर्ट्रेट."],
+    "Events":["कार्यक्रम","रिसेप्शन, संगीत, कॉर्पोरेट आणि सांस्कृतिक संध्याकाळ."],
+    "Cinematography":["सिनेमॅटोग्राफी","दिवसातून घडलेले चित्रित करतो, दिवस घडवत नाही."]};
+  const svc=(t,s,f)=>({id:uid("sv"),title:t,title_mr:(SVC_MR[t]||["",""])[0],short_mr:(SVC_MR[t]||["",""])[1],slug:slugify(t),short:s,
+    long:"Demo service description. "+TODO,cover:mk(t),gallery:mks(4,t),features:f,
+    faq:[{q:"How far in advance should we book?",a:TODO},{q:"Do you travel outside Maharashtra?",a:TODO}],
+    status:"published",order:0,seoTitle:"",seoDesc:""});
+  const services=[
+    svc("Wedding","Full-day coverage, from the haldi through to the last dance.",["Two photographers","Full-day coverage","Edited gallery","Printed album option"]),
+    svc("Pre-Wedding","An unhurried shoot on location, planned around light.",["Half-day shoot","Two locations","Wardrobe guidance","40+ edited frames"]),
+    svc("Couple","Short, relaxed sessions for anniversaries and engagements.",["90-minute session","One location","25+ edited frames"]),
+    svc("Portrait","Studio and natural-light portraits for people and families.",["Studio or location","Retouched selects","Print-ready files"]),
+    svc("Events","Receptions, sangeet, corporate and cultural evenings.",["Event-length coverage","Same-week previews","Team of two"]),
+    svc("Cinematography","Films cut from the day, not staged for it.",["4K capture","Teaser + full film","Licensed music"])
+  ];
+  const stories=[
+    {id:uid("st"),title:"Shooting a Dahiwadi wedding in the monsoon",title_mr:"पावसाळ्यात दहिवडीचा विवाह टिपताना",excerpt_mr:"पाऊस प्रकाश, वेळापत्रक आणि वातावरण बदलतो. त्याचे नियोजन आम्ही असे करतो.",slug:"monsoon-wedding-Dahiwadi",
+     excerpt:"Rain changes the light, the timeline and the mood. Here is how we plan around it.",
+     cover:mk("Monsoon wedding"),category:"Field notes",author:"Rajkumar Bhosale",date:"2026-06-18",status:"published",
+     body:"Demo article body. "+TODO+"\n\nEvery paragraph here is placeholder text written so the reading column, measure and rhythm can be judged properly before real writing replaces it.",
+     gallery:mks(4,"Monsoon wedding"),videoUrl:""},
+    {id:uid("st"),title:"What to wear for a pre-wedding shoot",title_mr:"प्री-वेडिंग शूटसाठी काय घालावे",excerpt_mr:"महाराष्ट्राच्या प्रकाशात चांगले दिसणारे साधे कपड्यांचे पर्याय.",slug:"what-to-wear-pre-wedding",
+     excerpt:"Simple wardrobe choices that photograph well in Maharashtra's light.",
+     cover:mk("Wardrobe"),category:"Guides",author:"Rajkumar Bhosale",date:"2026-04-02",status:"published",
+     body:"Demo article body. "+TODO,gallery:mks(3,"Wardrobe"),videoUrl:""},
+    {id:uid("st"),title:"Why we still shoot a few frames on film",title_mr:"आजही काही फ्रेम्स फिल्मवर का काढतो",excerpt_mr:"प्रत्येक विवाहाला ४०० चा एक रोल, आणि त्यामुळे पाहण्याची दृष्टी कशी बदलते.",slug:"a-few-frames-on-film",
+     excerpt:"A roll of 400 per wedding, and what it does to the way we see.",
+     cover:mk("Film rolls"),category:"Craft",author:"Rajkumar Bhosale",date:"2026-01-27",status:"published",
+     body:"Demo article body. "+TODO,gallery:mks(3,"Film"),videoUrl:""}
+  ];
+  const films=[
+    {id:uid("fl"),title:"Sanika & Omkar — wedding film",description:"Demo entry. Paste a real YouTube link in the CMS.",
+     source:"youtube",url:"https://www.youtube.com/watch?v=aqz-KE-bpKQ",poster:mk("Wedding film"),status:"published",order:0},
+    {id:uid("fl"),title:"Amba Ghat — pre-wedding teaser",description:"Demo entry.",source:"vimeo",
+     url:"https://vimeo.com/76979871",poster:mk("Ghat teaser"),status:"published",order:1},
+    {id:uid("fl"),title:"Behind the day — reel",description:"Instagram reels open on Instagram.",source:"instagram",
+     url:"https://www.instagram.com/rajkumar_bhosale_photography/",poster:mk("Reel"),status:"published",order:2},
+    {id:uid("fl"),title:"Studio portrait session",description:"Demo entry for a self-hosted file.",source:"upload",
+     url:"",poster:mk("Studio"),status:"draft",order:3}
+  ];
+  const testimonials=[
+    {id:uid("ts"),name:"Demo client A",text:"Sample testimonial text. Replace with a real, written permission-backed review from the CMS.",event:"Wedding",rating:5,order:0,status:"published",image:mk("Client A")},
+    {id:uid("ts"),name:"Demo client B",text:"Sample testimonial text. "+TODO,event:"Pre-Wedding",rating:5,order:1,status:"published",image:mk("Client B")},
+    {id:uid("ts"),name:"Demo client C",text:"Sample testimonial text. "+TODO,event:"Events",rating:4,order:2,status:"published",image:mk("Client C")}
+  ];
+  const S=(type,data,anim)=>({id:uid("sc"),type,enabled:true,anim:anim||"fade-up",theme:"dark",align:"left",data:data||{}});
+  const home={id:"pg_home",slug:"home",title:"Home",seoTitle:"Quality Photos — Wedding & Portrait Photography",
+    seoDesc:"Wedding, pre-wedding and portrait photography in Dahiwadi. Cinematic frames, honest moments.",
+    ogImage:mk("Home OG"),status:"published",sections:[
+      S("hero",{heading:"Photographs that still feel like the day itself",
+        heading_mr:"त्या दिवसासारखीच वाटणारी छायाचित्रे",
+        sub_mr:"कोल्हापुरात आणि संपूर्ण महाराष्ट्रात केलेले विवाह, प्री-वेडिंग आणि पोर्ट्रेट काम.",
+        ctaLabel_mr:"पोर्टफोलिओ पहा",cta2Label_mr:"सल्लामसलत बुक करा",
+        sub:"Wedding, pre-wedding and portrait work made in Dahiwadi and across Maharashtra.",
+        ctaLabel:"See the portfolio",ctaHref:"#/portfolio",cta2Label:"Book a consultation",cta2Href:"#/contact",
+        media:mk("Hero frame"),videoUrl:""},"fade"),
+      S("text_intro",{heading:"We photograph the hour before the ceremony as carefully as the ceremony.",
+        heading_mr:"समारंभाइतक्याच काळजीने आम्ही त्याआधीचा तासही टिपतो.",
+        body_mr:"क्वालिटी फोटोज हा एक छोटा स्टुडिओ आहे. एक मुख्य छायाचित्रकार, एक सहाय्यक आणि असा एडिटिंग डेस्क जो स्वतः छापणार नाही असा फोटो कधीच देत नाही. वर्षातून मोजक्याच तारखा घेतल्या जातात, त्यामुळे प्रत्येक विवाहाला पूर्ण वेळ मिळतो.",
+        linkLabel_mr:"स्टुडिओविषयी",
+        body:"Quality Photos is a small studio. One lead photographer, a second shooter, and an editing desk that never hands over a frame it would not print. Work is booked a limited number of dates a year so every wedding gets full attention.",
+        theme:"paper",linkLabel:"About the studio",linkHref:"#/about"},"clip"),
+      S("featured_portfolio",{heading:"Selected work",heading_mr:"निवडक काम",sub_mr:"अलीकडील विवाह, पोर्ट्रेट आणि घाटावरील शूटमधील निवडक फ्रेम्स.",kicker:"01",sub:"Marked frames from recent weddings, portraits and ghat-side shoots.",limit:6},"stagger"),
+      S("services",{heading:"What we photograph",heading_mr:"आम्ही काय टिपतो",sub_mr:"प्रत्येक सेवा CMS मध्ये ठरवली जाते; अप्रकाशित सेवा वेबसाइटवरून आपोआप हटतात.",kicker:"02",sub:"Every service is configured in the CMS; unpublished ones disappear from the site.",theme:"paper"},"fade-up"),
+      S("statistics",{heading:"The studio, briefly",heading_mr:"स्टुडिओ, थोडक्यात",items:[{value:"12",label:"years behind the camera"},{value:"40",label:"weddings a year, capped"},{value:"72h",label:"to your preview gallery"},{value:"2",label:"photographers on every wedding"}],theme:"dark"},"fade-up"),
+      S("films",{heading:"Films",heading_mr:"फिल्म्स",sub_mr:"काहीही आपोआप सुरू होत नाही. प्लेअर लोड करण्यासाठी फ्रेमवर टॅप करा.",kicker:"03",sub:"Nothing autoplays. Tap a frame to load the player.",limit:3},"fade-up"),
+      S("featured_story",{heading:"From the journal",heading_mr:"जर्नलमधून",kicker:"04",theme:"paper"},"fade-up"),
+      S("testimonials",{heading:"In their words",heading_mr:"त्यांच्या शब्दांत",kicker:"05",theme:"paper"},"stagger"),
+      S("social_wall",{heading:"On Instagram",heading_mr:"इंस्टाग्रामवर",kicker:"06",handle:"@rajkumar_bhosale_photography",
+        url:"https://www.instagram.com/rajkumar_bhosale_photography/",count:8},"stagger"),
+      S("social_embeds",{heading:"Straight from our feeds",heading_mr:"थेट आमच्या फीडमधून",kicker:"07",
+        sub:"Posts embedded from the studio's own social accounts.",sub_mr:"स्टुडिओच्या स्वतःच्या सोशल खात्यांवरून एम्बेड केलेल्या पोस्ट.",limit:3},"stagger"),
+      S("cta",{heading:"Tell us the date. We'll tell you if it's free.",heading_mr:"तारीख सांगा. ती मोकळी आहे का ते आम्ही सांगतो.",body_mr:"सल्लामसलत मोफत आहे आणि बुक करण्याचे कोणतेही बंधन नाही.",ctaLabel_mr:"चौकशी सुरू करा",
+        body:"Consultations are free and there is no obligation to book.",ctaLabel:"Start an enquiry",ctaHref:"#/contact"},"fade-up")
+    ]};
+  const about={id:"pg_about",slug:"about",title:"About",seoTitle:"About — Quality Photos",seoDesc:"About the studio behind Quality Photos.",
+    ogImage:mk("About OG"),status:"published",sections:[
+      S("image_text",{heading:"Rajkumar Bhosale",heading_mr:"राजकुमार भोसले",kicker:"The photographer",kicker_mr:"छायाचित्रकार",
+        body:"Biography to be supplied by the studio owner. "+TODO+"\n\nThis block is editable from the CMS and can be reordered, disabled or duplicated like every other section.",
+        media:mk("Photographer portrait"),ratio:"r34"},"fade-up"),
+      S("text_intro",{heading:"How we work",heading_mr:"आम्ही कसे काम करतो",body_mr:"एक सल्लामसलत, आधीच ठरवलेली शॉट लिस्ट, आणि आड न येणारे शूट. ७२ तासांत प्रिव्ह्यू, चार आठवड्यांत संपूर्ण गॅलरी.",body:"A consultation, a shot list agreed in advance, and a shoot that stays out of the way. Previews within 72 hours, the full gallery in four weeks.",theme:"paper"},"clip"),
+      S("gallery",{heading:"Frames we keep",heading_mr:"आम्ही जपलेल्या फ्रेम्स",kicker:"Selected",count:8},"stagger"),
+      S("cta",{heading:"Come and see the albums in person.",heading_mr:"अल्बम प्रत्यक्ष पाहायला या.",ctaLabel_mr:"भेट ठरवा",body:"The studio is open by appointment.",ctaLabel:"Book a visit",ctaHref:"#/contact"},"fade-up")
+    ]};
+  const contact={id:"pg_contact",slug:"contact",title:"Contact",seoTitle:"Contact — Quality Photos",
+    seoDesc:"Enquire about wedding and portrait photography.",ogImage:mk("Contact OG"),status:"published",sections:[
+      S("contact",{heading:"Start an enquiry",heading_mr:"चौकशी सुरू करा",sub_mr:"तारीख आणि ठिकाण कळवा. आम्ही एका कामकाजाच्या दिवसात उत्तर देतो.",sub:"Tell us the date and the place. We reply within one working day.",theme:"paper"},"fade-up"),
+      S("map",{heading:"The studio",heading_mr:"स्टुडिओ",address:TODO+" — set the studio address in Settings.",
+        embed:"https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d264.68480605649125!2d74.45448715769133!3d17.764065367264294!3m2!1i1024!2i768!4f13.1!5e1!3m2!1sen!2sin!4v1789825010240!5m2!1sen!2sin"},"fade")
+    ]};
+  const simple=(id,slug,title,type,extra)=>({id,slug,title,seoTitle:title+" — Quality Photos",seoDesc:"",ogImage:mk(title),
+    status:"published",sections:[S(type,Object.assign({heading:title},extra||{}),"fade-up")]});
+
+  return {
+    settings:{brand:"QUALITY PHOTOS",brand_mr:"क्वालिटी फोटोज",tagline:"Dahiwadi · MAHARASHTRA",tagline_mr:"दहिवडी · महाराष्ट्र",phone:"+91 9970753757",
+      whatsapp:"919970753757",waMessage:"Hello Quality Photos, I'd like to ask about a shoot.",
+      email:"hello@qualityphotos.in",address:TODO,footerText:"A small photography studio working across Maharashtra.",
+      footerText_mr:"संपूर्ण महाराष्ट्रात काम करणारा एक छोटा छायाचित्रण स्टुडिओ.",
+      seoTitle_mr:"क्वालिटी फोटोज — विवाह आणि पोर्ट्रेट छायाचित्रण",
+      seoDesc_mr:"दहिवडी, महाराष्ट्रातील विवाह, प्री-वेडिंग आणि पोर्ट्रेट छायाचित्रण.",
+      copyright:"© "+new Date().getFullYear()+" Quality Photos. All photographs remain the property of the studio.",
+      seoTitle:"Quality Photos — Wedding & Portrait Photography",
+      seoDesc:"Wedding, pre-wedding and portrait photography in Dahiwadi, Maharashtra.",
+      analytics:"",instagramHandle:"@rajkumar_bhosale_photography",
+      social:[
+        {id:"so1",label:"Instagram",url:"https://www.instagram.com/rajkumar_bhosale_photography/",enabled:true,order:0},
+        {id:"so2",label:"Facebook",url:"",enabled:false,order:1},
+        {id:"so3",label:"YouTube",url:"",enabled:false,order:2},
+        {id:"so4",label:"WhatsApp",url:"",enabled:true,order:3}
+      ]},
+    navigation:{header:[
+      {id:"n1",label:"Home",label_mr:"मुख्यपृष्ठ",path:"#/",enabled:true},{id:"n2",label:"About",label_mr:"आमच्याविषयी",path:"#/about",enabled:true},
+      {id:"n3",label:"Services",label_mr:"सेवा",path:"#/services",enabled:true},{id:"n4",label:"Portfolio",label_mr:"पोर्टफोलिओ",path:"#/portfolio",enabled:true},
+      {id:"n5",label:"Stories",label_mr:"कथा",path:"#/stories",enabled:true},{id:"n6",label:"Films",label_mr:"फिल्म्स",path:"#/films",enabled:true},
+      {id:"n7",label:"Contact",label_mr:"संपर्क",path:"#/contact",enabled:true}],
+      footer:[{id:"f1",label:"Portfolio",label_mr:"पोर्टफोलिओ",path:"#/portfolio",enabled:true},{id:"f2",label:"Services",label_mr:"सेवा",path:"#/services",enabled:true},
+      {id:"f3",label:"Stories",label_mr:"कथा",path:"#/stories",enabled:true},{id:"f4",label:"Contact",label_mr:"संपर्क",path:"#/contact",enabled:true}]},
+    pages:[home,about,
+      simple("pg_services","services","Services","services",{sub:"Published services appear here automatically.",theme:"dark"}),
+      simple("pg_portfolio","portfolio","Portfolio","portfolio_grid",{sub:"Filter by category. Click any frame to open the viewer."}),
+      simple("pg_stories","stories","Stories","featured_story",{sub:"Field notes, guides and craft.",all:true}),
+      simple("pg_films","films","Films","films",{sub:"Wedding films, teasers and reels.",all:true})
+      ,contact],
+    categories:cats,projects,services,stories,films,testimonials,
+    social_embeds:[
+      {id:uid("em"),title:"Wedding highlights",title_mr:"विवाह हायलाइट्स",caption:"Demo embed — paste a real post URL in the CMS.",
+       caption_mr:"डेमो एम्बेड — CMS मध्ये खरी पोस्ट URL टाका.",url:"https://www.instagram.com/rajkumar_bhosale_photography/",status:"published",order:0},
+      {id:uid("em"),title:"Studio reel",title_mr:"स्टुडिओ रील",caption:"Demo embed.",caption_mr:"डेमो एम्बेड.",
+       url:"https://www.youtube.com/watch?v=aqz-KE-bpKQ",status:"published",order:1},
+      {id:uid("em"),title:"Ghat teaser",title_mr:"घाट टीझर",caption:"Demo embed.",caption_mr:"डेमो एम्बेड.",
+       url:"https://vimeo.com/76979871",status:"published",order:2}
+    ],
+    media:[],enquiries:[],
+    users:[{id:"u1",name:"Studio Owner",email:"admin@qualityphotos.in",role:"super_admin",hash:""},
+           {id:"u2",name:"Studio Editor",email:"editor@qualityphotos.in",role:"editor",hash:""}],
+    logs:[],
+    _demo:true
+  };
+}
+
+let DB=null;
+function load(){
+  try{
+    const raw=localStorage.getItem(KEY);
+    if(raw){ DB=JSON.parse(raw); if(DB && DB.pages){ migrate(); return DB; } }
+  }catch(e){ console.warn("Storage unavailable, running in memory.",e); }
+  DB=seed(); save(); return DB;
+}
+/* forward-compatible: fill in anything a newer build expects */
+function migrate(){
+  const fresh=seed();
+  ["categories","projects","services","stories","films","testimonials","media","enquiries","users","logs","social_embeds","pages"]
+    .forEach(k=>{ if(!Array.isArray(DB[k])) DB[k]=fresh[k]; });
+  DB.settings=Object.assign({},fresh.settings,DB.settings||{});
+  DB.navigation=Object.assign({},fresh.navigation,DB.navigation||{});
+  save();
+}
+function save(){
+  try{ localStorage.setItem(KEY, JSON.stringify(DB)); }
+  catch(e){ toast("Could not save — browser storage is full or blocked."); }
+}
+function resetDB(){ try{localStorage.removeItem(KEY);}catch(e){} DB=seed(); save(); }
+function logAct(action,entity,entityId){
+  if(!DB.logs) DB.logs=[];
+  DB.logs.unshift({id:uid("lg"),user:(SESSION&&SESSION.email)||"system",action,entity,entity_id:entityId||"—",
+    at:new Date().toISOString(),ip:"127.0.0.1 (local)"});
+  DB.logs=DB.logs.slice(0,300); save();
+}
+
+/* selectors */
+const pageBy = s => (DB.pages||[]).find(p=>p.slug===s);
+const pub = arr => (arr||[]).filter(x=>x.status==="published");
+const catName = id => LZ(DB.categories.find(c=>c.id===id)||{}).name||"Uncategorised";
+const projBySlug = s => DB.projects.find(p=>p.slug===s);
+const svcBySlug  = s => DB.services.find(p=>p.slug===s);
+const storyBySlug= s => DB.stories.find(p=>p.slug===s);
+
+/* ---- safe embeds: whitelist + id extraction ---- */
+const EMBED_HOSTS=["youtube.com","www.youtube.com","youtu.be","m.youtube.com","youtube-nocookie.com","www.youtube-nocookie.com",
+  "player.vimeo.com","vimeo.com","www.vimeo.com","www.instagram.com","instagram.com",
+  "www.facebook.com","facebook.com","fb.watch","www.pinterest.com","pinterest.com","in.pinterest.com","pin.it",
+  "twitter.com","www.twitter.com","x.com","www.x.com",
+  "www.google.com","google.com","maps.google.com"];
+function hostOf(u){ try{ return new URL(u).hostname; }catch(e){ return ""; } }
+function hostAllowed(u){ return EMBED_HOSTS.includes(hostOf(u)); }
+function ytId(u){
+  if(!hostAllowed(u)) return "";
+  const m=String(u).match(/(?:youtu\.be\/|v=|\/shorts\/|\/embed\/)([A-Za-z0-9_-]{6,20})/);
+  return m?m[1]:"";
+}
+function vimeoId(u){
+  if(!hostAllowed(u)) return "";
+  const m=String(u).match(/vimeo\.com\/(?:video\/)?(\d{6,12})/);
+  return m?m[1]:"";
+}
+load();   /* hydrate the store before anything renders */
+
+function embedSrc(film){
+  if(film.source==="youtube"){ const id=ytId(film.url); return id?`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`:""; }
+  if(film.source==="vimeo"){ const id=vimeoId(film.url); return id?`https://player.vimeo.com/video/${id}?autoplay=1`:""; }
+  return "";
+}
+
+/* ---- social platform detection + embed builder ---- */
+const PLAT_NAME={youtube:"YouTube",vimeo:"Vimeo",instagram:"Instagram",facebook:"Facebook",
+  pinterest:"Pinterest",x:"X",link:"Link"};
+function platformOf(u){
+  const h=hostOf(u);
+  if(/youtu/.test(h)) return "youtube";
+  if(/vimeo/.test(h)) return "vimeo";
+  if(/instagram/.test(h)) return "instagram";
+  if(/facebook|fb\.watch/.test(h)) return "facebook";
+  if(/pinterest|pin\.it/.test(h)) return "pinterest";
+  if(/twitter|x\.com/.test(h)) return "x";
+  return hostAllowed(u) ? "link" : "";
+}
+/* returns {p, src, video} — src is "" when the platform has no safe iframe */
+function socialEmbed(u){
+  const p=platformOf(u);
+  if(!p || !hostAllowed(u)) return {p:"",src:"",video:false};
+  if(p==="youtube"){ const id=ytId(u); return {p,src:id?"https://www.youtube-nocookie.com/embed/"+id+"?rel=0":"",video:true}; }
+  if(p==="vimeo"){ const id=vimeoId(u); return {p,src:id?"https://player.vimeo.com/video/"+id:"",video:true}; }
+  if(p==="instagram"){ const m=String(u).match(/instagram\.com\/(p|reel|tv)\/([A-Za-z0-9_-]+)/);
+    return {p,src:m?"https://www.instagram.com/"+m[1]+"/"+m[2]+"/embed":"",video:false}; }
+  if(p==="facebook") return {p,src:"https://www.facebook.com/plugins/post.php?href="+encodeURIComponent(u)+"&show_text=true&width=500",video:false};
+  if(p==="pinterest"){ const m=String(u).match(/pin\/(\d+)/);
+    return {p,src:m?"https://assets.pinterest.com/ext/embed.html?id="+m[1]:"",video:false}; }
+  return {p,src:"",video:false};   /* X has no iframe embed — falls back to a link card */
+}
+
+</script>
+<script>
+/* ============================================================
+   2. PUBLIC SITE — section renderers
+   Section order, visibility and content all come from the store,
+   so reordering in the CMS reorders the real page.
+   ============================================================ */
+function shead(s,extra){
+  const d=LZ(s.data);
+  if(!d.heading && !d.sub) return "";
+  return `<div class="shead">${d.kicker?`<span class="num">${esc(d.kicker)}</span>`:""}
+    <h2 class="d2">${esc(d.heading||"")}</h2>
+    ${d.sub?`<p class="dim">${esc(d.sub)}</p>`:""}${extra||""}</div>`;
+}
+function wrapSec(s,inner,cls){
+  const d=s.data||{}, theme=d.theme||s.theme||"dark";
+  const anim=(s.anim&&s.anim!=="none"&&s.anim!=="stagger")?s.anim:null;
+  return `<section class="sec ${theme==="paper"?"sec--paper":""} ${cls||""}" data-sec="${s.type}">
+    <div class="wrap"${anim?` data-anim="${anim}"`:""}>${inner}</div></section>`;
+}
+
+const cellHTML=(p,i)=>`<a class="cell ${p.featured?"is-select":""}" href="#/portfolio/${esc(p.slug)}" data-link data-cursor="VIEW">
+  <span class="cell__frame-no">${String(i+1).padStart(2,"0")}${p.featured?" ●":""}</span>
+  ${frame(p.cover,"r34",{sizes:"(min-width:1200px) 24vw,(min-width:780px) 33vw,50vw"})}
+  <span class="cell__meta"><h3>${esc(LZ(p).title)}</h3><span class="cell__cat">${esc(catName(p.categoryId))}</span></span></a>`;
+
+const SECTIONS={
+  hero(s){
+    const d=LZ(s.data);
+    return `<section class="hero" data-sec="hero">
+      <div class="hero__media">${img(d.media,"","100vw",true)}</div>
+      <div class="wrap hero__in">
+        <h1 class="d1 rise" data-d="1">${esc(d.heading||"")}</h1>
+        <p class="hero__sub rise" data-d="2">${esc(d.sub||"")}</p>
+        <div class="hero__row rise" data-d="3">
+          ${d.ctaLabel?`<a class="btn" href="${esc(d.ctaHref||"#/portfolio")}" data-link>${esc(d.ctaLabel)}</a>`:""}
+          ${d.cta2Label?`<a class="tlink" href="${esc(d.cta2Href||"#/contact")}" data-link>${esc(d.cta2Label)}</a>`:""}
+        </div>
+      </div>
+      <div class="scroller rise" data-d="4"><span>SCROLL</span><i></i></div>
+    </section>`;
+  },
+  text_intro(s){
+    const d=LZ(s.data);
+    return wrapSec(s,`<div class="split split--narrow">
+      <h2 class="d2" style="max-width:17ch;text-wrap:balance">${esc(d.heading||"")}</h2>
+      <div class="prose"><p class="lede" style="max-width:none">${esc(d.body||"")}</p>
+      ${d.linkLabel?`<a class="tlink" href="${esc(d.linkHref||"#/about")}" data-link>${esc(d.linkLabel)}</a>`:""}</div>
+    </div>`);
+  },
+  featured_portfolio(s){
+    const d=LZ(s.data), items=pub(DB.projects).filter(p=>p.featured).slice(0,d.limit||6);
+    const list=items.length?items:pub(DB.projects).slice(0,d.limit||6);
+    if(!list.length) return wrapSec(s,shead(s)+emptyBox("No projects yet","Add a portfolio project in the CMS and it will appear here."));
+    return wrapSec(s,shead(s,`<a class="tlink" href="#/portfolio" data-link>${t("allWork")}</a>`)+
+      `<div class="sheet sheet--feature stagger">${list.map((p,i)=>
+        `<a class="cell cell--fill ${p.featured?"is-select":""}" href="#/portfolio/${esc(p.slug)}" data-link data-cursor="VIEW">
+          <span class="cell__frame-no">${String(i+1).padStart(2,"0")}${p.featured?" ●":""}</span>
+          ${frame(p.cover,i===0?"r43":"r34",{sizes:"(min-width:900px) 40vw,50vw"})}
+          <span class="cell__meta"><h3>${esc(LZ(p).title)}</h3><span class="cell__cat">${esc(catName(p.categoryId))}</span></span></a>`).join("")}</div>`);
+  },
+  portfolio_grid(s){
+    const cats=DB.categories.filter(c=>pub(DB.projects).some(p=>p.categoryId===c.id));
+    const items=pub(DB.projects);
+    if(!items.length) return wrapSec(s,shead(s)+emptyBox("No projects published","Publish a project in the CMS to fill this page."));
+    return wrapSec(s,shead(s)+
+      `<div class="filters" id="pfFilters" role="group" aria-label="Filter portfolio">
+        <button class="chip" data-cat="all" aria-pressed="true">${t("filterAll")}</button>
+        ${cats.map(c=>`<button class="chip" data-cat="${c.id}" aria-pressed="false">${esc(c.name)}</button>`).join("")}
+      </div>
+      <div class="sheet stagger" id="pfGrid">${items.map(cellHTML).join("")}</div>
+      <p class="num" id="pfCount" style="margin-top:22px">${items.length} ${t("projects").toUpperCase()}</p>`);
+  },
+  services(s){
+    const list=pub(DB.services).sort((a,b)=>a.order-b.order);
+    if(!list.length) return wrapSec(s,shead(s)+emptyBox("No services published","Publish a service in the CMS to list it here."));
+    return wrapSec(s,shead(s)+`<div class="svc stagger">${list.map(v=>
+      `<a href="#/services/${esc(v.slug)}" data-link data-cursor="OPEN">
+        ${frame(v.cover,"r43",{sizes:"(min-width:900px) 25vw,90vw"})}
+        <h3>${esc(LZ(v).title)}</h3><p class="dim">${esc(LZ(v).short)}</p>
+        <span class="tlink">${t("viewService")}</span></a>`).join("")}</div>`);
+  },
+  featured_story(s){
+    const d=LZ(s.data), all=pub(DB.stories).sort((a,b)=>b.date.localeCompare(a.date));
+    const list=d.all?all:all.slice(0,3);
+    if(!list.length) return wrapSec(s,shead(s)+emptyBox("Nothing published yet","Write a story in the CMS to fill this section."));
+    return wrapSec(s,shead(s,d.all?"":`<a class="tlink" href="#/stories" data-link>${t("allStories")}</a>`)+
+      `<div class="stories stagger">${list.map(t=>
+        `<a class="story-card" href="#/stories/${esc(t.slug)}" data-link data-cursor="READ">
+          ${frame(t.cover,"r43",{sizes:"(min-width:900px) 32vw,90vw"})}
+          <span class="story-meta">${esc(t.category||"Journal")} · ${fmtDate(t.date)}</span>
+          <h3>${esc(LZ(t).title)}</h3><p>${esc(LZ(t).excerpt)}</p></a>`).join("")}</div>`);
+  },
+  image_text(s){
+    const d=LZ(s.data);
+    return wrapSec(s,`<div class="split ${d.flip?"split--r":""}">
+      <div>${frame(d.media,d.ratio||"r34",{sizes:"(min-width:900px) 50vw,100vw"})}</div>
+      <div class="prose">${d.kicker?`<p class="num" style="margin:0 0 12px">${esc(d.kicker)}</p>`:""}
+        <h2 class="d2" style="margin-bottom:20px">${esc(d.heading||"")}</h2>
+        ${String(d.body||"").split("\n\n").map(p=>`<p>${esc(p)}</p>`).join("")}
+        ${d.linkLabel?`<a class="tlink" href="${esc(d.linkHref||"#")}" data-link>${esc(d.linkLabel)}</a>`:""}</div>
+    </div>`);
+  },
+  video(s){
+    const d=LZ(s.data), f={source:d.source||"youtube",url:d.url||"",poster:d.poster,title:d.heading||""};
+    return wrapSec(s,shead(s)+filmCard(f,0));
+  },
+  films(s){
+    const d=LZ(s.data), all=pub(DB.films).sort((a,b)=>a.order-b.order);
+    const list=d.all?all:all.slice(0,d.limit||3);
+    if(!list.length) return wrapSec(s,shead(s)+emptyBox("No films yet","Add a film in the CMS — YouTube, Vimeo, a reel link or an uploaded file."));
+    return wrapSec(s,shead(s,d.all?"":`<a class="tlink" href="#/films" data-link>${t("allFilms")}</a>`)+
+      `<div class="films stagger">${list.map(filmCard).join("")}</div>`);
+  },
+  testimonials(s){
+    const list=pub(DB.testimonials).sort((a,b)=>a.order-b.order);
+    if(!list.length) return wrapSec(s,shead(s)+emptyBox("No reviews published","Only add reviews clients have actually given you."));
+    return wrapSec(s,shead(s)+`<div class="quotes stagger">${list.map(t=>
+      `<figure class="quote"><div class="stars" aria-label="${t.rating} out of 5">${"★".repeat(clamp(t.rating||5,1,5))}</div>
+       <blockquote>${esc(LZ(t).text)}</blockquote>
+       <figcaption>${esc(t.name)}<small>${esc(t.event||"")}</small></figcaption></figure>`).join("")}</div>`);
+  },
+  social_wall(s){
+    const d=LZ(s.data), n=d.count||8;
+    const tiles=Array.from({length:n},(_,i)=>`<a class="cell" href="${esc(d.url||"#")}" target="_blank" rel="noopener" data-cursor="OPEN">
+      ${frame({id:"ig"+i,alt:"Instagram placeholder tile"},"r11",{sizes:"(min-width:1200px) 24vw,50vw"})}</a>`).join("");
+    return wrapSec(s,shead(s,`<a class="tlink" href="${esc(d.url||"#")}" target="_blank" rel="noopener">${esc(d.handle||"Instagram")}</a>`)+
+      `<div class="sheet stagger">${tiles}</div>
+       <p class="dim" style="font-size:.85rem;margin-top:18px;max-width:60ch">Instagram is not scraped. Tiles are placeholders until the studio uploads or links approved posts in the CMS.</p>`);
+  },
+  gallery(s){
+    const d=LZ(s.data), pool=pub(DB.projects).flatMap(p=>p.media||[]).slice(0,d.count||8);
+    if(!pool.length) return wrapSec(s,shead(s)+emptyBox("Gallery is empty","Upload images to the media library first."));
+    return wrapSec(s,shead(s)+`<div class="sheet stagger" data-gallery>${pool.map((m,i)=>
+      `<button class="cell" data-lb="${i}" data-cursor="VIEW" aria-label="Open image ${i+1}">
+        <span class="cell__frame-no">${String(i+1).padStart(2,"0")}</span>${frame(m,"r34",{sizes:"(min-width:1200px) 24vw,50vw"})}</button>`).join("")}</div>`,
+    );
+  },
+  social_embeds(s){
+    const d=LZ(s.data), all=pub(DB.social_embeds||[]).sort((a,b)=>a.order-b.order);
+    const list=d.all?all:all.slice(0,d.limit||3);
+    if(!list.length) return wrapSec(s,shead(s)+emptyBox("No embeds yet","Paste a post URL from YouTube, Vimeo, Instagram, Facebook, Pinterest or X in the CMS."));
+    return wrapSec(s,shead(s)+`<div class="embeds stagger">${list.map(embedCard).join("")}</div>`);
+  },
+  quote(s){
+    const d=LZ(s.data);
+    return wrapSec(s,`<blockquote class="lede" style="max-width:24ch;font-size:clamp(1.5rem,3.6vw,2.6rem);font-style:italic;margin:0">${esc(d.heading||"")}</blockquote>
+      ${d.sub?`<p class="num" style="margin-top:20px">— ${esc(d.sub)}</p>`:""}`);
+  },
+  statistics(s){
+    const d=LZ(s.data), items=d.items||[];
+    return wrapSec(s,shead(s)+`<div class="stats stagger">${items.map(i=>
+      `<div class="stat"><b>${esc(i.value)}</b><span>${esc(i.label)}</span></div>`).join("")}</div>`);
+  },
+  cta(s){
+    const d=LZ(s.data);
+    return wrapSec(s,`<div class="cta-band"><h2 class="d2">${esc(d.heading||"")}</h2>
+      ${d.body?`<p class="dim" style="max-width:46ch;margin:18px auto 0">${esc(d.body)}</p>`:""}
+      <div class="row"><a class="btn" href="${esc(d.ctaHref||"#/contact")}" data-link>${esc(d.ctaLabel||"Get in touch")}</a>
+      <a class="btn btn--ghost" id="ctaWa" href="#" target="_blank" rel="noopener">${t("whatsapp")}</a></div></div>`,"cta-band-sec");
+  },
+  contact(s){
+    const d=LZ(s.data), st=LZ(DB.settings);
+    return wrapSec(s,shead(s)+`<div class="split">
+      <form class="form" id="enqForm" novalidate>
+        <div class="field"><label for="f_name">${t("name")}</label><input id="f_name" name="name" required maxlength="80"><span class="err" data-for="name"></span></div>
+        <div class="field"><label for="f_phone">${t("phone")}</label><input id="f_phone" name="phone" inputmode="tel" required maxlength="20"><span class="err" data-for="phone"></span></div>
+        <div class="field"><label for="f_email">${t("email")}</label><input id="f_email" name="email" type="email" required maxlength="120"><span class="err" data-for="email"></span></div>
+        <div class="field"><label for="f_type">${t("eventType")}</label><select id="f_type" name="eventType">
+          ${pub(DB.services).map(v=>`<option>${esc(v.title)}</option>`).join("")}<option>Something else</option></select></div>
+        <div class="field"><label for="f_date">${t("eventDate")}</label><input id="f_date" name="eventDate" type="date"><span class="err" data-for="eventDate"></span></div>
+        <div class="field"><label for="f_loc">${t("location")}</label><input id="f_loc" name="location" maxlength="120"></div>
+        <div class="field"><label for="f_guests">${t("guests")}</label><input id="f_guests" name="guests" inputmode="numeric" maxlength="6"><span class="err" data-for="guests"></span></div>
+        <div class="field"><label for="f_pref">${t("prefer")}</label><select id="f_pref" name="contactPref"><option>WhatsApp</option><option>Phone call</option><option>Email</option></select></div>
+        <div class="field field--full"><label for="f_msg">${t("message")}</label><textarea id="f_msg" name="message" maxlength="1500"></textarea><span class="err" data-for="message"></span></div>
+        <input type="text" name="website" tabindex="-1" autocomplete="off" class="sr" aria-hidden="true">
+        <div class="field field--full"><button class="btn" type="submit" id="enqSubmit">${t("send")}</button></div>
+        <div id="enqResult" role="status"></div>
+      </form>
+      <div class="prose">
+        <h3 class="d3" style="margin-bottom:16px">${t("reachUs")}</h3>
+        <p><a class="tlink" href="tel:${esc((st.phone||"").replace(/\s/g,""))}">${esc(st.phone)}</a></p>
+        <p><a class="tlink" href="mailto:${esc(st.email)}">${esc(st.email)}</a></p>
+        <p class="dim" style="font-size:.95rem">${esc(st.address)}</p>
+        <p><a class="btn btn--ghost" id="contactWa" href="#" target="_blank" rel="noopener">${t("whatsapp")}</a></p>
+      </div></div>`);
+  },
+  map(s){
+    const d=LZ(s.data);
+    const ok=hostAllowed(d.embed||"");
+    return wrapSec(s,shead(s)+(ok?
+      `<div class="frame frame--r169"><iframe src="${esc(d.embed)}" title="Studio location map" loading="lazy" style="width:100%;height:100%;border:0"></iframe></div>`
+      : emptyBox("Map not set","Add a Google Maps embed URL in the CMS. Only Google, YouTube, Vimeo and Instagram URLs are accepted."))+
+      (d.address?`<p class="dim" style="margin-top:14px">${esc(d.address)}</p>`:""));
+  },
+  spacer(s){ return `<div style="height:${clamp(parseInt((s.data||{}).height||60,10),10,300)}px"></div>`; }
+};
+
+function filmCard(f,i){
+  const isYT=f.source==="youtube", isVM=f.source==="vimeo", isIG=f.source==="instagram", isUp=f.source==="upload";
+  const playable=(isYT&&ytId(f.url))||(isVM&&vimeoId(f.url))||(isUp&&f.url);
+  const badge=isYT?"YOUTUBE":isVM?"VIMEO":isIG?"INSTAGRAM":"FILM";
+  return `<article class="film" data-film='${esc(JSON.stringify({s:f.source,u:f.url}))}'>
+    <div class="frame frame--r169" style="position:relative">
+      ${img(f.poster,"","(min-width:900px) 33vw,95vw")}
+      <span class="film__badge">${badge}</span>
+      ${playable?`<button class="film__btn" aria-label="Play ${esc(f.title)}"><span class="film__play"></span></button>`
+        :`<a class="film__btn" href="${esc(f.url||"#")}" target="_blank" rel="noopener" aria-label="Open ${esc(f.title)}"><span class="film__play"></span></a>`}
+    </div>
+    <div class="film__body"><h3 class="d4">${esc(f.title||"")}</h3>
+      <p class="dim" style="font-size:.9rem;margin:6px 0 0">${esc(f.description||"")}</p>
+      ${f.url?`<a class="tlink" style="margin-top:10px" href="${esc(f.url)}" target="_blank" rel="noopener">${isIG?t("viewIG"):t("openTab")}</a>`:
+        `<p class="dim" style="font-size:.85rem;margin-top:8px">${t("noFile")}</p>`}
+    </div></article>`;
+}
+function embedCard(e){
+  const L=LZ(e), meta=socialEmbed(e.url), p=meta.p||"link";
+  const name=PLAT_NAME[p]||"Link";
+  const abbr=name.slice(0,2).toUpperCase();
+  const stage = meta.src
+    ? `<button class="film__btn" style="position:relative;min-height:180px" data-embed='${esc(JSON.stringify({src:meta.src,v:!!meta.video}))}'>
+         <span class="film__play"></span><span class="sr">${esc(t("loadPost"))}</span></button>`
+    : `<div style="padding:26px 16px;text-align:center">
+         <p class="dim" style="margin:0 0 14px;font-size:.9rem">${esc(name)} does not allow embedding here.</p>
+         <a class="btn btn--sm" href="${esc(e.url)}" target="_blank" rel="noopener">${esc(t("openOn"))} ${esc(name)}</a></div>`;
+  return `<article class="emb">
+    <header class="emb__bar"><span class="emb__dot" data-p="${esc(p)}">${esc(abbr)}</span>
+      <span class="emb__name">${esc(name.toUpperCase())}</span>
+      <a class="emb__open" href="${esc(e.url)}" target="_blank" rel="noopener">${esc(t("openTab"))} ↗</a></header>
+    <div class="emb__stage ${meta.video?"emb__stage--v":""}">${stage}</div>
+    <div class="emb__body"><h3>${esc(L.title||"")}</h3>${L.caption?`<p>${esc(L.caption)}</p>`:""}</div>
+  </article>`;
+}
+function emptyBox(title,body){
+  return `<div class="empty"><h3>${esc(title)}</h3><p>${esc(body)}</p></div>`;
+}
+
+</script>
+<script>
+/* ============================================================
+   3. DETAIL PAGES
+   ============================================================ */
+function projectPage(P){
+  const p=P?Object.assign({},P,LZ(P)):null;
+  if(!p) return notFound("That project isn't published.");
+  const rel=pub(DB.projects).filter(x=>x.id!==p.id&&x.categoryId===p.categoryId).slice(0,4);
+  const media=p.media||[];
+  const blocks=media.map((m,i)=>{
+    const mod=i%5;
+    if(mod===0) return `<div class="sec sec--tight"><div class="wrap"><button class="cell" data-lb="${i}" data-cursor="VIEW" style="width:100%" aria-label="Open frame ${i+1}">${frame(m,"r169",{sizes:"92vw"})}</button></div></div>`;
+    if(mod===1) return "";
+    if(mod===2) return `<div class="sec sec--tight"><div class="wrap" style="display:grid;justify-items:center"><button class="cell" data-lb="${i}" data-cursor="VIEW" style="max-width:min(560px,86vw)" aria-label="Open frame ${i+1}">${frame(m,"r23",{sizes:"(min-width:900px) 40vw,86vw"})}</button></div></div>`;
+    if(mod===3) return `<div class="sec sec--tight"><div class="wrap split">
+        <button class="cell" data-lb="${i}" data-cursor="VIEW" aria-label="Open frame ${i+1}">${frame(m,"r34",{sizes:"46vw"})}</button>
+        ${media[i+1]?`<button class="cell" data-lb="${i+1}" data-cursor="VIEW" aria-label="Open frame ${i+2}">${frame(media[i+1],"r34",{sizes:"46vw"})}</button>`:""}
+      </div></div>`;
+    return "";
+  }).join("");
+  const pairs=media.map((m,i)=>i).filter(i=>i%5===1).map(i=>`<div class="sec sec--tight"><div class="wrap split">
+      <button class="cell" data-lb="${i}" data-cursor="VIEW" aria-label="Open frame ${i+1}">${frame(media[i],"r23",{sizes:"46vw"})}</button>
+      <div class="prose" style="align-self:center"><p class="lede">${esc(p.excerpt)}</p></div></div></div>`).join("");
+  return `
+  <section class="hero" style="min-height:76svh">
+    <div class="hero__media">${img(p.cover,"","100vw",true)}</div>
+    <div class="wrap hero__in" style="padding-top:22vh">
+      <p class="num rise" data-d="1">${esc(catName(p.categoryId))} · ${esc(p.location||"")} · ${fmtDate(p.date)}</p>
+      <h1 class="d1 rise" data-d="2" style="max-width:13ch;margin-top:14px">${esc(p.title)}</h1>
+    </div>
+  </section>
+  <section class="sec sec--paper"><div class="wrap split" data-anim="fade-up">
+    <h2 class="d3" style="max-width:18ch">${esc(p.excerpt)}</h2>
+    <div class="prose">${String(p.description||"").split("\n\n").map(t=>`<p>${esc(t)}</p>`).join("")}</div>
+  </div></section>
+  <div data-gallery>${blocks}${pairs}</div>
+  ${p.videoUrl?SECTIONS.video({type:"video",anim:"fade-up",data:{heading:"The film",source:ytId(p.videoUrl)?"youtube":"vimeo",url:p.videoUrl,poster:p.cover}}):""}
+  ${rel.length?`<section class="sec"><div class="wrap">
+    <div class="shead"><span class="num">${t("next")}</span><h2 class="d2">${t("moreWork")}</h2></div>
+    <div class="sheet stagger">${rel.map(cellHTML).join("")}</div></div></section>`:""}
+  ${SECTIONS.cta({type:"cta",anim:"fade-up",data:{heading:"Planning something similar?",body:"Tell us the date and we'll check availability.",ctaLabel:"Start an enquiry",ctaHref:"#/contact"}})}`;
+}
+
+function servicePage(V){
+  const v=V?Object.assign({},V,LZ(V)):null;
+  if(!v) return notFound("That service isn't published.");
+  return `
+  <section class="hero" style="min-height:64svh">
+    <div class="hero__media">${img(v.cover,"","100vw",true)}</div>
+    <div class="wrap hero__in" style="padding-top:20vh">
+      <p class="num rise" data-d="1">SERVICE</p>
+      <h1 class="d1 rise" data-d="2" style="max-width:12ch;margin-top:12px">${esc(v.title)}</h1>
+      <p class="hero__sub rise" data-d="3">${esc(v.short)}</p>
+    </div></section>
+  <section class="sec sec--paper"><div class="wrap split" data-anim="fade-up">
+    <div class="prose">${String(v.long||"").split("\n\n").map(t=>`<p>${esc(t)}</p>`).join("")}</div>
+    <div><h3 class="d4" style="margin-bottom:14px">${t("included")}</h3>
+      <ul style="list-style:none;padding:0;margin:0;display:grid;gap:10px">
+        ${(v.features||[]).map(f=>`<li style="display:flex;gap:10px"><span style="color:var(--mark)">●</span><span>${esc(f)}</span></li>`).join("")}
+      </ul>
+      <a class="btn" style="margin-top:24px" href="#/contact" data-link>${t("enquireAbout")} ${esc(v.title)}</a></div>
+  </div></section>
+  ${(v.gallery||[]).length?`<section class="sec"><div class="wrap"><div class="shead"><span class="num">${t("frames").toUpperCase()}</span><h2 class="d2">From recent ${esc(v.title.toLowerCase())} work</h2></div>
+    <div class="sheet stagger" data-gallery>${v.gallery.map((m,i)=>
+      `<button class="cell" data-lb="${i}" data-cursor="VIEW" aria-label="Open frame ${i+1}"><span class="cell__frame-no">${String(i+1).padStart(2,"0")}</span>${frame(m,"r34",{sizes:"(min-width:1200px) 24vw,50vw"})}</button>`).join("")}</div></div></section>`:""}
+  ${(v.faq||[]).length?`<section class="sec sec--paper"><div class="wrap" data-anim="fade-up">
+    <div class="shead"><span class="num">FAQ</span><h2 class="d2">${t("faq")}</h2></div>
+    <div style="display:grid;gap:14px;max-width:70ch">${v.faq.map(f=>
+      `<details style="border-top:1px solid rgba(33,28,23,.2);padding:14px 0">
+        <summary style="cursor:pointer;font-family:var(--display);font-weight:600;font-size:1.02rem">${esc(f.q)}</summary>
+        <p style="margin:10px 0 0;color:var(--on-paper-dim)">${esc(f.a)}</p></details>`).join("")}</div></div></section>`:""}
+  ${SECTIONS.cta({type:"cta",anim:"fade-up",data:{heading:"Check your date.",ctaLabel:"Start an enquiry",ctaHref:"#/contact"}})}`;
+}
+
+function storyPage(T){
+  const t=T?Object.assign({},T,LZ(T)):null;
+  if(!t) return notFound("That story isn't published.");
+  const rel=pub(DB.stories).filter(x=>x.id!==t.id).slice(0,3);
+  return `
+  <article>
+  <section class="sec" style="padding-top:clamp(120px,18vh,220px)"><div class="wrap" data-anim="fade-up">
+    <p class="num">${esc(t.category||"Journal")} · ${fmtDate(t.date)} · ${esc(t.author||"")}</p>
+    <h1 class="d2" style="max-width:20ch;margin:16px 0 22px">${esc(t.title)}</h1>
+    <p class="lede dim" style="max-width:52ch">${esc(t.excerpt)}</p>
+  </div></section>
+  <div class="wrap" data-anim="clip">${frame(t.cover,"r169",{sizes:"92vw",eager:true})}</div>
+  <section class="sec"><div class="wrap"><div class="prose" style="margin:0 auto">
+    ${String(t.body||"").split("\n\n").map(p=>`<p>${esc(p)}</p>`).join("")}</div></div></section>
+  ${(t.gallery||[]).length?`<div class="wrap" data-gallery><div class="sheet stagger">${t.gallery.map((m,i)=>
+    `<button class="cell" data-lb="${i}" data-cursor="VIEW" aria-label="Open frame ${i+1}">${frame(m,"r34",{sizes:"(min-width:1200px) 24vw,50vw"})}</button>`).join("")}</div></div>`:""}
+  <section class="sec sec--tight"><div class="wrap row" style="gap:12px;align-items:center">
+    <span class="num">${t("share").toUpperCase()}</span>
+    <button class="btn btn--ghost btn--sm" data-share="copy">${t("copyLink")}</button>
+    <a class="btn btn--ghost btn--sm" data-share="wa" href="#" target="_blank" rel="noopener">WhatsApp</a>
+  </div></section>
+  </article>
+  ${rel.length?`<section class="sec sec--paper"><div class="wrap"><div class="shead"><span class="num">MORE</span><h2 class="d2">${t("keepReading")}</h2></div>
+    <div class="stories stagger">${rel.map(s=>`<a class="story-card" href="#/stories/${esc(s.slug)}" data-link data-cursor="READ">
+      ${frame(s.cover,"r43",{sizes:"32vw"})}<span class="story-meta">${esc(s.category||"")} · ${fmtDate(s.date)}</span>
+      <h3>${esc(LZ(s).title)}</h3><p>${esc(LZ(s).excerpt)}</p></a>`).join("")}</div></div></section>`:""}`;
+}
+
+function notFound(msg){
+  return `<section class="page404"><div class="wrap">
+    <p class="num">ERROR 404</p>
+    <h1 class="d1" style="margin:16px 0">${t("e404")}</h1>
+    <p class="dim" style="max-width:44ch;margin:0 auto 26px">${esc(msg||t("e404sub"))}</p>
+    <a class="btn" href="#/" data-link>${t("home")}</a></div></section>`;
+}
+
+/* ============================================================
+   4. ROUTER + CHROME
+   ============================================================ */
+function renderChrome(){
+  const st=LZ(DB.settings);
+  $("#brandName").textContent=st.brand||"QUALITY PHOTOS";
+  $("#brandTag").textContent=st.tagline||"";
+  const items=(DB.navigation.header||[]).filter(i=>i.enabled);
+  $("#navMain").innerHTML=items.map(i=>`<a href="${esc(i.path)}" data-link>${esc(LZ(i).label)}</a>`).join("");
+  $("#menuList").innerHTML=items.map((i,n)=>`<li><a href="${esc(i.path)}" data-link><span class="num">${String(n+1).padStart(2,"0")}</span>${esc(LZ(i).label)}</a></li>`).join("");
+  $("#menuPhone").href="tel:"+String(st.phone||"").replace(/\s/g,"");
+  $("#menuPhone").textContent=t("call");
+  $("#hdrCta").textContent=t("book");
+  const mc=$("#menuCta"); if(mc) mc.textContent=t("book");
+  $$("#langBtn,#langBtn2").forEach(b=>b.textContent=t("langName"));
+  $(".menu__top .num").textContent=t("menu");
+  $("#lbHint").textContent=t("esc");
+  $("#waBtn").querySelector("span").textContent=LANG==="mr"?"व्हॉट्सॲप":"WhatsApp";
+  const wa=waLink(); $("#waBtn").href=wa;
+  const soc=(st.social||[]).filter(s=>s.enabled&&s.url);
+  $("#foot").innerHTML=`<div class="wrap">
+    <div class="foot__grid">
+      <div><a class="brand" href="#/" data-link><b>${esc(st.brand)}</b><span>${esc(st.tagline)}</span></a>
+        <p class="dim" style="font-size:.93rem;max-width:34ch;margin-top:16px">${esc(st.footerText||"")}</p></div>
+      <div><h4>${esc(t("pages").toUpperCase())}</h4><ul>${(DB.navigation.footer||[]).filter(i=>i.enabled).map(i=>`<li><a href="${esc(i.path)}" data-link>${esc(LZ(i).label)}</a></li>`).join("")}</ul></div>
+      <div><h4>${esc(t("studio").toUpperCase())}</h4><ul>
+        <li><a href="tel:${esc(String(st.phone||"").replace(/\s/g,""))}">${esc(st.phone||"")}</a></li>
+        <li><a href="mailto:${esc(st.email||"")}">${esc(st.email||"")}</a></li>
+        <li><span class="dim" style="font-size:.93rem">${esc(st.address||"")}</span></li></ul></div>
+      <div><h4>${esc(t("elsewhere").toUpperCase())}</h4><ul>${soc.length?soc.map(s=>`<li><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.label)}</a></li>`).join("")
+        :`<li><span class="dim">No links configured yet.</span></li>`}</ul></div>
+    </div>
+    <div class="foot__bot"><span>${esc(st.copyright||"")}</span>
+      <span>Demo content is marked. <a href="#/admin" data-link style="text-decoration:underline">CMS</a></span></div>
+  </div>`;
+}
+function waLink(text){
+  const st=DB.settings, num=String(st.whatsapp||"").replace(/\D/g,"");
+  const msg=encodeURIComponent(text||st.waMessage||"Hello");
+  return num?`https://wa.me/${num}?text=${msg}`:"https://wa.me/";
+}
+function setSEO(title,desc,page){
+  document.title=title||DB.settings.seoTitle;
+  const set=(sel,val)=>{const el=$(sel); if(el) el.setAttribute("content",val||"");};
+  document.documentElement.lang=LANG==="mr"?"mr":"en";
+  set('meta[name="description"]',desc||DB.settings.seoDesc);
+  set('meta[property="og:title"]',title||DB.settings.seoTitle);
+  set('meta[property="og:description"]',desc||DB.settings.seoDesc);
+  let ld=$("#ldjson"); if(!ld){ ld=document.createElement("script"); ld.type="application/ld+json"; ld.id="ldjson"; document.head.appendChild(ld); }
+  ld.textContent=JSON.stringify({"@context":"https://schema.org","@type":"LocalBusiness",
+    name:DB.settings.brand,description:DB.settings.seoDesc,telephone:DB.settings.phone,email:DB.settings.email,
+    address:DB.settings.address,image:[],sameAs:(DB.settings.social||[]).filter(s=>s.enabled&&s.url).map(s=>s.url)});
+}
+
+const PREV=()=>{ try{ return sessionStorage.getItem("qp.preview")==="1"; }catch(e){ return false; } };
+const visible=x=>!!x&&(x.status==="published"||PREV());
+function parseRoute(){
+  const h=(location.hash||"#/").replace(/^#/,"");
+  const parts=h.split("/").filter(Boolean);
+  return {a:parts[0]||"",b:parts[1]||""};
+}
+function route(){
+  const {a,b}=parseRoute();
+  closeMenu();
+  if(a==="admin"){ document.body.classList.add("adm-on"); Admin.mount(); return; }
+  document.body.classList.remove("adm-on");
+  const main=$("#main");
+  let html="", title="", desc="";
+
+  if(!a){ const p=pageBy("home"); html=renderPageSections(p); title=p.seoTitle; desc=p.seoDesc; }
+  else if(a==="portfolio"&&b){ const p=projBySlug(b); html=projectPage(visible(p)?p:null);
+    title=p?`${p.title} — ${DB.settings.brand}`:"Not found"; desc=p?p.excerpt:""; }
+  else if(a==="services"&&b){ const v=svcBySlug(b); html=servicePage(visible(v)?v:null);
+    title=v?`${v.title} — ${DB.settings.brand}`:"Not found"; desc=v?v.short:""; }
+  else if(a==="stories"&&b){ const t=storyBySlug(b); html=storyPage(visible(t)?t:null);
+    title=t?`${t.title} — ${DB.settings.brand}`:"Not found"; desc=t?t.excerpt:""; }
+  else { const p=pageBy(a); if(visible(p)){ html=renderPageSections(p); title=p.seoTitle||p.title; desc=p.seoDesc; }
+    else { html=notFound(); title="Not found — "+DB.settings.brand; } }
+
+  main.innerHTML=html;
+  setSEO(title,desc);
+  window.scrollTo({top:0,behavior:reduced()?"auto":"instant"});
+  afterRender();
+}
+function renderPageSections(page){
+  if(!page) return notFound();
+  return (page.sections||[]).filter(s=>s.enabled).map(s=>{
+    const fn=SECTIONS[s.type];
+    return fn?fn(s):`<!-- unknown section ${esc(s.type)} -->`;
+  }).join("");
+}
+
+/* run after each render: observers, bindings */
+function afterRender(){
+  observeReveals();
+  bindGalleries();
+  bindFilms();
+  bindFilters();
+  bindEnquiry();
+  bindEmbeds();
+  bindShare();
+  $$("#ctaWa,#contactWa").forEach(a=>a.href=waLink());
+  $$("#navMain a").forEach(a=>{
+    const cur=location.hash||"#/";
+    a.classList.toggle("is-on", a.getAttribute("href")===cur || (a.getAttribute("href")!=="#/"&&cur.startsWith(a.getAttribute("href"))));
+  });
+  bindCursorTargets();
+}
+
+</script>
+<script>
+/* ============================================================
+   5. BEHAVIOUR — reveals, lightbox, films, forms, cursor
+   ============================================================ */
+let IO=null;
+function observeReveals(){
+  if(IO) IO.disconnect();
+  if(reduced()||typeof IntersectionObserver==="undefined"){ $$("[data-anim],.stagger").forEach(el=>el.classList.add("in")); return; }
+  IO=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("in"); IO.unobserve(e.target); } });
+  },{rootMargin:"0px 0px -12% 0px",threshold:.06});
+  $$("[data-anim],.stagger").forEach(el=>IO.observe(el));
+}
+
+/* ---------- lightbox ---------- */
+const LB={i:0,list:[],lastFocus:null,zoom:false};
+function collect(container){
+  return $$("[data-lb]",container).map(btn=>{
+    const im=$("img",btn), cap=$(".cell__meta h3",btn);
+    return {src:im?im.src:"",alt:im?im.alt:"",cap:(cap?cap.textContent:"")||(im?im.alt:"")};
+  });
+}
+function bindGalleries(){
+  $$("[data-gallery]").forEach(g=>{
+    const list=collect(g);
+    $$("[data-lb]",g).forEach((btn,idx)=>{
+      btn.addEventListener("click",ev=>{ ev.preventDefault(); openLB(list,idx,btn); });
+    });
+  });
+}
+function openLB(list,idx,origin){
+  if(!list.length) return;
+  LB.list=list; LB.i=idx; LB.lastFocus=origin||document.activeElement;
+  $("#lb").classList.add("is-open"); document.body.style.overflow="hidden";
+  paintLB(); $("#lbClose").focus();
+}
+function paintLB(){
+  const it=LB.list[LB.i]; if(!it) return;
+  const im=$("#lbImg"); im.src=it.src; im.alt=it.alt||""; im.classList.remove("is-zoom"); LB.zoom=false;
+  $("#lbCap").textContent=it.cap||"";
+  $("#lbCount").textContent=(LB.i+1)+" / "+LB.list.length;
+  const multi=LB.list.length>1;
+  $("#lbPrev").style.display=multi?"grid":"none"; $("#lbNext").style.display=multi?"grid":"none";
+}
+function closeLB(){
+  $("#lb").classList.remove("is-open"); document.body.style.overflow="";
+  if(LB.lastFocus&&LB.lastFocus.focus) LB.lastFocus.focus();
+}
+const stepLB=n=>{ LB.i=(LB.i+n+LB.list.length)%LB.list.length; paintLB(); };
+$("#lbClose").addEventListener("click",closeLB);
+$("#lbPrev").addEventListener("click",()=>stepLB(-1));
+$("#lbNext").addEventListener("click",()=>stepLB(1));
+$("#lbZoom").addEventListener("click",()=>{ LB.zoom=!LB.zoom; $("#lbImg").classList.toggle("is-zoom",LB.zoom); });
+$("#lbImg").addEventListener("click",()=>{ LB.zoom=!LB.zoom; $("#lbImg").classList.toggle("is-zoom",LB.zoom); });
+$("#lb").addEventListener("keydown",e=>{
+  if(e.key==="Escape") closeLB();
+  else if(e.key==="ArrowLeft") stepLB(-1);
+  else if(e.key==="ArrowRight") stepLB(1);
+  else if(e.key==="Tab"){ /* focus trap */
+    const f=$$("button,[href]",$("#lb")).filter(el=>el.offsetParent!==null);
+    if(!f.length) return;
+    const first=f[0], last=f[f.length-1];
+    if(e.shiftKey && document.activeElement===first){ e.preventDefault(); last.focus(); }
+    else if(!e.shiftKey && document.activeElement===last){ e.preventDefault(); first.focus(); }
+  }
+});
+/* touch swipe */
+(function(){
+  let x0=null,y0=null;
+  const st=$("#lbStage");
+  st.addEventListener("touchstart",e=>{x0=e.touches[0].clientX;y0=e.touches[0].clientY;},{passive:true});
+  st.addEventListener("touchend",e=>{
+    if(x0===null) return;
+    const dx=e.changedTouches[0].clientX-x0, dy=e.changedTouches[0].clientY-y0;
+    if(Math.abs(dx)>52&&Math.abs(dx)>Math.abs(dy)) stepLB(dx<0?1:-1);
+    else if(dy>90) closeLB();
+    x0=null;
+  },{passive:true});
+})();
+
+/* ---------- films (click-to-load, never autoplay) ---------- */
+function bindFilms(){
+  $$(".film").forEach(card=>{
+    const btn=$("button.film__btn",card); if(!btn) return;
+    btn.addEventListener("click",()=>{
+      let meta={}; try{ meta=JSON.parse(card.getAttribute("data-film")||"{}"); }catch(e){}
+      const holder=$(".frame",card);
+      if(meta.s==="upload"&&meta.u){
+        holder.outerHTML=`<video controls autoplay playsinline preload="metadata" style="width:100%;aspect-ratio:16/9;background:#000">
+          <source src="${esc(meta.u)}"><p>Your browser can't play this file. <a href="${esc(meta.u)}">Download it instead.</a></p></video>`;
+        return;
+      }
+      const src=embedSrc({source:meta.s,url:meta.u});
+      if(!src){ toast("That video link isn't valid. Check it in the CMS."); return; }
+      holder.outerHTML=`<div style="position:relative">
+        <iframe src="${esc(src)}" title="Video player" allow="accelerometer;autoplay;encrypted-media;picture-in-picture" allowfullscreen loading="lazy"></iframe>
+        <p class="dim" style="font-size:.78rem;margin:8px 0 0">Player blocked? <a class="tlink" href="${esc(meta.u)}" target="_blank" rel="noopener">Open it in a new tab</a>.</p></div>`;
+    });
+  });
+}
+
+/* ---------- social embeds (click to load, nothing third-party runs until asked) ---------- */
+function bindEmbeds(){
+  $$("[data-embed]").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      let m={}; try{ m=JSON.parse(btn.getAttribute("data-embed")||"{}"); }catch(e){}
+      if(!m.src){ toast("That embed URL isn't valid."); return; }
+      const stage=btn.parentElement;
+      stage.innerHTML=`<iframe src="${esc(m.src)}" title="Embedded post" loading="lazy" scrolling="no"
+        allow="accelerometer;autoplay;clipboard-write;encrypted-media;picture-in-picture" allowfullscreen></iframe>`;
+    });
+  });
+}
+
+/* ---------- portfolio filters ---------- */
+function bindFilters(){
+  const bar=$("#pfFilters"); if(!bar) return;
+  bar.addEventListener("click",e=>{
+    const b=e.target.closest(".chip"); if(!b) return;
+    $$(".chip",bar).forEach(c=>c.setAttribute("aria-pressed",String(c===b)));
+    const cat=b.dataset.cat, cells=$$("#pfGrid .cell");
+    let n=0;
+    cells.forEach(c=>{
+      const p=DB.projects.find(x=>c.getAttribute("href")==="#/portfolio/"+x.slug);
+      const show=cat==="all"||(p&&p.categoryId===cat);
+      c.style.display=show?"":"none"; if(show) n++;
+    });
+    const cnt=$("#pfCount"); if(cnt) cnt.textContent=n+(n===1?" PROJECT":" PROJECTS");
+    const grid=$("#pfGrid"); if(!n){ if(!$("#pfEmpty")){ grid.insertAdjacentHTML("afterend",
+      `<div id="pfEmpty" class="empty"><h3>Nothing in this category yet</h3><p>Publish a project under it in the CMS.</p></div>`); } }
+    else { const e2=$("#pfEmpty"); if(e2) e2.remove(); }
+  });
+}
+
+/* ---------- enquiry form (validated client + "server" side) ---------- */
+const RX_EMAIL=/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
+const RX_PHONE=/^[0-9+\-\s()]{7,20}$/;
+function validateEnquiry(d){
+  const e={};
+  if(!d.name||d.name.trim().length<2) e.name=t("errName");
+  if(!RX_PHONE.test(d.phone||"")) e.phone=t("errPhone");
+  if(!RX_EMAIL.test(d.email||"")) e.email=t("errEmail");
+  if(d.eventDate){ const dt=new Date(d.eventDate); if(isNaN(dt)) e.eventDate=t("errDate"); }
+  if(d.guests&&!/^\d{1,6}$/.test(d.guests)) e.guests=t("errGuests");
+  if((d.message||"").length>1500) e.message=t("errLong");
+  if(JSON.stringify(d).length>20000) e.message="That's too much data to send.";
+  return e;
+}
+function bindEnquiry(){
+  const f=$("#enqForm"); if(!f) return;
+  f.addEventListener("submit",ev=>{
+    ev.preventDefault();
+    const fd=Object.fromEntries(new FormData(f).entries());
+    $$(".err",f).forEach(s=>s.textContent="");
+    const res=$("#enqResult"); res.innerHTML="";
+    if(fd.website){ res.innerHTML=`<div class="notice">Submission rejected.</div>`; return; }   /* honeypot */
+    const errs=validateEnquiry(fd);
+    if(Object.keys(errs).length){
+      Object.entries(errs).forEach(([k,v])=>{ const s=$(`.err[data-for="${k}"]`,f); if(s) s.textContent=v; });
+      res.innerHTML=`<div class="notice">${esc(t("fixFields"))}</div>`;
+      const first=$(`[name="${Object.keys(errs)[0]}"]`,f); if(first) first.focus();
+      return;
+    }
+    const btn=$("#enqSubmit"); btn.disabled=true; btn.textContent=t("sending");
+    setTimeout(()=>{
+      DB.enquiries.unshift({id:uid("eq"),name:fd.name,phone:fd.phone,email:fd.email,eventType:fd.eventType,
+        eventDate:fd.eventDate||"",location:fd.location||"",guests:fd.guests||"",contactPref:fd.contactPref,
+        message:fd.message||"",status:"New",notes:"",createdAt:new Date().toISOString()});
+      save(); logAct("Received enquiry","enquiry",fd.name);
+      f.reset(); btn.disabled=false; btn.textContent=t("send");
+      res.innerHTML=`<div class="notice notice--ok"><b>${esc(t("sent"))}</b> ${esc(t("sentSub"))}</div>`;
+      if(res.scrollIntoView) res.scrollIntoView({block:"nearest",behavior:reduced()?"auto":"smooth"});
+    },420);
+  });
+}
+function bindShare(){
+  $$("[data-share]").forEach(el=>{
+    if(el.dataset.share==="wa"){ el.href=waLink(document.title+" "+location.href); return; }
+    el.addEventListener("click",async()=>{
+      try{ await navigator.clipboard.writeText(location.href); toast(t("copied"),true); }
+      catch(e){ toast("Copy failed — select the address bar instead."); }
+    });
+  });
+}
+
+/* ---------- header, menu, links ---------- */
+const hdr=$("#hdr");
+let lastY=0;
+function onScroll(){ hdr.classList.toggle("is-stuck", window.scrollY>40); }
+window.addEventListener("scroll",()=>{ requestAnimationFrame(onScroll); },{passive:true});
+function openMenu(){ $("#menu").classList.add("is-open"); $("#burger").setAttribute("aria-expanded","true"); document.body.style.overflow="hidden"; $("#menuClose").focus(); }
+function closeMenu(){ $("#menu").classList.remove("is-open"); $("#burger").setAttribute("aria-expanded","false"); document.body.style.overflow=""; }
+$("#burger").addEventListener("click",()=>$("#menu").classList.contains("is-open")?closeMenu():openMenu());
+$("#menuClose").addEventListener("click",closeMenu);
+document.addEventListener("keydown",e=>{ if(e.key==="Escape"){ closeMenu(); if($("#lb").classList.contains("is-open")) closeLB(); } });
+document.addEventListener("click",e=>{ const a=e.target.closest("a[data-link]"); if(a) closeMenu(); });
+
+/* ---------- language switch ---------- */
+$$("#langBtn,#langBtn2").forEach(b=>b.addEventListener("click",()=>setLang(LANG==="mr"?"en":"mr")));
+
+/* ---------- custom cursor (desktop only) ---------- */
+function bindCursorTargets(){
+  const cur=$("#cur");
+  if(reduced()||mq("(hover:none)").matches||window.innerWidth<1000){ cur.classList.remove("on"); return; }
+  cur.classList.add("on");
+}
+(function cursor(){
+  const cur=$("#cur"), label=$(".cur__t",cur);
+  let x=0,y=0,tx=0,ty=0,raf=null;
+  window.addEventListener("mousemove",e=>{
+    tx=e.clientX; ty=e.clientY;
+    if(!raf) raf=requestAnimationFrame(tick);
+    const t=e.target.closest("[data-cursor]");
+    if(t){ cur.classList.add("is-big"); label.textContent=t.dataset.cursor||"VIEW"; }
+    else cur.classList.remove("is-big");
+  },{passive:true});
+  function tick(){ x+=(tx-x)*.22; y+=(ty-y)*.22; cur.style.transform=`translate(${x}px,${y}px) translate(-50%,-50%)`;
+    raf=(Math.abs(tx-x)>.4||Math.abs(ty-y)>.4)?requestAnimationFrame(tick):null; }
+})();
+
+</script>
+<script>
+/* ============================================================
+   6. ADMIN CMS
+   Permissions are checked before every mutating action, not
+   just hidden in the UI.
+   ============================================================ */
+const DEMO_HASH={
+  "admin@qualityphotos.in":"bee111eca90c948fa76c0147870d9d6e44c7a589a6805292637e9537f941292e",
+  "editor@qualityphotos.in":"f5d467de14f2ed073653dd68eb25435b5439aaa95b855db464ee873218c2425a"
+};
+const PERMS={
+  super_admin:["dashboard","pages","portfolio","services","stories","films","media","testimonials","embeds","social","enquiries","navigation","settings","users","logs"],
+  editor:["dashboard","pages","portfolio","services","stories","films","media","testimonials","embeds","social","enquiries"]
+};
+const NAV_LABELS={dashboard:"Dashboard",pages:"Pages",portfolio:"Portfolio",services:"Services",stories:"Stories",
+  films:"Films",media:"Media",testimonials:"Testimonials",embeds:"Social embeds",social:"Social",enquiries:"Enquiries",
+  navigation:"Navigation",settings:"Settings",users:"Users",logs:"Activity log"};
+
+let SESSION=null;
+try{ SESSION=JSON.parse(sessionStorage.getItem("qp.session")||"null"); }catch(e){}
+let LOGIN_FAILS=0, LOCK_UNTIL=0;
+
+const can = v => !!(SESSION && (PERMS[SESSION.role]||[]).includes(v));
+function guard(v){
+  if(can(v)) return true;
+  toast("Your role doesn't allow that.");
+  return false;
+}
+
+/* ---------- modal ---------- */
+const Modal={
+  open(title,body,footer,wide){
+    $("#modalTitle").textContent=title;
+    $("#modalBody").innerHTML=body;
+    $("#modalFoot").innerHTML=footer||"";
+    $("#modalBox").classList.toggle("modal__box--wide",!!wide);
+    $("#modal").classList.add("is-open");
+    const f=$("#modalBody input,#modalBody select,#modalBody textarea"); if(f) f.focus();
+  },
+  close(){ $("#modal").classList.remove("is-open"); $("#modalBody").innerHTML=""; }
+};
+$("#modalX").addEventListener("click",Modal.close);
+$("#modal").addEventListener("click",e=>{ if(e.target.id==="modal") Modal.close(); });
+document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&$("#modal").classList.contains("is-open")) Modal.close(); });
+function confirmAction(msg,fn){
+  Modal.open("Confirm",`<p style="margin:0;color:var(--on-film-dim)">${esc(msg)}</p>`,
+    `<button class="abtn abtn--g" data-x="cancel">Cancel</button><button class="abtn abtn--d" data-x="ok">Yes, do it</button>`);
+  $("#modalFoot").onclick=e=>{
+    const b=e.target.closest("[data-x]"); if(!b) return;
+    Modal.close(); if(b.dataset.x==="ok") fn();
+  };
+}
+
+/* ---------- form builder ---------- */
+function fieldHTML(f,val){
+  const id="fx_"+f.k;
+  const lab=`<label for="${id}">${esc(f.label)}</label>`;
+  let inp="";
+  if(f.type==="textarea") inp=`<textarea id="${id}" data-k="${f.k}" ${f.rows?`style="min-height:${f.rows*22}px"`:""}>${esc(val||"")}</textarea>`;
+  else if(f.type==="select") inp=`<select id="${id}" data-k="${f.k}">${f.opts.map(o=>{
+      const [v,l]=Array.isArray(o)?o:[o,o];
+      return `<option value="${esc(v)}" ${String(val)===String(v)?"selected":""}>${esc(l)}</option>`;}).join("")}</select>`;
+  else if(f.type==="check") inp=`<label class="row" style="gap:8px"><span class="sw"><input type="checkbox" id="${id}" data-k="${f.k}" ${val?"checked":""}><i></i></span><span style="font-size:.84rem">${esc(f.hint||"Enabled")}</span></label>`;
+  else if(f.type==="media"){
+    const cur=val||{};
+    inp=`<div class="row" style="align-items:flex-start;gap:10px">
+      <img class="thumb" id="${id}_p" src="${cur.src||phSVG(cur.id||"x",120,120)}" alt="" style="width:62px;height:62px;border-radius:4px;object-fit:cover">
+      <select id="${id}" data-k="${f.k}" data-media="1" style="flex:1 1 160px">
+        <option value="">Placeholder frame</option>
+        ${DB.media.map(m=>`<option value="${m.id}" ${cur.id===m.id?"selected":""}>${esc(m.name)}</option>`).join("")}
+      </select></div>`;
+  }
+  else if(f.type==="list") inp=`<textarea id="${id}" data-k="${f.k}" data-list="1" style="min-height:80px">${esc((val||[]).join("\n"))}</textarea>`;
+  else inp=`<input id="${id}" data-k="${f.k}" type="${f.type||"text"}" value="${esc(val??"")}" ${f.max?`maxlength="${f.max}"`:""}>`;
+  return `<div class="afield">${f.type==="check"?"":lab}${inp}${f.hint&&f.type!=="check"?`<small>${esc(f.hint)}</small>`:""}</div>`;
+}
+function formHTML(fields,obj){
+  const g=fields.filter(f=>!f.full), full=fields.filter(f=>f.full);
+  return `<div class="grid2">${g.map(f=>fieldHTML(f,obj[f.k])).join("")}</div>${full.map(f=>fieldHTML(f,obj[f.k])).join("")}`;
+}
+function readForm(fields,orig){
+  const out={}; orig=orig||{};
+  fields.forEach(f=>{
+    const el=$(`#fx_${f.k}`); if(!el) return;
+    if(f.type==="check") out[f.k]=el.checked;
+    else if(f.type==="list") out[f.k]=el.value.split("\n").map(s=>s.trim()).filter(Boolean);
+    else if(f.type==="media"){
+      if(el.value) out[f.k]=DB.media.find(m=>m.id===el.value)||mk();
+      else out[f.k]=(orig[f.k]&&!orig[f.k].src)?orig[f.k]:mk();   /* keep the same placeholder frame */
+    }
+    else if(f.type==="number") out[f.k]=Number(el.value||0);
+    else out[f.k]=el.value;
+  });
+  return out;
+}
+document.addEventListener("change",e=>{
+  const s=e.target;
+  if(s.matches&&s.matches("select[data-media]")){
+    const p=$("#"+s.id+"_p"); if(!p) return;
+    const m=DB.media.find(x=>x.id===s.value);
+    p.src=m?(m.thumb||m.src):phSVG("x",120,120);
+  }
+});
+
+/* ---------- login ---------- */
+$("#loginForm").addEventListener("submit",async ev=>{
+  ev.preventDefault();
+  const err=$("#lgErr");
+  if(Date.now()<LOCK_UNTIL){ err.textContent="Too many attempts. Wait "+Math.ceil((LOCK_UNTIL-Date.now())/1000)+"s."; return; }
+  const email=$("#lgUser").value.trim().toLowerCase(), pass=$("#lgPass").value;
+  const user=DB.users.find(u=>u.email.toLowerCase()===email);
+  const hash=await sha256(pass);
+  const expect=user? (user.hash || DEMO_HASH[user.email]) : null;
+  if(!user || !expect || hash!==expect){
+    LOGIN_FAILS++; err.textContent="Email or password is wrong.";
+    if(LOGIN_FAILS>=5){ LOCK_UNTIL=Date.now()+30000; LOGIN_FAILS=0; err.textContent="Too many attempts. Locked for 30 seconds."; }
+    return;
+  }
+  LOGIN_FAILS=0; err.textContent="";
+  SESSION={id:user.id,name:user.name,email:user.email,role:user.role,at:Date.now()};
+  try{ sessionStorage.setItem("qp.session",JSON.stringify(SESSION)); }catch(e){}
+  logAct("Signed in","user",user.email);
+  $("#lgPass").value="";
+  Admin.mount();
+});
+$("#admLogout").addEventListener("click",()=>{
+  logAct("Signed out","user",SESSION&&SESSION.email);
+  SESSION=null; try{ sessionStorage.removeItem("qp.session"); }catch(e){}
+  Admin.mount();
+});
+$("#admBurger").addEventListener("click",()=>$("#admSide").classList.toggle("is-open"));
+
+/* ============================================================
+   Admin controller
+   ============================================================ */
+const Admin={
+  view:"dashboard",
+  mount(){
+    if(!SESSION){ $("#admLogin").style.display="grid"; $("#admShell").hidden=true; return; }
+    $("#admLogin").style.display="none"; $("#admShell").hidden=false;
+    $("#admWho").innerHTML=`<b style="display:block">${esc(SESSION.name)}</b><span>${SESSION.role==="super_admin"?"Super admin":"Editor"}</span>`;
+    const allowed=PERMS[SESSION.role]||[];
+    if(!allowed.includes(this.view)) this.view="dashboard";
+    $("#admNav").innerHTML=allowed.map(v=>{
+      let tag="";
+      if(v==="enquiries"){ const n=DB.enquiries.filter(e=>e.status==="New").length; if(n) tag=`<span class="tag">${n}</span>`; }
+      return `<button data-v="${v}" class="${v===this.view?"is-on":""}">${NAV_LABELS[v]}${tag}</button>`;
+    }).join("");
+    $("#admNav").onclick=e=>{ const b=e.target.closest("[data-v]"); if(!b) return;
+      this.view=b.dataset.v; $("#admSide").classList.remove("is-open"); this.mount(); };
+    $("#admClock").textContent=new Date().toLocaleString("en-IN",{dateStyle:"medium",timeStyle:"short"});
+    this.render();
+  },
+  render(){
+    const fn=VIEWS[this.view]||VIEWS.dashboard;
+    $("#admBody").innerHTML=fn();
+    if(BINDS[this.view]) BINDS[this.view]();
+  },
+  refresh(){ save(); this.mount(); }
+};
+function head(title,sub,actions){
+  return `<div class="crumb">CMS / ${esc(title.toUpperCase())}</div>
+  <div class="adm__head"><div><h2>${esc(title)}</h2>${sub?`<p>${esc(sub)}</p>`:""}</div>
+  <div class="row">${actions||""}</div></div>`;
+}
+function statusPill(s){
+  const c=s==="published"?"pub":s==="archived"?"arch":"draft";
+  return `<span class="pill pill--${c}">${esc(s)}</span>`;
+}
+
+</script>
+<script>
+/* ============================================================
+   7. ADMIN VIEWS
+   ============================================================ */
+const mediaOpts=()=>DB.media;
+const RES={
+  portfolio:{ key:"projects", one:"Project", plural:"Portfolio",
+    make:()=>({id:uid("pr"),title:"Untitled project",slug:"",categoryId:(DB.categories[0]||{}).id,date:new Date().toISOString().slice(0,10),
+      location:"",excerpt:"",description:"",cover:mk(),media:mks(4,"New project"),videoUrl:"",status:"draft",featured:false,order:0}),
+    fields:o=>[
+      {k:"title",label:"Title",max:90},{k:"title_mr",label:"Title (मराठी)",max:90},
+      {k:"slug",label:"Slug",hint:"Leave blank to generate from the title."},
+      {k:"categoryId",label:"Category",type:"select",opts:DB.categories.map(c=>[c.id,c.name])},
+      {k:"date",label:"Shoot date",type:"date"},{k:"location",label:"Location"},
+      {k:"cover",label:"Cover image",type:"media"},
+      {k:"status",label:"Status",type:"select",opts:STATUSES},
+      {k:"videoUrl",label:"Film URL",hint:"YouTube or Vimeo only."},
+      {k:"featured",label:"Featured",type:"check",hint:"Mark as a select — shows on the homepage"},
+      {k:"excerpt",label:"Short line",type:"textarea",full:true},
+      {k:"excerpt_mr",label:"Short line (मराठी)",type:"textarea",full:true},
+      {k:"description",label:"Description",type:"textarea",rows:6,full:true},
+      {k:"description_mr",label:"Description (मराठी)",type:"textarea",rows:6,full:true}],
+    cols:["","Title","Category","Date","Status",""],
+    row:o=>`<td><img class="thumb" src="${(o.cover&&o.cover.src)||phSVG(o.id,90,90)}" alt=""></td>
+      <td><b>${esc(o.title)}</b><br><span style="color:var(--silver);font-size:.75rem">/${esc(o.slug)} · ${(o.media||[]).length} frames${o.featured?" · select":""}</span></td>
+      <td>${esc(catName(o.categoryId))}</td><td>${fmtDate(o.date)}</td><td>${statusPill(o.status)}</td>`},
+  services:{ key:"services", one:"Service", plural:"Services",
+    make:()=>({id:uid("sv"),title:"New service",slug:"",short:"",long:"",cover:mk(),gallery:mks(3,"Service"),features:[],faq:[],status:"draft",order:99}),
+    fields:o=>[{k:"title",label:"Title"},{k:"title_mr",label:"Title (मराठी)"},{k:"slug",label:"Slug"},
+      {k:"cover",label:"Cover image",type:"media"},{k:"status",label:"Status",type:"select",opts:STATUSES},
+      {k:"order",label:"Display order",type:"number"},
+      {k:"short",label:"Short description",type:"textarea",full:true},
+      {k:"short_mr",label:"Short description (मराठी)",type:"textarea",full:true},
+      {k:"long",label:"Long description",type:"textarea",rows:5,full:true},
+      {k:"long_mr",label:"Long description (मराठी)",type:"textarea",rows:5,full:true},
+      {k:"features",label:"What's included",type:"list",hint:"One per line.",full:true}],
+    cols:["","Service","Order","Status",""],
+    row:o=>`<td><img class="thumb" src="${(o.cover&&o.cover.src)||phSVG(o.id,90,90)}" alt=""></td>
+      <td><b>${esc(o.title)}</b><br><span style="color:var(--silver);font-size:.75rem">${esc(o.short||"")}</span></td>
+      <td>${o.order}</td><td>${statusPill(o.status)}</td>`},
+  stories:{ key:"stories", one:"Story", plural:"Stories",
+    make:()=>({id:uid("st"),title:"Untitled story",slug:"",excerpt:"",cover:mk(),category:"Journal",author:(SESSION&&SESSION.name)||"",
+      date:new Date().toISOString().slice(0,10),status:"draft",body:"",gallery:mks(3,"Story"),videoUrl:""}),
+    fields:o=>[{k:"title",label:"Title"},{k:"title_mr",label:"Title (मराठी)"},{k:"slug",label:"Slug"},{k:"category",label:"Category"},
+      {k:"author",label:"Author"},{k:"date",label:"Publish date",type:"date"},
+      {k:"cover",label:"Cover image",type:"media"},{k:"status",label:"Status",type:"select",opts:STATUSES},
+      {k:"videoUrl",label:"Video URL",hint:"YouTube or Vimeo only."},
+      {k:"excerpt",label:"Excerpt",type:"textarea",full:true},
+      {k:"excerpt_mr",label:"Excerpt (मराठी)",type:"textarea",full:true},
+      {k:"body",label:"Body",type:"textarea",rows:10,hint:"Blank line between paragraphs.",full:true},
+      {k:"body_mr",label:"Body (मराठी)",type:"textarea",rows:10,full:true}],
+    cols:["","Story","Category","Date","Status",""],
+    row:o=>`<td><img class="thumb" src="${(o.cover&&o.cover.src)||phSVG(o.id,90,90)}" alt=""></td>
+      <td><b>${esc(o.title)}</b><br><span style="color:var(--silver);font-size:.75rem">/${esc(o.slug)}</span></td>
+      <td>${esc(o.category||"")}</td><td>${fmtDate(o.date)}</td><td>${statusPill(o.status)}</td>`},
+  films:{ key:"films", one:"Film", plural:"Films",
+    make:()=>({id:uid("fl"),title:"New film",description:"",source:"youtube",url:"",poster:mk(),status:"draft",order:99}),
+    fields:o=>[{k:"title",label:"Title"},
+      {k:"source",label:"Source",type:"select",opts:[["youtube","YouTube"],["vimeo","Vimeo"],["instagram","Instagram reel"],["upload","Uploaded file"]]},
+      {k:"url",label:"URL",hint:"Only YouTube, Vimeo and Instagram links are accepted.",full:true},
+      {k:"poster",label:"Poster image",type:"media"},{k:"status",label:"Status",type:"select",opts:STATUSES},
+      {k:"order",label:"Order",type:"number"},
+      {k:"description",label:"Description",type:"textarea",full:true}],
+    validate:o=>{
+      if(o.source==="upload") return "";
+      if(!o.url) return "Add a video URL.";
+      if(!hostAllowed(o.url)) return "That domain isn't on the embed whitelist.";
+      if(o.source==="youtube"&&!ytId(o.url)) return "No YouTube video ID found in that URL.";
+      if(o.source==="vimeo"&&!vimeoId(o.url)) return "No Vimeo video ID found in that URL.";
+      return "";
+    },
+    cols:["","Film","Source","Status",""],
+    row:o=>`<td><img class="thumb" src="${(o.poster&&o.poster.src)||phSVG(o.id,90,90)}" alt=""></td>
+      <td><b>${esc(o.title)}</b><br><span style="color:var(--silver);font-size:.75rem">${esc(o.url||"no file")}</span></td>
+      <td>${esc(o.source)}</td><td>${statusPill(o.status)}</td>`},
+  embeds:{ key:"social_embeds", one:"Embed", plural:"Social embeds",
+    make:()=>({id:uid("em"),title:"New embed",title_mr:"",caption:"",caption_mr:"",url:"",status:"draft",order:99}),
+    fields:o=>[{k:"title",label:"Title"},{k:"title_mr",label:"Title (मराठी)"},
+      {k:"url",label:"Post URL",hint:"YouTube, Vimeo, Instagram, Facebook, Pinterest or X.",full:true},
+      {k:"status",label:"Status",type:"select",opts:STATUSES},{k:"order",label:"Order",type:"number"},
+      {k:"caption",label:"Caption",type:"textarea",full:true},
+      {k:"caption_mr",label:"Caption (मराठी)",type:"textarea",full:true}],
+    validate:o=>{
+      if(!o.url) return "Paste the URL of the post you want to embed.";
+      if(!hostAllowed(o.url)) return "That domain isn't on the embed whitelist.";
+      const m=socialEmbed(o.url);
+      if(!m.p) return "Could not work out which platform that URL belongs to.";
+      return "";
+    },
+    cols:["Platform","Embed","Embeddable","Status",""],
+    row:o=>{ const m=socialEmbed(o.url);
+      return `<td><span class="pill">${esc(PLAT_NAME[m.p]||"—")}</span></td>
+      <td><b>${esc(o.title)}</b><br><span style="color:var(--silver);font-size:.75rem">${esc(o.url)}</span></td>
+      <td>${m.src?"iframe":"link only"}</td><td>${statusPill(o.status)}</td>`; }},
+  testimonials:{ key:"testimonials", one:"Testimonial", plural:"Testimonials",
+    make:()=>({id:uid("ts"),name:"",text:"",event:"",rating:5,order:99,status:"draft",image:mk()}),
+    fields:o=>[{k:"name",label:"Client name"},{k:"event",label:"Event type"},
+      {k:"rating",label:"Rating (1–5)",type:"number"},{k:"order",label:"Order",type:"number"},
+      {k:"image",label:"Photo",type:"media"},{k:"status",label:"Status",type:"select",opts:STATUSES},
+      {k:"text",label:"Review",type:"textarea",rows:5,hint:"Only publish reviews a client actually wrote.",full:true},
+      {k:"text_mr",label:"Review (मराठी)",type:"textarea",rows:5,full:true}],
+    cols:["","Client","Event","Status",""],
+    row:o=>`<td><img class="thumb" src="${(o.image&&o.image.src)||phSVG(o.id,90,90)}" alt=""></td>
+      <td><b>${esc(o.name||"(no name)")}</b><br><span style="color:var(--silver);font-size:.75rem">${esc((o.text||"").slice(0,72))}…</span></td>
+      <td>${esc(o.event||"")}</td><td>${statusPill(o.status)}</td>`}
+};
+
+function resList(name){
+  const r=RES[name], items=DB[r.key]||[];
+  const q=($("#admSearch")&&$("#admSearch").value||"").toLowerCase();
+  const shown=q?items.filter(o=>JSON.stringify(o).toLowerCase().includes(q)):items;
+  return head(r.plural,`${items.length} total · ${pub(items).length} published`,
+    `<button class="abtn" data-new="${name}">New ${r.one.toLowerCase()}</button>`)+
+    (shown.length?`<div class="panel scrollx"><table class="tbl"><thead><tr>${r.cols.map(c=>`<th>${c}</th>`).join("")}</tr></thead>
+      <tbody>${shown.map(o=>`<tr>${r.row(o)}<td style="text-align:right;white-space:nowrap">
+        <button class="abtn abtn--g abtn--xs" data-edit="${name}|${o.id}">Edit</button>
+        <button class="abtn abtn--g abtn--xs" data-dupe="${name}|${o.id}">Duplicate</button>
+        <button class="abtn abtn--g abtn--xs" data-pubtoggle="${name}|${o.id}">${o.status==="published"?"Unpublish":"Publish"}</button>
+        <button class="abtn abtn--d abtn--xs" data-del="${name}|${o.id}">Delete</button></td></tr>`).join("")}</tbody></table></div>`
+      :`<div class="empty-a">Nothing here yet. Create your first ${esc(r.one.toLowerCase())} to see it on the site.</div>`);
+}
+function resEdit(name,id){
+  const r=RES[name], isNew=!id;
+  const obj=isNew?r.make():JSON.parse(JSON.stringify(DB[r.key].find(o=>o.id===id)));
+  const fields=r.fields(obj);
+  Modal.open((isNew?"New ":"Edit ")+r.one.toLowerCase(),
+    formHTML(fields,obj)+`<div class="err" id="mErr" role="alert"></div>`,
+    `<button class="abtn abtn--g" id="mCancel">Cancel</button><button class="abtn" id="mSave">Save</button>`,true);
+  $("#mCancel").onclick=Modal.close;
+  $("#mSave").onclick=()=>{
+    const patch=readForm(fields,obj);
+    Object.assign(obj,patch);
+    if("slug" in obj) obj.slug=slugify(obj.slug||obj.title||obj.name);
+    if(r.validate){ const msg=r.validate(obj); if(msg){ $("#mErr").textContent=msg; return; } }
+    if(!obj.title&&!obj.name){ $("#mErr").textContent="A title is required."; return; }
+    if(isNew) DB[r.key].unshift(obj);
+    else DB[r.key]=DB[r.key].map(o=>o.id===obj.id?obj:o);
+    logAct((isNew?"Created ":"Updated ")+r.one.toLowerCase(),name,obj.id);
+    Modal.close(); Admin.refresh(); toast(r.one+" saved.",true);
+  };
+}
+const BIND_RES=()=>{
+  $("#admBody").onclick=e=>{
+    const t=e.target.closest("[data-new],[data-edit],[data-dupe],[data-del],[data-pubtoggle]"); if(!t) return;
+    if(t.dataset.new) return resEdit(t.dataset.new,null);
+    const [name,id]=(t.dataset.edit||t.dataset.dupe||t.dataset.del||t.dataset.pubtoggle).split("|");
+    const r=RES[name], obj=DB[r.key].find(o=>o.id===id);
+    if(t.dataset.edit) return resEdit(name,id);
+    if(t.dataset.dupe){ const c=JSON.parse(JSON.stringify(obj)); c.id=uid("cp");
+      c.title=(c.title||c.name)+" (copy)"; if(c.slug) c.slug=slugify(c.title); c.status="draft";
+      DB[r.key].unshift(c); logAct("Duplicated "+r.one.toLowerCase(),name,c.id); Admin.refresh(); toast("Duplicated as a draft.",true); return; }
+    if(t.dataset.pubtoggle){ obj.status=obj.status==="published"?"draft":"published";
+      logAct((obj.status==="published"?"Published ":"Unpublished ")+r.one.toLowerCase(),name,obj.id);
+      Admin.refresh(); toast(r.one+" is now "+obj.status+".",true); return; }
+    if(t.dataset.del) confirmAction(`Delete “${obj.title||obj.name}”? This can't be undone.`,()=>{
+      DB[r.key]=DB[r.key].filter(o=>o.id!==id); logAct("Deleted "+r.one.toLowerCase(),name,id); Admin.refresh(); toast("Deleted."); });
+  };
+};
+
+/* ---------- dashboard ---------- */
+function vDashboard(){
+  const s=DB, newE=s.enquiries.filter(e=>e.status==="New").length;
+  const cards=[[s.enquiries.length,"Enquiries"],[newE,"New enquiries"],[s.projects.length,"Portfolio projects"],
+    [pub(s.stories).length,"Published stories"],[pub(s.services).length,"Services"],[s.media.length,"Media files"],
+    [s.films.length,"Films"],[pub(s.testimonials).length,"Testimonials"]];
+  return head("Dashboard","Everything below drives the live site.",
+      `<a class="abtn abtn--g" href="#/" data-link>Open the website</a>`)+
+    `<div class="cards">${cards.map(([n,l])=>`<div class="card"><b>${n}</b><span>${l.toUpperCase()}</span></div>`).join("")}</div>
+    ${DB._demo?`<div class="panel" style="border-left:3px solid var(--mark)">
+      <h3>This site is running on demo content</h3>
+      <p style="color:var(--silver);margin:0 0 12px">Every project, service, story, testimonial and photograph is placeholder material, clearly marked on the front end. Replace them before launch, or clear everything and start clean.</p>
+      <div class="row"><button class="abtn abtn--g" id="dashMarkReal">Hide the demo notice</button>
+      <button class="abtn abtn--d" id="dashReset">Reset to fresh demo data</button></div></div>`:""}
+    <div class="panel"><h3>Recent activity</h3>
+      ${(DB.logs||[]).length?`<div class="scrollx"><table class="tbl"><thead><tr><th>When</th><th>User</th><th>Action</th><th>Entity</th></tr></thead>
+        <tbody>${DB.logs.slice(0,8).map(l=>`<tr><td>${new Date(l.at).toLocaleString("en-IN",{dateStyle:"short",timeStyle:"short"})}</td>
+        <td>${esc(l.user)}</td><td>${esc(l.action)}</td><td>${esc(l.entity)}</td></tr>`).join("")}</tbody></table></div>`
+        :`<div class="empty-a">No activity recorded yet.</div>`}</div>`;
+}
+const bindDashboard=()=>{
+  const r=$("#dashReset"); if(r) r.onclick=()=>confirmAction("Reset every piece of content back to the demo seed?",()=>{ resetDB(); renderChrome(); Admin.refresh(); toast("Demo data restored.",true); });
+  const m=$("#dashMarkReal"); if(m) m.onclick=()=>{ DB._demo=false; Admin.refresh(); };
+};
+
+</script>
+<script>
+/* ---------- PAGES + PAGE BUILDER ---------- */
+let BUILD_PAGE=null;
+function vPages(){
+  if(BUILD_PAGE){ const p=DB.pages.find(x=>x.id===BUILD_PAGE); if(p) return builderHTML(p); BUILD_PAGE=null; }
+  return head("Pages","Each page is a stack of sections you can reorder, disable and preview.")+
+    `<div class="panel scrollx"><table class="tbl"><thead><tr><th>Page</th><th>URL</th><th>Sections</th><th>Status</th><th></th></tr></thead>
+    <tbody>${DB.pages.map(p=>`<tr><td><b>${esc(p.title)}</b></td><td>#/${esc(p.slug==="home"?"":p.slug)}</td>
+      <td>${p.sections.filter(s=>s.enabled).length} on / ${p.sections.length}</td><td>${statusPill(p.status)}</td>
+      <td style="text-align:right;white-space:nowrap">
+        <button class="abtn abtn--g abtn--xs" data-pgmeta="${p.id}">SEO &amp; meta</button>
+        <button class="abtn abtn--xs" data-pgbuild="${p.id}">Edit sections</button></td></tr>`).join("")}</tbody></table></div>`;
+}
+function builderHTML(p){
+  return head(p.title+" — sections","Drag a row by its handle to reorder. Changes go live when you save.",
+    `<button class="abtn abtn--g" id="bkBack">All pages</button>
+     <button class="abtn abtn--g" id="bkPreview">Preview</button>
+     <button class="abtn abtn--g" id="bkAdd">Add section</button>
+     <button class="abtn" id="bkSave">Save &amp; publish</button>`)+
+   `<div class="panel"><div class="builder" id="builder">
+      ${p.sections.map((s,i)=>`<div class="blk" draggable="true" data-sid="${s.id}">
+        <span class="blk__h" aria-hidden="true">⠿</span>
+        <span class="num" style="width:26px">${String(i+1).padStart(2,"0")}</span>
+        <span class="blk__t"><b>${esc((s.data&&s.data.heading)||NAME_OF(s.type))}</b>
+          <span>${esc(NAME_OF(s.type))} · ${esc(s.anim)} · ${esc((s.data&&s.data.theme)||s.theme||"dark")}</span></span>
+        <label class="sw" title="Visible"><input type="checkbox" data-en="${s.id}" ${s.enabled?"checked":""}><i></i></label>
+        <button class="abtn abtn--g abtn--xs" data-sedit="${s.id}">Edit</button>
+        <button class="abtn abtn--g abtn--xs" data-sdupe="${s.id}">Duplicate</button>
+        <button class="abtn abtn--d abtn--xs" data-sdel="${s.id}">Delete</button>
+      </div>`).join("")}
+    </div>${p.sections.length?"":`<div class="empty-a">This page has no sections. Add one to start building it.</div>`}</div>`;
+}
+const NAME_OF=t=>(SECTION_TYPES.find(x=>x[0]===t)||[t,t])[1];
+
+function sectionFields(type){
+  const base=[{k:"heading",label:"Heading"},{k:"heading_mr",label:"Heading (मराठी)"},{k:"kicker",label:"Kicker / number"},
+    {k:"theme",label:"Theme",type:"select",opts:[["dark","Dark"],["paper","Paper"]]},
+    {k:"sub",label:"Sub text",type:"textarea",full:true},
+    {k:"sub_mr",label:"Sub text (मराठी)",type:"textarea",full:true}];
+  const map={
+    hero:[{k:"heading",label:"Heading"},{k:"heading_mr",label:"Heading (मराठी)"},{k:"media",label:"Background image",type:"media"},
+      {k:"ctaLabel",label:"Primary button"},{k:"ctaHref",label:"Primary link"},
+      {k:"cta2Label",label:"Secondary link"},{k:"cta2Href",label:"Secondary href"},
+      {k:"sub",label:"Sub text",type:"textarea",full:true},{k:"sub_mr",label:"Sub text (मराठी)",type:"textarea",full:true}],
+    text_intro:[{k:"heading",label:"Heading"},{k:"heading_mr",label:"Heading (मराठी)"},{k:"theme",label:"Theme",type:"select",opts:[["dark","Dark"],["paper","Paper"]]},
+      {k:"linkLabel",label:"Link label"},{k:"linkHref",label:"Link href"},{k:"body",label:"Body",type:"textarea",rows:5,full:true},{k:"body_mr",label:"Body (मराठी)",type:"textarea",rows:5,full:true}],
+    image_text:[{k:"heading",label:"Heading"},{k:"kicker",label:"Kicker"},{k:"media",label:"Image",type:"media"},
+      {k:"ratio",label:"Ratio",type:"select",opts:[["r34","3:4"],["r43","4:3"],["r11","1:1"],["r169","16:9"],["r23","2:3"]]},
+      {k:"flip",label:"Flip sides",type:"check"},{k:"theme",label:"Theme",type:"select",opts:[["dark","Dark"],["paper","Paper"]]},
+      {k:"body",label:"Body",type:"textarea",rows:6,full:true},{k:"body_mr",label:"Body (मराठी)",type:"textarea",rows:6,full:true}],
+    featured_portfolio:base.concat([{k:"limit",label:"How many",type:"number"}]),
+    portfolio_grid:base,
+    services:base, testimonials:base, social_wall:base.concat([{k:"handle",label:"Handle"},{k:"url",label:"Profile URL"},{k:"count",label:"Tiles",type:"number"}]),
+    featured_story:base.concat([{k:"all",label:"Show every story",type:"check"}]),
+    films:base.concat([{k:"limit",label:"How many",type:"number"},{k:"all",label:"Show every film",type:"check"}]),
+    gallery:base.concat([{k:"count",label:"How many frames",type:"number"}]),
+    video:base.concat([{k:"source",label:"Source",type:"select",opts:[["youtube","YouTube"],["vimeo","Vimeo"]]},
+      {k:"url",label:"Video URL"},{k:"poster",label:"Poster",type:"media"}]),
+    statistics:base.concat([{k:"itemsRaw",label:"Figures",type:"textarea",hint:"One per line: value | label",full:true}]),
+    quote:[{k:"heading",label:"Quote",type:"textarea",full:true},{k:"sub",label:"Attribution"},
+      {k:"theme",label:"Theme",type:"select",opts:[["dark","Dark"],["paper","Paper"]]}],
+    social_embeds:base.concat([{k:"limit",label:"How many",type:"number"},{k:"all",label:"Show every embed",type:"check"}]),
+    cta:[{k:"heading",label:"Heading"},{k:"heading_mr",label:"Heading (मराठी)"},{k:"ctaLabel",label:"Button label"},{k:"ctaLabel_mr",label:"Button label (मराठी)"},{k:"ctaHref",label:"Button link"},
+      {k:"theme",label:"Theme",type:"select",opts:[["dark","Dark"],["paper","Paper"]]},{k:"body",label:"Body",type:"textarea",full:true},{k:"body_mr",label:"Body (मराठी)",type:"textarea",full:true}],
+    contact:base,
+    map:base.concat([{k:"embed",label:"Google Maps embed URL",full:true},{k:"address",label:"Address",type:"textarea",full:true}]),
+    spacer:[{k:"height",label:"Height in px",type:"number"}]
+  };
+  return map[type]||base;
+}
+function sectionEdit(pageId,sid){
+  const p=DB.pages.find(x=>x.id===pageId), s=p.sections.find(x=>x.id===sid);
+  const fields=sectionFields(s.type);
+  const data=Object.assign({},s.data);
+  if(s.type==="statistics") data.itemsRaw=(data.items||[]).map(i=>i.value+" | "+i.label).join("\n");
+  const meta=[{k:"anim",label:"Animation",type:"select",opts:ANIMS},{k:"align",label:"Alignment",type:"select",opts:[["left","Left"],["center","Centre"]]}];
+  Modal.open("Edit "+NAME_OF(s.type).toLowerCase(),
+    `<div class="tabs"><button class="is-on" data-tab="c">Content</button><button data-tab="m">Motion &amp; layout</button></div>
+     <div class="tabpane is-on" id="tab_c">${formHTML(fields,data)}</div>
+     <div class="tabpane" id="tab_m">${formHTML(meta,s)}
+       <p style="color:var(--silver);font-size:.78rem">Animations are a fixed list. Custom scripts can't be injected from the CMS.</p></div>
+     <div class="err" id="mErr"></div>`,
+    `<button class="abtn abtn--g" id="mCancel">Cancel</button><button class="abtn" id="mSave">Save section</button>`,true);
+  $("#modalBody").querySelector(".tabs").onclick=e=>{
+    const b=e.target.closest("[data-tab]"); if(!b) return;
+    $$(".tabs button").forEach(x=>x.classList.toggle("is-on",x===b));
+    $$(".tabpane").forEach(x=>x.classList.toggle("is-on",x.id==="tab_"+b.dataset.tab));
+  };
+  $("#mCancel").onclick=Modal.close;
+  $("#mSave").onclick=()=>{
+    const d=readForm(fields,data);
+    if(s.type==="statistics"){
+      d.items=String(d.itemsRaw||"").split("\n").filter(Boolean).map(l=>{const [v,...r]=l.split("|");return {value:(v||"").trim(),label:r.join("|").trim()};});
+      delete d.itemsRaw;
+    }
+    if((s.type==="video")&&d.url&&!(ytId(d.url)||vimeoId(d.url))){ $("#mErr").textContent="That video URL isn't a valid YouTube or Vimeo link."; return; }
+    if(s.type==="map"&&d.embed&&!hostAllowed(d.embed)){ $("#mErr").textContent="Only Google Maps embed URLs are allowed here."; return; }
+    s.data=Object.assign({},s.data,d);
+    const m=readForm(meta,s); s.anim=m.anim; s.align=m.align;
+    logAct("Updated section","page_section",s.id);
+    Modal.close(); Admin.refresh(); toast("Section saved.",true);
+  };
+}
+const bindPages=()=>{
+  const body=$("#admBody");
+  body.onclick=e=>{
+    const t=e.target.closest("[data-pgbuild],[data-pgmeta],[data-sedit],[data-sdupe],[data-sdel],#bkBack,#bkAdd,#bkSave,#bkPreview");
+    if(!t) return;
+    if(t.dataset.pgbuild){ BUILD_PAGE=t.dataset.pgbuild; return Admin.render(); }
+    if(t.dataset.pgmeta) return pageMeta(t.dataset.pgmeta);
+    if(t.id==="bkBack"){ BUILD_PAGE=null; return Admin.render(); }
+    const p=DB.pages.find(x=>x.id===BUILD_PAGE);
+    if(t.id==="bkAdd") return addSection(p);
+    if(t.id==="bkPreview") return preview(p.slug);
+    if(t.id==="bkSave"){ p.status="published"; save(); logAct("Published page","page",p.id); renderChrome(); toast("Page saved and published.",true); return; }
+    if(t.dataset.sedit) return sectionEdit(p.id,t.dataset.sedit);
+    if(t.dataset.sdupe){ const s=p.sections.find(x=>x.id===t.dataset.sdupe);
+      const c=JSON.parse(JSON.stringify(s)); c.id=uid("sc");
+      p.sections.splice(p.sections.indexOf(s)+1,0,c); logAct("Duplicated section","page_section",c.id); Admin.refresh(); return; }
+    if(t.dataset.sdel){ const s=p.sections.find(x=>x.id===t.dataset.sdel);
+      confirmAction(`Remove the ${NAME_OF(s.type).toLowerCase()} section from ${p.title}?`,()=>{
+        p.sections=p.sections.filter(x=>x.id!==s.id); logAct("Deleted section","page_section",s.id); Admin.refresh(); toast("Section removed."); }); }
+  };
+  body.onchange=e=>{
+    const c=e.target.closest("[data-en]"); if(!c) return;
+    const p=DB.pages.find(x=>x.id===BUILD_PAGE), s=p.sections.find(x=>x.id===c.dataset.en);
+    s.enabled=c.checked; save(); logAct((s.enabled?"Enabled":"Disabled")+" section","page_section",s.id);
+    toast(NAME_OF(s.type)+(s.enabled?" is visible.":" is hidden."),true);
+  };
+  /* drag and drop ordering */
+  const list=$("#builder"); if(!list) return;
+  let drag=null;
+  list.addEventListener("dragstart",e=>{ const b=e.target.closest(".blk"); if(!b) return; drag=b; b.classList.add("dragging"); e.dataTransfer.effectAllowed="move"; });
+  list.addEventListener("dragend",()=>{ if(drag) drag.classList.remove("dragging"); $$(".blk",list).forEach(b=>b.classList.remove("over")); drag=null; });
+  list.addEventListener("dragover",e=>{
+    e.preventDefault(); const b=e.target.closest(".blk"); if(!b||b===drag) return;
+    $$(".blk",list).forEach(x=>x.classList.toggle("over",x===b));
+    const r=b.getBoundingClientRect();
+    list.insertBefore(drag, (e.clientY-r.top)/r.height>.5 ? b.nextSibling : b);
+  });
+  list.addEventListener("drop",e=>{
+    e.preventDefault();
+    const p=DB.pages.find(x=>x.id===BUILD_PAGE);
+    const order=$$(".blk",list).map(b=>b.dataset.sid);
+    p.sections.sort((a,b)=>order.indexOf(a.id)-order.indexOf(b.id));
+    logAct("Reordered sections","page",p.id); Admin.refresh(); toast("Order saved — the live page now matches.",true);
+  });
+};
+function addSection(p){
+  Modal.open("Add a section",
+    `<div class="afield"><label for="fx_type">Section type</label><select id="fx_type">${SECTION_TYPES.map(([v,l])=>`<option value="${v}">${l}</option>`).join("")}</select></div>`,
+    `<button class="abtn abtn--g" id="mCancel">Cancel</button><button class="abtn" id="mSave">Add</button>`);
+  $("#mCancel").onclick=Modal.close;
+  $("#mSave").onclick=()=>{
+    const type=$("#fx_type").value;
+    p.sections.push({id:uid("sc"),type,enabled:true,anim:"fade-up",theme:"dark",align:"left",
+      data:{heading:NAME_OF(type),sub:"",media:mk(),theme:"dark"}});
+    logAct("Added section","page",p.id); Modal.close(); Admin.refresh(); toast(NAME_OF(type)+" added.",true);
+  };
+}
+function pageMeta(id){
+  const p=DB.pages.find(x=>x.id===id);
+  const fields=[{k:"title",label:"Page title"},{k:"slug",label:"Slug"},
+    {k:"status",label:"Status",type:"select",opts:STATUSES},{k:"ogImage",label:"Share image",type:"media"},
+    {k:"seoTitle",label:"SEO title",full:true},{k:"seoDesc",label:"SEO description",type:"textarea",full:true}];
+  Modal.open("SEO & meta — "+p.title,formHTML(fields,p),
+    `<button class="abtn abtn--g" id="mCancel">Cancel</button><button class="abtn abtn--g" id="mPrev">Preview</button><button class="abtn" id="mSave">Save</button>`);
+  $("#mCancel").onclick=Modal.close;
+  $("#mPrev").onclick=()=>preview(p.slug);
+  $("#mSave").onclick=()=>{ Object.assign(p,readForm(fields,p)); p.slug=slugify(p.slug||p.title);
+    logAct("Updated page meta","page",p.id); Modal.close(); Admin.refresh(); toast("Page updated.",true); };
+}
+function preview(slug){
+  try{ sessionStorage.setItem("qp.preview","1"); }catch(e){}
+  const base=location.href.split("#")[0];
+  Modal.open("Preview — unpublished content is shown",
+    `<div class="prevbar"><button class="abtn abtn--g abtn--xs" data-w="100%">Desktop</button>
+      <button class="abtn abtn--g abtn--xs" data-w="768px">Tablet</button>
+      <button class="abtn abtn--g abtn--xs" data-w="390px">Mobile</button>
+      <span style="color:var(--silver);font-size:.75rem">Previewing does not publish anything.</span></div>
+     <div class="prevstage"><iframe id="prevFrame" style="width:100%" src="${esc(base)}#/${esc(slug==="home"?"":slug)}" title="Preview"></iframe></div>`,
+    `<button class="abtn abtn--g" id="mCancel">Close preview</button>`,true);
+  $(".prevbar").onclick=e=>{ const b=e.target.closest("[data-w]"); if(b) $("#prevFrame").style.width=b.dataset.w; };
+  $("#mCancel").onclick=()=>{ try{ sessionStorage.removeItem("qp.preview"); }catch(e){} Modal.close(); };
+}
+
+</script>
+<script>
+/* ---------- MEDIA LIBRARY ---------- */
+const MAX_UPLOAD=8*1024*1024, OK_TYPES=["image/jpeg","image/png","image/webp","image/avif","image/gif"];
+function safeName(n){ return String(n).replace(/[^a-zA-Z0-9._-]/g,"_").slice(0,70); }
+function resizeImage(file,maxW,quality){
+  return new Promise((res,rej)=>{
+    const fr=new FileReader();
+    fr.onerror=()=>rej(new Error("read"));
+    fr.onload=()=>{
+      const im=new Image();
+      im.onerror=()=>rej(new Error("decode"));
+      im.onload=()=>{
+        const sc=Math.min(1,maxW/im.width), w=Math.round(im.width*sc), h=Math.round(im.height*sc);
+        const c=document.createElement("canvas"); c.width=w; c.height=h;
+        c.getContext("2d").drawImage(im,0,0,w,h);
+        let out=""; try{ out=c.toDataURL("image/webp",quality); }catch(e){}
+        if(!out||out.indexOf("image/webp")<0) out=c.toDataURL("image/jpeg",quality);
+        res({src:out,w,h});
+      };
+      im.src=fr.result;
+    };
+    fr.readAsDataURL(file);
+  });
+}
+async function ingest(files){
+  if(!guard("media")) return;
+  const bar=$("#upBar"); if(bar){ bar.classList.add("on"); }
+  let done=0, added=0;
+  for(const f of files){
+    if(!OK_TYPES.includes(f.type)){ toast(safeName(f.name)+" isn't an accepted image type."); done++; continue; }
+    if(f.size>MAX_UPLOAD){ toast(safeName(f.name)+" is over the 8 MB limit."); done++; continue; }
+    try{
+      const large=await resizeImage(f,1600,.74);
+      const thumb=await resizeImage(f,420,.7);
+      DB.media.unshift({id:uid("md"),name:safeName(f.name),src:large.src,thumb:thumb.src,
+        alt:"",caption:"",credit:"",folder:"uploads",tags:[],w:large.w,h:large.h,
+        size:f.size,createdAt:new Date().toISOString()});
+      added++;
+    }catch(e){ toast("Could not process "+safeName(f.name)+"."); }
+    done++;
+    if(bar) $("i",bar).style.width=Math.round(done/files.length*100)+"%";
+  }
+  try{ save(); }catch(e){}
+  if(added){ logAct("Uploaded media","media",added+" file(s)"); toast(added+" file(s) added to the library.",true); }
+  Admin.refresh();
+}
+function vMedia(){
+  const q=($("#admSearch")&&$("#admSearch").value||"").toLowerCase();
+  const list=q?DB.media.filter(m=>(m.name+m.alt+m.tags.join(" ")).toLowerCase().includes(q)):DB.media;
+  return head("Media library",DB.media.length+" files · stored in this browser for the demo",
+    `<button class="abtn" id="upPick">Upload images</button>`)+
+   `<input type="file" id="upInput" accept="image/*" multiple hidden>
+    <div class="drop" id="drop">Drop images here, or use the upload button. JPEG, PNG, WebP, AVIF and GIF up to 8 MB.
+      Large files are resized to a 1600&nbsp;px display copy and a 420&nbsp;px thumbnail.
+      <div class="bar" id="upBar"><i></i></div></div>
+    ${list.length?`<div class="mgrid" id="mgrid">${list.map(m=>`<figure class="mitem" data-mid="${m.id}">
+      <img src="${m.thumb||m.src}" alt="${esc(m.alt)}" loading="lazy"><figcaption>${esc(m.name)}</figcaption></figure>`).join("")}</div>`
+      :`<div class="empty-a">The library is empty. Uploaded images become available to every image field in the CMS.</div>`}`;
+}
+const bindMedia=()=>{
+  const inp=$("#upInput"), drop=$("#drop");
+  $("#upPick").onclick=()=>inp.click();
+  inp.onchange=()=>{ if(inp.files.length) ingest([...inp.files]); };
+  ["dragenter","dragover"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add("over");}));
+  ["dragleave","drop"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove("over");}));
+  drop.addEventListener("drop",e=>{ const f=[...(e.dataTransfer.files||[])]; if(f.length) ingest(f); });
+  const g=$("#mgrid"); if(!g) return;
+  g.onclick=e=>{
+    const it=e.target.closest("[data-mid]"); if(!it) return;
+    const m=DB.media.find(x=>x.id===it.dataset.mid);
+    const fields=[{k:"name",label:"File name"},{k:"folder",label:"Folder"},
+      {k:"alt",label:"Alt text",hint:"Describe the photograph for screen readers.",full:true},
+      {k:"caption",label:"Caption",full:true},{k:"credit",label:"Credit"},
+      {k:"tagsRaw",label:"Tags",hint:"Comma separated."}];
+    Modal.open("Media — "+m.name,
+      `<div class="row" style="align-items:flex-start;gap:16px">
+         <img src="${m.src}" alt="" style="width:220px;border-radius:5px">
+         <div style="flex:1 1 260px">${formHTML(fields,Object.assign({},m,{tagsRaw:(m.tags||[]).join(", ")}))}
+           <p style="color:var(--silver);font-size:.75rem">${m.w}×${m.h}px · ${(m.size/1024).toFixed(0)} KB · added ${fmtDate(m.createdAt)}</p></div></div>`,
+      `<button class="abtn abtn--d" id="mDel">Delete</button><button class="abtn abtn--g" id="mCopy">Copy reference</button>
+       <button class="abtn abtn--g" id="mCancel">Cancel</button><button class="abtn" id="mSave">Save</button>`,true);
+    $("#mCancel").onclick=Modal.close;
+    $("#mCopy").onclick=async()=>{ try{ await navigator.clipboard.writeText(m.id); toast("Media id copied.",true);}catch(e){toast("Copy blocked by the browser.");} };
+    $("#mDel").onclick=()=>confirmAction("Delete "+m.name+"? Anything using it falls back to a placeholder frame.",()=>{
+      DB.media=DB.media.filter(x=>x.id!==m.id); logAct("Deleted media","media",m.id); Admin.refresh(); toast("File deleted."); });
+    $("#mSave").onclick=()=>{ const d=readForm(fields);
+      Object.assign(m,{name:safeName(d.name),folder:d.folder,alt:d.alt,caption:d.caption,credit:d.credit,
+        tags:String(d.tagsRaw||"").split(",").map(s=>s.trim()).filter(Boolean)});
+      logAct("Updated media","media",m.id); Modal.close(); Admin.refresh(); toast("Saved.",true); };
+  };
+};
+
+/* ---------- ENQUIRIES ---------- */
+function vEnquiries(){
+  const q=($("#admSearch")&&$("#admSearch").value||"").toLowerCase();
+  const list=q?DB.enquiries.filter(e=>JSON.stringify(e).toLowerCase().includes(q)):DB.enquiries;
+  return head("Enquiries",DB.enquiries.length+" total · "+DB.enquiries.filter(e=>e.status==="New").length+" new",
+    `<button class="abtn abtn--g" id="eqExport">Export CSV</button>`)+
+   (list.length?`<div class="panel scrollx"><table class="tbl"><thead><tr>
+      <th>Name</th><th>Phone</th><th>Email</th><th>Event</th><th>Date</th><th>Location</th><th>Status</th><th>Received</th><th></th></tr></thead>
+      <tbody>${list.map(e=>`<tr><td><b>${esc(e.name)}</b></td><td>${esc(e.phone)}</td><td>${esc(e.email)}</td>
+        <td>${esc(e.eventType||"")}</td><td>${e.eventDate?fmtDate(e.eventDate):"—"}</td><td>${esc(e.location||"—")}</td>
+        <td><span class="pill ${e.status==="New"?"pill--new":""}">${esc(e.status)}</span></td>
+        <td>${fmtDate(e.createdAt)}</td>
+        <td style="text-align:right;white-space:nowrap"><button class="abtn abtn--g abtn--xs" data-eq="${e.id}">Open</button>
+        <button class="abtn abtn--d abtn--xs" data-eqdel="${e.id}">Delete</button></td></tr>`).join("")}</tbody></table></div>`
+    :`<div class="empty-a">No enquiries yet. Send one through the contact form on the website and it will land here.</div>`);
+}
+const bindEnquiries=()=>{
+  $("#eqExport").onclick=()=>{
+    if(!DB.enquiries.length) return toast("Nothing to export yet.");
+    const cols=["name","phone","email","eventType","eventDate","location","guests","contactPref","status","createdAt","message"];
+    const csv=[cols.join(",")].concat(DB.enquiries.map(e=>cols.map(c=>`"${String(e[c]??"").replace(/"/g,'""')}"`).join(","))).join("\n");
+    const url=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));
+    const a=document.createElement("a"); a.href=url; a.download="quality-photos-enquiries.csv"; a.click();
+    URL.revokeObjectURL(url); logAct("Exported enquiries","enquiry",DB.enquiries.length+" rows"); toast("CSV downloaded.",true);
+  };
+  $("#admBody").onclick=e=>{
+    const o=e.target.closest("[data-eq]"), d=e.target.closest("[data-eqdel]");
+    if(d){ const eq=DB.enquiries.find(x=>x.id===d.dataset.eqdel);
+      return confirmAction("Delete the enquiry from "+eq.name+"?",()=>{ DB.enquiries=DB.enquiries.filter(x=>x.id!==eq.id);
+        logAct("Deleted enquiry","enquiry",eq.id); Admin.refresh(); toast("Enquiry deleted."); }); }
+    if(!o) return;
+    const eq=DB.enquiries.find(x=>x.id===o.dataset.eq);
+    const fields=[{k:"status",label:"Status",type:"select",opts:ENQ_STATUS},{k:"assignee",label:"Assigned to"},
+      {k:"notes",label:"Internal notes",type:"textarea",rows:5,full:true}];
+    Modal.open("Enquiry — "+eq.name,
+      `<div class="grid2" style="margin-bottom:12px">
+        <p><b>Phone</b><br><a href="tel:${esc(eq.phone)}">${esc(eq.phone)}</a></p>
+        <p><b>Email</b><br><a href="mailto:${esc(eq.email)}">${esc(eq.email)}</a></p>
+        <p><b>Event</b><br>${esc(eq.eventType||"—")} · ${eq.eventDate?fmtDate(eq.eventDate):"date TBC"}</p>
+        <p><b>Location</b><br>${esc(eq.location||"—")}</p>
+        <p><b>Guests</b><br>${esc(eq.guests||"—")}</p>
+        <p><b>Prefers</b><br>${esc(eq.contactPref||"—")}</p></div>
+       <div class="panel" style="margin:0 0 14px"><b style="font-size:.78rem;color:var(--silver)">MESSAGE</b>
+         <p style="margin:8px 0 0;white-space:pre-wrap">${esc(eq.message||"(none)")}</p></div>
+       ${formHTML(fields,eq)}`,
+      `<a class="abtn abtn--g" href="${esc(waLink("Hello "+eq.name+", thank you for your enquiry with Quality Photos."))}" target="_blank" rel="noopener">Reply on WhatsApp</a>
+       <button class="abtn abtn--g" id="mCancel">Close</button><button class="abtn" id="mSave">Save</button>`,true);
+    $("#mCancel").onclick=Modal.close;
+    $("#mSave").onclick=()=>{ Object.assign(eq,readForm(fields,eq)); logAct("Updated enquiry","enquiry",eq.id);
+      Modal.close(); Admin.refresh(); toast("Enquiry updated.",true); };
+  };
+};
+
+/* ---------- NAVIGATION ---------- */
+function navList(which){
+  const items=DB.navigation[which]||[];
+  return `<div class="panel"><h3>${which==="header"?"Header menu":"Footer menu"}</h3>
+    <div class="builder" data-nav="${which}">
+      ${items.map(i=>`<div class="blk" draggable="true" data-nid="${i.id}">
+        <span class="blk__h">⠿</span><span class="blk__t"><b>${esc(i.label)}</b><span>${esc(i.path)}</span></span>
+        <label class="sw"><input type="checkbox" data-nen="${which}|${i.id}" ${i.enabled?"checked":""}><i></i></label>
+        <button class="abtn abtn--g abtn--xs" data-nedit="${which}|${i.id}">Edit</button>
+        <button class="abtn abtn--d abtn--xs" data-ndel="${which}|${i.id}">Delete</button></div>`).join("")}
+    </div>
+    <div class="row" style="margin-top:10px"><button class="abtn abtn--g abtn--xs" data-nadd="${which}">Add link</button></div></div>`;
+}
+function vNavigation(){
+  return head("Navigation","Drag to reorder. The header, the mobile menu and the footer all read from here.")+
+    navList("header")+navList("footer");
+}
+const bindNavigation=()=>{
+  const body=$("#admBody");
+  body.onchange=e=>{ const c=e.target.closest("[data-nen]"); if(!c) return;
+    const [w,id]=c.dataset.nen.split("|"); const it=DB.navigation[w].find(x=>x.id===id);
+    it.enabled=c.checked; save(); renderChrome(); toast(it.label+(it.enabled?" shown.":" hidden."),true); };
+  body.onclick=e=>{
+    const t=e.target.closest("[data-nadd],[data-nedit],[data-ndel]"); if(!t) return;
+    if(t.dataset.nadd){ const w=t.dataset.nadd; return navEdit(w,null); }
+    const [w,id]=(t.dataset.nedit||t.dataset.ndel).split("|");
+    if(t.dataset.nedit) return navEdit(w,id);
+    const it=DB.navigation[w].find(x=>x.id===id);
+    confirmAction("Remove “"+it.label+"” from the "+w+" menu?",()=>{
+      DB.navigation[w]=DB.navigation[w].filter(x=>x.id!==id); save(); renderChrome(); Admin.refresh(); toast("Link removed."); });
+  };
+  $$("[data-nav]").forEach(list=>{
+    let drag=null;
+    list.addEventListener("dragstart",e=>{ drag=e.target.closest(".blk"); if(drag) drag.classList.add("dragging"); });
+    list.addEventListener("dragend",()=>{ if(drag) drag.classList.remove("dragging"); drag=null; });
+    list.addEventListener("dragover",e=>{ e.preventDefault(); const b=e.target.closest(".blk"); if(!b||b===drag) return;
+      const r=b.getBoundingClientRect(); list.insertBefore(drag,(e.clientY-r.top)/r.height>.5?b.nextSibling:b); });
+    list.addEventListener("drop",e=>{ e.preventDefault(); const w=list.dataset.nav;
+      const order=$$(".blk",list).map(b=>b.dataset.nid);
+      DB.navigation[w].sort((a,b)=>order.indexOf(a.id)-order.indexOf(b.id));
+      save(); renderChrome(); logAct("Reordered navigation","navigation",w); toast("Menu order saved.",true); });
+  });
+};
+function navEdit(which,id){
+  const isNew=!id, it=isNew?{id:uid("nv"),label:"",path:"#/",enabled:true}:DB.navigation[which].find(x=>x.id===id);
+  const fields=[{k:"label",label:"Label"},{k:"path",label:"Link",hint:"For example #/portfolio"}];
+  Modal.open(isNew?"Add link":"Edit link",formHTML(fields,it),
+    `<button class="abtn abtn--g" id="mCancel">Cancel</button><button class="abtn" id="mSave">Save</button>`);
+  $("#mCancel").onclick=Modal.close;
+  $("#mSave").onclick=()=>{ const d=readForm(fields);
+    if(!d.label) return toast("A label is required.");
+    Object.assign(it,d); if(isNew) DB.navigation[which].push(it);
+    save(); renderChrome(); logAct("Updated navigation","navigation",which); Modal.close(); Admin.refresh(); toast("Menu updated.",true); };
+}
+
+</script>
+<script>
+/* ---------- SETTINGS ---------- */
+const SETTING_FIELDS=[
+  {k:"brand",label:"Brand name"},{k:"brand_mr",label:"Brand name (मराठी)"},
+  {k:"tagline",label:"Tagline"},{k:"tagline_mr",label:"Tagline (मराठी)"},
+  {k:"phone",label:"Phone"},{k:"whatsapp",label:"WhatsApp number",hint:"Country code, digits only. e.g. 919876543210"},
+  {k:"email",label:"Email",type:"email"},{k:"instagramHandle",label:"Instagram handle"},
+  {k:"waMessage",label:"Default WhatsApp message",full:true},
+  {k:"address",label:"Studio address",type:"textarea",full:true},
+  {k:"footerText",label:"Footer blurb",type:"textarea",full:true},
+  {k:"footerText_mr",label:"Footer blurb (मराठी)",type:"textarea",full:true},
+  {k:"copyright",label:"Copyright line",full:true},
+  {k:"seoTitle",label:"Default SEO title",full:true},
+  {k:"seoDesc",label:"Default SEO description",type:"textarea",full:true},
+  {k:"seoTitle_mr",label:"SEO title (मराठी)",full:true},
+  {k:"seoDesc_mr",label:"SEO description (मराठी)",type:"textarea",full:true},
+  {k:"analytics",label:"Analytics ID",hint:"Stored only; no third-party script is injected in this build."}
+];
+function vSettings(){
+  if(!can("settings")) return `<div class="empty-a">Your role can't open settings.</div>`;
+  return head("Settings","Nothing here is hard-coded on the front end — change it and the site follows.",
+    `<button class="abtn" id="stSave">Save settings</button>`)+
+    `<div class="panel"><h3>Studio</h3>${formHTML(SETTING_FIELDS,DB.settings)}</div>
+     <div class="panel"><h3>Danger zone</h3>
+       <p style="color:var(--silver);margin:0 0 12px">Resetting wipes all content, media and enquiries stored in this browser and reloads the demo seed.</p>
+       <button class="abtn abtn--d" id="stReset">Reset everything</button></div>`;
+}
+const bindSettings=()=>{
+  const s=$("#stSave"); if(!s) return;
+  s.onclick=()=>{ if(!guard("settings")) return;
+    Object.assign(DB.settings,readForm(SETTING_FIELDS,DB.settings));
+    save(); renderChrome(); logAct("Changed settings","site_settings","—"); toast("Settings saved.",true); };
+  $("#stReset").onclick=()=>confirmAction("Wipe everything and reload the demo seed?",()=>{
+    resetDB(); renderChrome(); Admin.refresh(); toast("Everything reset.",true); });
+};
+
+/* ---------- SOCIAL ---------- */
+function vSocial(){
+  const s=DB.settings.social||[];
+  return head("Social links","Only enabled links with a URL appear in the footer.",
+    `<button class="abtn abtn--g" id="soAdd">Add channel</button>`)+
+   `<div class="panel"><div class="builder">
+     ${s.map(x=>`<div class="blk" data-soid="${x.id}">
+       <span class="blk__t"><b>${esc(x.label)}</b><span>${esc(x.url||"no URL set")}</span></span>
+       <label class="sw"><input type="checkbox" data-soen="${x.id}" ${x.enabled?"checked":""}><i></i></label>
+       <button class="abtn abtn--g abtn--xs" data-soedit="${x.id}">Edit</button>
+       <button class="abtn abtn--d abtn--xs" data-sodel="${x.id}">Delete</button></div>`).join("")}
+   </div></div>
+   <div class="panel"><h3>Instagram</h3>
+     <p style="color:var(--silver);margin:0">Instagram is never scraped. The social wall shows placeholder tiles that link to the profile until the studio uploads approved images to the media library and swaps them in.</p></div>`;
+}
+const bindSocial=()=>{
+  $("#admBody").onchange=e=>{ const c=e.target.closest("[data-soen]"); if(!c) return;
+    const it=DB.settings.social.find(x=>x.id===c.dataset.soen); it.enabled=c.checked; save(); renderChrome(); toast("Saved.",true); };
+  $("#admBody").onclick=e=>{
+    const t=e.target.closest("#soAdd,[data-soedit],[data-sodel]"); if(!t) return;
+    if(t.id==="soAdd") return socialEdit(null);
+    if(t.dataset.soedit) return socialEdit(t.dataset.soedit);
+    const it=DB.settings.social.find(x=>x.id===t.dataset.sodel);
+    confirmAction("Remove "+it.label+"?",()=>{ DB.settings.social=DB.settings.social.filter(x=>x.id!==it.id);
+      save(); renderChrome(); Admin.refresh(); toast("Removed."); });
+  };
+};
+function socialEdit(id){
+  const isNew=!id, it=isNew?{id:uid("so"),label:"",url:"",enabled:true,order:99}:DB.settings.social.find(x=>x.id===id);
+  const fields=[{k:"label",label:"Channel"},{k:"url",label:"URL",full:true},{k:"order",label:"Order",type:"number"}];
+  Modal.open(isNew?"Add channel":"Edit channel",formHTML(fields,it),
+    `<button class="abtn abtn--g" id="mCancel">Cancel</button><button class="abtn" id="mSave">Save</button>`);
+  $("#mCancel").onclick=Modal.close;
+  $("#mSave").onclick=()=>{ const d=readForm(fields);
+    if(d.url&&!/^https?:\/\//i.test(d.url)) return toast("URLs must start with http:// or https://");
+    Object.assign(it,d); if(isNew) DB.settings.social.push(it);
+    save(); renderChrome(); Modal.close(); Admin.refresh(); toast("Saved.",true); };
+}
+
+/* ---------- USERS ---------- */
+function vUsers(){
+  if(!can("users")) return `<div class="empty-a">Only a super admin can manage users.</div>`;
+  return head("Users","Roles are enforced on every action, not just hidden in the menu.",
+    `<button class="abtn" id="usAdd">Add user</button>`)+
+   `<div class="panel scrollx"><table class="tbl"><thead><tr><th>Name</th><th>Email</th><th>Role</th><th></th></tr></thead>
+    <tbody>${DB.users.map(u=>`<tr><td><b>${esc(u.name)}</b></td><td>${esc(u.email)}</td>
+      <td><span class="pill">${u.role==="super_admin"?"Super admin":"Editor"}</span></td>
+      <td style="text-align:right"><button class="abtn abtn--g abtn--xs" data-usedit="${u.id}">Edit</button>
+      ${u.id===SESSION.id?"":`<button class="abtn abtn--d abtn--xs" data-usdel="${u.id}">Delete</button>`}</td></tr>`).join("")}
+    </tbody></table></div>
+    <div class="panel"><h3>Editor restrictions</h3><p style="color:var(--silver);margin:0">
+      Editors manage pages, portfolio, services, stories, films, media, testimonials and enquiries.
+      They cannot reach settings, users or the activity log.</p></div>`;
+}
+const bindUsers=()=>{
+  const a=$("#usAdd"); if(a) a.onclick=()=>userEdit(null);
+  $("#admBody").onclick=e=>{
+    const t=e.target.closest("[data-usedit],[data-usdel]"); if(!t) return;
+    if(!guard("users")) return;
+    if(t.dataset.usedit) return userEdit(t.dataset.usedit);
+    const u=DB.users.find(x=>x.id===t.dataset.usdel);
+    confirmAction("Delete the account for "+u.email+"?",()=>{ DB.users=DB.users.filter(x=>x.id!==u.id);
+      logAct("Deleted user","user",u.email); Admin.refresh(); toast("User deleted."); });
+  };
+};
+function userEdit(id){
+  const isNew=!id, u=isNew?{id:uid("u"),name:"",email:"",role:"editor",hash:""}:DB.users.find(x=>x.id===id);
+  const fields=[{k:"name",label:"Name"},{k:"email",label:"Email",type:"email"},
+    {k:"role",label:"Role",type:"select",opts:[["editor","Editor"],["super_admin","Super admin"]]},
+    {k:"pass",label:isNew?"Password":"New password",type:"password",hint:"At least 8 characters. Stored as a SHA-256 hash, never in plain text.",full:true}];
+  Modal.open(isNew?"Add user":"Edit user",formHTML(fields,u)+`<div class="err" id="mErr"></div>`,
+    `<button class="abtn abtn--g" id="mCancel">Cancel</button><button class="abtn" id="mSave">Save</button>`);
+  $("#mCancel").onclick=Modal.close;
+  $("#mSave").onclick=async()=>{
+    const d=readForm(fields);
+    if(!RX_EMAIL.test(d.email||"")) return $("#mErr").textContent="Enter a valid email address.";
+    if(DB.users.some(x=>x.email.toLowerCase()===d.email.toLowerCase()&&x.id!==u.id)) return $("#mErr").textContent="That email is already in use.";
+    if(isNew&&(d.pass||"").length<8) return $("#mErr").textContent="Set a password of at least 8 characters.";
+    if(d.pass){ if(d.pass.length<8) return $("#mErr").textContent="Passwords need at least 8 characters."; u.hash=await sha256(d.pass); }
+    u.name=d.name; u.email=d.email; u.role=d.role;
+    if(isNew) DB.users.push(u);
+    logAct((isNew?"Created":"Updated")+" user","user",u.email);
+    Modal.close(); Admin.refresh(); toast("User saved.",true);
+  };
+}
+
+/* ---------- LOGS ---------- */
+function vLogs(){
+  if(!can("logs")) return `<div class="empty-a">Only a super admin can read the activity log.</div>`;
+  const q=($("#admSearch")&&$("#admSearch").value||"").toLowerCase();
+  const list=(DB.logs||[]).filter(l=>!q||JSON.stringify(l).toLowerCase().includes(q));
+  return head("Activity log",list.length+" entries · newest first")+
+    (list.length?`<div class="panel scrollx"><table class="tbl"><thead><tr><th>When</th><th>User</th><th>Action</th><th>Entity</th><th>Entity ID</th><th>IP</th></tr></thead>
+      <tbody>${list.map(l=>`<tr><td>${new Date(l.at).toLocaleString("en-IN",{dateStyle:"short",timeStyle:"short"})}</td>
+      <td>${esc(l.user)}</td><td>${esc(l.action)}</td><td>${esc(l.entity)}</td><td>${esc(l.entity_id)}</td><td>${esc(l.ip)}</td></tr>`).join("")}</tbody></table></div>`
+    :`<div class="empty-a">Nothing logged yet.</div>`);
+}
+
+/* ---------- view registry ---------- */
+const VIEWS={
+  dashboard:vDashboard, pages:vPages, media:vMedia, enquiries:vEnquiries, navigation:vNavigation,
+  settings:vSettings, social:vSocial, users:vUsers, logs:vLogs,
+  portfolio:()=>resList("portfolio"), services:()=>resList("services"), stories:()=>resList("stories"),
+  films:()=>resList("films"), testimonials:()=>resList("testimonials"), embeds:()=>resList("embeds")
+};
+const BINDS={
+  dashboard:bindDashboard, pages:bindPages, media:bindMedia, enquiries:bindEnquiries, navigation:bindNavigation,
+  settings:bindSettings, social:bindSocial, users:bindUsers,
+  portfolio:BIND_RES, services:BIND_RES, stories:BIND_RES, films:BIND_RES, testimonials:BIND_RES, embeds:BIND_RES
+};
+let searchTimer=null;
+$("#admSearch").addEventListener("input",()=>{
+  clearTimeout(searchTimer);
+  searchTimer=setTimeout(()=>{ if(["portfolio","services","stories","films","testimonials","embeds","media","enquiries","logs"].includes(Admin.view)) Admin.render(); },180);
+});
+/* ============================================================
+   8. BOOT
+   ============================================================ */
+window.addEventListener("hashchange",route);
+renderChrome();
+route();
+onScroll();
+if(SESSION && (location.hash||"").indexOf("admin")>-1) Admin.mount();
+requestAnimationFrame(()=>document.body.classList.add("is-ready"));
+setTimeout(()=>document.body.classList.add("is-ready"),1500);
+
+</script>
+</body>
+</html>
